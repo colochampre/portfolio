@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    div.hero-section
+        h2 Hola, soy 
+            span el Colo
+        h1 Hero Section
+        p Construyendo una lista de skills<br>con Node.js y Express MVC
+
+    main.task-section
+        h3 Lista de skills
+        a.add-btn(href="/add-skill")
+            i(class="bi bi-plus-circle")
+            span Agregar skill
+
+        ul.skill-list
+            if skills.length === 0
+                p Aún no hay skills
+            else
+                each skill in skills
+                    li.skill-item
+                        span.skill-title #{skill.title}
+                        if skill.icon
+                            span.skill-icon
+                                img(src=skill.icon alt=skill.title width="50" height="50")
+                        a.edit-btn(href=`/edit-skill/${skill.id}`)
+                            i(class="bi bi-pencil")
+                            span Editar
+                        a.delete-btn(href=`/delete-skill/${skill.id}`)
+                            i(class="bi bi-trash")
+                            span Eliminar

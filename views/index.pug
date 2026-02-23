@@ -26,6 +26,7 @@ block content
                         a.edit-btn(href=`/edit-skill/${skill.id}`)
                             i(class="bi bi-pencil")
                             span Editar
-                        a.delete-btn(href=`/delete-skill/${skill.id}`)
-                            i(class="bi bi-trash")
-                            span Eliminar
+                        form.delete-form(action=`/delete-skill/${skill.id}` method="POST")
+                            button.delete-btn(type="submit") 
+                                i(class="bi bi-trash")
+                                span Eliminar

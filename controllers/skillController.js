@@ -10,9 +10,7 @@ let skills = [
     { id: 8, title: "C++", icon: "" },
 ];
 
-const taskController = {
-
-
+const skill = {
     getAll: (req, res) => {
         res.render("index", { skills });
     },
@@ -21,7 +19,7 @@ const taskController = {
         res.render("add-skill", { title: "Agregar Skill" });
     },
 
-    addl: (req, res) => {
+    create: (req, res) => {
         let { title, icon } = req.body;
         let id = skills.length;
         skills.push({ id, title, icon });
@@ -39,7 +37,7 @@ const taskController = {
         }
     },
 
-    edit: (req, res) => {
+    update: (req, res) => {
         let id = parseInt(req.params.id);
         let skillIndex = skills.findIndex((skill) => skill.id === id);
 
@@ -59,4 +57,4 @@ const taskController = {
     },
 }
 
-export default taskController;
+export default skill;

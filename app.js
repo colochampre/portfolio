@@ -4,8 +4,8 @@ import { fileURLToPath } from "url";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import skillController from "./controllers/skillController.js";
-import errorController from "./controllers/errorController.js";
+import error from "./middlewares/error.js";
+import skillRouter from "./routes/skillRouter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,14 +28,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", skillController.getAllSkills);
-app.get("/add-skill", skillController.getAddSkillForm);
-app.post("/add-skill", skillController.addSkill);
-app.get("/edit-skill/:id", skillController.getEditSkillForm);
-app.post("/edit-skill/:id", skillController.editSkill);
-app.get("/delete-skill/:id", skillController.deleteSkill);
-
-app.use(errorController.error404);
+app.use(skillRouter);
+app.use(error.c404);
 
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);

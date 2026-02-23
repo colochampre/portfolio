@@ -3,7 +3,7 @@ extends layout
 block content
     main.add-section
         h2= title
-        form.add-form(action=`/edit-skill/${skill.id}` method="POST")
+        form.add-form(action=`/skill-edit/${skill.id}` method="POST")
             label(for="title") Nuevo nombre de Skill
             input(type="text" id="title" name="title" value=skill.title)
             

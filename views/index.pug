@@ -9,7 +9,7 @@ block content
 
     main.task-section
         h3 Lista de skills
-        a.add-btn(href="/add-skill")
+        a.add-btn(href="/skill-add")
             i(class="bi bi-plus-circle")
             span Agregar skill
 
@@ -23,10 +23,10 @@ block content
                         if skill.icon
                             span.skill-icon
                                 img(src=skill.icon alt=skill.title width="50" height="50")
-                        a.edit-btn(href=`/edit-skill/${skill.id}`)
+                        a.edit-btn(href=`/skill-edit/${skill.id}`)
                             i(class="bi bi-pencil")
                             span Editar
-                        form.delete-form(action=`/delete-skill/${skill.id}` method="POST")
+                        form.delete-form(action=`/skill-delete/${skill.id}` method="POST")
                             button.delete-btn(type="submit") 
                                 i(class="bi bi-trash")
                                 span Eliminar

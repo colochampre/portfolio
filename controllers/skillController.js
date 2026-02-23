@@ -1,13 +1,13 @@
 let skills = [
-    { id: 0, title: "JavaScript", icon: "/img/javascript.png", tags: ["Frontend", "Backend"], },
-    { id: 1, title: "Node Js", icon: "/img/nodejs.png", tags: ["Backend"], },
-    { id: 2, title: "MySQL", icon: "/img/mysql.png", tags: ["Database"], },
-    { id: 3, title: "PHP", icon: "/img/php.png", tags: ["Backend"], },
-    { id: 4, title: "Python", icon: "/img/python.png", tags: ["Backend"], },
-    { id: 5, title: "Java", icon: "/img/java.png", tags: ["Backend"], },
-    { id: 6, title: "Bootstrap", icon: "/img/bootstrap.png", tags: ["Frontend"], },
-    { id: 7, title: "C", icon: "", tags: ["Backend"], },
-    { id: 8, title: "C++", icon: "", tags: ["Backend"], },
+    { id: 0, title: "JavaScript", icon: "/img/javascript.png" },
+    { id: 1, title: "Node Js", icon: "/img/nodejs.png" },
+    { id: 2, title: "MySQL", icon: "/img/mysql.png" },
+    { id: 3, title: "PHP", icon: "/img/php.png" },
+    { id: 4, title: "Python", icon: "/img/python.png" },
+    { id: 5, title: "Java", icon: "/img/java.png" },
+    { id: 6, title: "Bootstrap", icon: "/img/bootstrap.png" },
+    { id: 7, title: "C", icon: "" },
+    { id: 8, title: "C++", icon: "" },
 ];
 
 const getAllSkills = (req, res) => { 
@@ -20,7 +20,7 @@ const getAddSkillForm = (req, res) => {
 const addSkill = (req, res) => { 
     let { title, icon } = req.body;
     let id = skills.length;
-    skills.push({ id, title, icon, tags: [] });
+    skills.push({ id, title, icon });
     res.redirect("/");
 };
 

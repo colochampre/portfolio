@@ -10,55 +10,53 @@ let skills = [
     { id: 8, title: "C++", icon: "" },
 ];
 
-const getAllSkills = (req, res) => { 
-    res.render("index", { skills });
-};
-const getAddSkillForm = (req, res) => {
-    res.render("add-skill", { title: "Agregar Skill" });
-};
+const taskController = {
 
-const addSkill = (req, res) => { 
-    let { title, icon } = req.body;
-    let id = skills.length;
-    skills.push({ id, title, icon });
-    res.redirect("/");
-};
 
-const getEditSkillForm = (req, res) => { 
-    let id = parseInt(req.params.id);
-    let skill = skills.find((skill) => skill.id === id);
+    getAll: (req, res) => {
+        res.render("index", { skills });
+    },
 
-    if (!skill) {
-        return res.redirect("/");
-    } else {
-        res.render("edit-skill", { title: "Editar Skill", skill });
-    }
-};
+    getAddForm: (req, res) => {
+        res.render("add-skill", { title: "Agregar Skill" });
+    },
 
-const editSkill = (req, res) => {
-    let id = parseInt(req.params.id);
-    let skillIndex = skills.findIndex((skill) => skill.id === id);
-
-    if (skillIndex === -1) {
-        return res.redirect("/");
-    } else {
-        skills[skillIndex].title = req.body.title;
-        skills[skillIndex].icon = req.body.icon;
+    addl: (req, res) => {
+        let { title, icon } = req.body;
+        let id = skills.length;
+        skills.push({ id, title, icon });
         res.redirect("/");
-    }
-};
+    },
 
-const deleteSkill = (req, res) => {
-    let id = parseInt(req.params.id);
-    skills = skills.filter((skill) => skill.id !== id);
-    res.redirect("/");
-};
+    getEditForm: (req, res) => {
+        let id = parseInt(req.params.id);
+        let skill = skills.find((skill) => skill.id === id);
 
-export default {
-    getAllSkills,
-    getAddSkillForm,
-    addSkill,
-    getEditSkillForm,
-    editSkill,
-    deleteSkill,
-};
+        if (!skill) {
+            return res.redirect("/");
+        } else {
+            res.render("edit-skill", { title: "Editar Skill", skill });
+        }
+    },
+
+    edit: (req, res) => {
+        let id = parseInt(req.params.id);
+        let skillIndex = skills.findIndex((skill) => skill.id === id);
+
+        if (skillIndex === -1) {
+            return res.redirect("/");
+        } else {
+            skills[skillIndex].title = req.body.title;
+            skills[skillIndex].icon = req.body.icon;
+            res.redirect("/");
+        }
+    },
+
+    delete: (req, res) => {
+        let id = parseInt(req.params.id);
+        skills = skills.filter((skill) => skill.id !== id);
+        res.redirect("/");
+    },
+}
+
+export default taskController;

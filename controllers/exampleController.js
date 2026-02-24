@@ -1,10 +1,10 @@
-import skillModel from "../models/skillModel.js";
+import exampleModel from "../models/exampleModel.js";
 import error from "../middlewares/error.js";
 
-const skillController = {
+const exampleController = {
     getAll: async (req, res) => {
         try {
-            let skills = await skillModel.getAll();
+            let skills = await exampleModel.getAll();
             res.render("index", { skills });
         } catch (err) {
             error.c500(req, res, err);
@@ -18,7 +18,7 @@ const skillController = {
     getEditForm: async (req, res) => {
         try {
             let id = parseInt(req.params.id);
-            let skill = await skillModel.getSkill(id);
+            let skill = await exampleModel.getSkill(id);
 
             if (!skill) {
                 error.c404(req, res);
@@ -33,7 +33,7 @@ const skillController = {
     create: async (req, res) => {
         try {
             let { title, icon } = req.body;
-            await skillModel.create(title, icon);
+            await exampleModel.create(title, icon);
             res.redirect("/");
         } catch (err) {
             error.c500(req, res, err);
@@ -45,7 +45,7 @@ const skillController = {
             let id = parseInt(req.params.id);
             let title = req.body.title;
             let icon = req.body.icon;
-            await skillModel.update(id, title, icon);
+            await exampleModel.update(id, title, icon);
             res.redirect("/");
         } catch (err) {
             error.c500(req, res, err);
@@ -55,7 +55,7 @@ const skillController = {
     delete: async (req, res) => {
         try {
             let id = parseInt(req.params.id);
-            await skillModel.delete(id);
+            await exampleModel.delete(id);
             res.redirect("/");
         } catch (err) {
             error.c500(req, res, err);
@@ -63,4 +63,4 @@ const skillController = {
     },
 }
 
-export default skillController;
+export default exampleController;

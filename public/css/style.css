@@ -1,3 +1,25 @@
+:root,
+/* ==========================
+    TEMA OSCURO (Default)
+========================== */
+[data-theme="dark"] {
+    --primary-color: #333;
+    --secondary-color: #555;
+    --text-color: #ddd;
+}
+
+/* ==========================
+    TEMA CLARO
+========================== */
+[data-theme="light"] {
+    --primary-color: #fff;
+    --secondary-color: #ddd;
+    --text-color: #333;
+}
+
+/* ==========================
+    GENERAL STYLES 
+========================== */
 * {
     margin: 0;
     padding: 0;
@@ -6,10 +28,31 @@
 
 html {
     cursor: default;
+    scroll-behavior: smooth;
 }
 
 body {
+    background-color: var(--primary-color);
+    color: var(--text-color);
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #333;
-    color: #ddd;
 }
+
+/* ==========================
+    LAYOUT
+========================== */
+
+/* ==========================
+    SIGNIN
+========================== */
+
+/* ==========================
+    CANVAS
+========================== */
+
+/* ==========================
+    MEDIA QUERIES - TABLET
+========================== */
+
+/* ==========================
+    MEDIA QUERIES - DESKTOP
+========================== */

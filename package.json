@@ -1,24 +1,24 @@
 {
-  "name": "portfolio",
+  "name": "snake-soccer",
   "version": "1.0.0",
-  "description": "",
+  "description": "A game that combines the retro game Snake with Rocket League-style soccer",
   "main": "app.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --watch app.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/colochampre/portfolio.git"
+    "url": "git+https://github.com/colochampre/snake-soccer.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Colo Champre",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/colochampre/portfolio/issues"
+    "url": "https://github.com/colochampre/snake-soccer/issues"
   },
-  "homepage": "https://github.com/colochampre/portfolio#readme",
+  "homepage": "https://github.com/colochampre/snake-soccer#readme",
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",

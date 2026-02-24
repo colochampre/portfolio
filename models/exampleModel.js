@@ -1,6 +1,6 @@
 import db from "../config/db.js";
 
-const skillModel = {
+const exampleModel = {
     getAll: async () => {
         try {
             const [results] = await db.query("SELECT * FROM skills");
@@ -42,4 +42,4 @@ const skillModel = {
     },
 }
 
-export default skillModel;
+export default exampleModel;

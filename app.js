@@ -5,7 +5,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import error from "./middlewares/error.js";
-import skillRouter from "./routes/skillRouter.js";
+import exampleRouter from "./routes/exampleRouter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(skillRouter);
+app.use(exampleRouter);
 app.use(error.c404);
 
 app.listen(port, () => {

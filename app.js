@@ -4,7 +4,10 @@ import { fileURLToPath } from "url";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 import error from "./middlewares/error.js";
+import auth from "./middlewares/auth.js";
+import authRouter from "./routes/authRouter.js";
 import taskRouter from "./routes/taskRouter.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -20,6 +23,7 @@ app.use(helmet({ contentSecurityPolicy: { directives: {
     "default-src": ["'self'"]
 }}}));
 app.use(morgan("dev"));
+app.use(cookieParser());
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
@@ -28,11 +32,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
-    res.render("index", { title: "Snake Soccer" });
+app.use(authRouter);
+
+app.get("/", auth.requireAuth, (req, res) => {
+    res.render("index", { title: "Snake Soccer", user: req.user });
 });
 
-app.use(taskRouter);
+app.use(auth.requireAuth, taskRouter);
 app.use(error.c404);
 
 app.listen(port, () => {

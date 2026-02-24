@@ -15,6 +15,7 @@ Un juego multijugador que combina la mecánica clásica de Snake con el fútbol.
 - Backend: Node.js, Express
 - Motor de plantillas: Pug
 - Base de datos: MySQL
+- Autenticación: JWT, bcrypt
 - Comunicación en tiempo real: Socket.io
 
 ### Instalación

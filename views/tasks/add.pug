@@ -1,0 +1,15 @@
+extends ../layout
+
+block main
+    main.add-section
+        h2= title
+        form.add-form(action="/tasks/add" method="POST")
+            label(for="name") Nombre de Tarea
+            input(type="text" id="name" name="name" required)
+            
+            button.add-btn(type="submit") 
+                i(class="bi bi-plus-circle")
+                span Agregar Tarea
+        a.back-btn(href="/tasks") 
+            i(class="bi bi-arrow-left")
+            span Volver

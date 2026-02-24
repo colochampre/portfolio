@@ -1,0 +1,15 @@
+extends ../layout
+
+block main
+    main.add-section
+        h2= title
+        form.add-form(action=`/tasks/edit/${task.id}` method="POST")
+            label(for="name") Nuevo nombre de Tarea
+            input(type="text" id="name" name="name" value=task.name)
+            
+            button.edit-btn(type="submit") 
+                i(class="bi bi-check")
+                span Confirmar
+        a.back-btn(href="/tasks") 
+            i(class="bi bi-arrow-left")
+            span Volver

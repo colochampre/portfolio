@@ -1,7 +1,23 @@
 extends layout
 
 block lobby-panel
-    div.lobby-wrapper.panel
+    //- Mensaje de rotación (solo visible en portrait mode)
+    div.rotate-message
+        i.bi.bi-phone-landscape.flicker2
+        h2.flicker1 Rota tu dispositivo
+        p Para una mejor experiencia de juego.
+
+    //- Botones hamburguesa (solo visibles en móvil/tablet landscape)
+    button.hamburger-btn.left#lobbyToggle(aria-label="Toggle Lobby")
+        i.bi.bi-list
+    button.hamburger-btn.right#userToggle(aria-label="Toggle User Panel")
+        i.bi.bi-person-circle
+
+    //- Overlay oscuro
+    div.overlay#overlay
+
+    div.lobby-wrapper.panel#lobbyPanel
+        h2.lobby-title Lobby
         div.room-options
             div.room-create
                 label.private-room
@@ -21,19 +37,24 @@ block lobby-panel
                     option(value="texture-2") t2
                     option(value="texture-3") t3
 
+            //- Crear sala POST con room options seleccionados
+            button.btn.btn-primary.w-100(type="button") Crear sala
+
             div.room-join-by-id
             div.room-list
 
-        div.current-room
-            h3.room-name
-            span.room-id
-            div.room-players
-            div.player-options
-                button.leave-btn
-                button.ready-btn
+block main
+    div.main-wrapper.panel
+        h1.main-title.flicker Snake Soccer
 
 block user-panel
-    div.user-wrapper.panel
+    div.user-wrapper.panel#userPanel
+        h2.user-title #{user.username}
+        div.experience-container
+            div.experience-bar-background
+                div#experience-bar-fill
+            p.experience-text
+                span#stat-xp 0 / 0
         div.nav-list
             if user && user.role === 'admin'
                 div.nav-item

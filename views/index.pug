@@ -1,12 +1,12 @@
 extends layout
 
 block lobby-panel
-    div.lobby-wrapper
+    div.lobby-wrapper.panel
         div.room-options
             div.room-create
                 label.private-room
                     input#private-room(type="checkbox")
-                    span Private
+                    span Priv
                 select#select-duration
                     option(value="120" selected) 2m
                     option(value="300") 5m
@@ -33,7 +33,7 @@ block lobby-panel
                 button.ready-btn
 
 block user-panel
-    div.user-wrapper
+    div.user-wrapper.panel
         div.nav-list
             if user && user.role === 'admin'
                 div.nav-item

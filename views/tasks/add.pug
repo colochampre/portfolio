@@ -1,7 +1,7 @@
 extends ../layout
 
 block main
-    main.add-section
+    main.main-wrapper
         h2= title
         form.add-form(action="/tasks/add" method="POST")
             label(for="name") Nombre de Tarea

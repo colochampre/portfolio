@@ -1,4 +1,50 @@
 extends layout
 
-block main
+block lobby-panel
+    div.lobby-wrapper
+        div.room-options
+            div.room-create
+                label.private-room
+                    input#private-room(type="checkbox")
+                    span Private
+                select#select-duration
+                    option(value="120" selected) 2m
+                    option(value="300") 5m
+                    option(value="600") 10m
+                select#select-mode
+                    option(value="1vs1" selected) 1vs1
+                    option(value="2vs2") 2vs2
+                    option(value="3vs3") 3vs3
+                    option(value="practice") Practice
+                select#select-ball
+                    option(value="texture-1" selected) t1
+                    option(value="texture-2") t2
+                    option(value="texture-3") t3
+
+            div.room-join-by-id
+            div.room-list
+
+        div.current-room
+            h3.room-name
+            span.room-id
+            div.room-players
+            div.player-options
+                button.leave-btn
+                button.ready-btn
+
+block user-panel
+    div.user-wrapper
+        div.nav-list
+            if user && user.role === 'admin'
+                div.nav-item
+                    a.nav-link(href="/tasks")
+                        i(class="bi bi-list-task")
+                        span Tareas
+
+            if user
+                div.nav-item
+                    form(method="POST", action="/logout", style="margin: 0;")
+                        button.nav-link(type="submit", style="background: none; border: none; cursor: pointer; padding: 0; width: 100%;")
+                            i(class="bi bi-box-arrow-right")
+                            span Salir
     

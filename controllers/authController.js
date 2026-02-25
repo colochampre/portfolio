@@ -41,7 +41,8 @@ const authController = {
             
             const token = jwtConfig.generateToken({ 
                 id: user.id, 
-                username: user.username 
+                username: user.username,
+                role: user.role
             });
 
             res.cookie("token", token, {
@@ -92,7 +93,8 @@ const authController = {
 
             const token = jwtConfig.generateToken({ 
                 id: user.id, 
-                username: user.username 
+                username: user.username,
+                role: user.role
             });
 
             res.cookie("token", token, {

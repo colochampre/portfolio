@@ -4,59 +4,20 @@ html(lang="es")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title= title
-        block metas
         link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css", crossorigin="anonymous")
         link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css", crossorigin="anonymous")
         link(rel="icon", href="/img/favicon.png")
         link(rel="stylesheet", href="/css/style.css")
-        block styles
     body
-        nav
-            div.nav-list
-                div.nav-item
-                    a.nav-link(href="/snake")
-                        i(class="bi bi-gamepad")
-                        span Snake Soccer
-                
-                //if user.role === 'admin'
-                div.nav-item
-                a.nav-link(href="/tasks")
-                    i(class="bi bi-list-task")
-                    span Tareas
 
-        // signed in
-        div.side-panel
-            div.room-options
-                div.room-create
-                    label.private-room
-                        input#private-room(type="checkbox")
-                        span Private
-                    select#select-duration
-                        option(value="120" selected) 2m
-                        option(value="300") 5m
-                        option(value="600") 10m
-                    select#select-mode
-                        option(value="1vs1" selected) 1vs1
-                        option(value="2vs2") 2vs2
-                        option(value="3vs3") 3vs3
-                        option(value="practice") Practice
-                    select#select-ball
-                        option(value="texture-1" selected) t1
-                        option(value="texture-2") t2
-                        option(value="texture-3") t3
-
-                div.room-join-by-id
-                div.room-list
-
-            div.current-room
-                h3.room-name
-                span.room-id
-                div.room-players
-                div.player-options
-                    button.leave-btn
-                    button.ready-btn
+        block lobby-panel
+            div.lobby-wrapper
 
         block main
+            main.main-wrapper
+
+        block user-panel
+            div.user-wrapper
 
         footer
         

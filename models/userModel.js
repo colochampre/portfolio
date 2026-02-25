@@ -4,14 +4,14 @@ import bcrypt from "bcrypt";
 const SALT_ROUNDS = 10;
 
 const userModel = {
-    create: async (username, password) => {
+    create: async (username, password, role = 'user') => {
         try {
             const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
             const [result] = await pool.query(
-                "INSERT INTO users (username, password) VALUES (?, ?)",
-                [username, hashedPassword]
+                "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
+                [username, hashedPassword, role]
             );
-            return { id: result.insertId, username };
+            return { id: result.insertId, username, role };
         } catch (error) {
             throw error;
         }
@@ -32,7 +32,7 @@ const userModel = {
     findById: async (id) => {
         try {
             const [rows] = await pool.query(
-                "SELECT id, username, created_at FROM users WHERE id = ?",
+                "SELECT id, username, role, created_at FROM users WHERE id = ?",
                 [id]
             );
             return rows[0] || null;
@@ -56,6 +56,18 @@ const userModel = {
                 [username]
             );
             return rows[0].count > 0;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    updateRole: async (userId, role) => {
+        try {
+            await pool.query(
+                "UPDATE users SET role = ? WHERE id = ?",
+                [role, userId]
+            );
+            return true;
         } catch (error) {
             throw error;
         }

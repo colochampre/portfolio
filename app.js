@@ -38,7 +38,7 @@ app.get("/", auth.requireAuth, (req, res) => {
     res.render("index", { title: "Snake Soccer", user: req.user });
 });
 
-app.use(auth.requireAuth, taskRouter);
+app.use(auth.requireAdmin, taskRouter);
 app.use(error.c404);
 
 app.listen(port, () => {

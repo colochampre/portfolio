@@ -2,24 +2,32 @@ extends layout
 
 block main
     div.main-wrapper.panel
-        h2.text-center= title
-        a.add-button(href="/tasks/add") Agregar Tarea
+        div.tasks-header
+            h2.main-title.flicker1= title
+            a.btn.btn-primary.add-button(href="/tasks/add") Agregar Tarea
         ul.task-list
             if tasks.length === 0
                 li
                     b.text-center No tienes tareas pendientes
             else
                 each task in tasks
-                    li(class=task.completed ? "completed": "")
+                    li.task-item(class=task.completed ? "completed": "")
                         a(href=`/tasks/edit/${task.id}`) #{task.name}
-                        if task.completed
-                            form.uncomplete-form(action=`/tasks/uncomplete/${task.id}` method="POST" style="display:inline")
-                                button.uncomplete-button(type="submit") Desmarcar
-                        else
-                            form.complete-form(action=`/tasks/complete/${task.id}` method="POST" style="display:inline")
-                                button.complete-button(type="submit") Completar
-                        form.delete-form(action=`/tasks/delete/${task.id}` method="POST" style="display:inline")
-                            button.delete-button(type="submit") Eliminar
+                        div.task-actions
+                            if task.completed
+                                form.uncomplete-form(action=`/tasks/uncomplete/${task.id}` method="POST" style="display:inline")
+                                    button.btn.btn-primary.uncomplete-button(type="submit")
+                                        i(class="bi bi-circle")
+                                        span Desmarcar
+                            else
+                                form.complete-form(action=`/tasks/complete/${task.id}` method="POST" style="display:inline")
+                                    button.btn.btn-primary.complete-button(type="submit")
+                                        i(class="bi bi-check2-circle")
+                                        span Completar
+                            form.delete-form(action=`/tasks/delete/${task.id}` method="POST" style="display:inline")
+                                button.btn.btn-primary.delete-button(type="submit")
+                                    i(class="bi bi-trash")
+                                    span Eliminar
         a.back-btn(href="/") 
             i(class="bi bi-arrow-left")
             span Volver

@@ -2,7 +2,8 @@ extends ../layout
 
 block main
     main.main-wrapper.panel
-        h2= title
+        div.tasks-header
+            h2.main-title= title
         form.add-form(action=`/tasks/edit/${task.id}` method="POST")
             label(for="name") Nuevo nombre de Tarea
             input(type="text" id="name" name="name" value=task.name)

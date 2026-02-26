@@ -5,7 +5,7 @@ const taskController = {
     getAll: async (req, res) => {
         try {
             let tasks = await taskModel.getAll();
-            res.render("tasks", { tasks });
+            res.render("tasks", { tasks, title: "Tareas pendientes" });
         } catch (err) {
             error.c500(req, res, err);
         }

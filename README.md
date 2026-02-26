@@ -5,6 +5,7 @@ Un juego multijugador que combina la mecánica clásica de Snake con el fútbol.
 ## Características
 - Juego multijugador en tiempo real
 - Mecánica clásica de Snake
+- Para web y mobile
 - Modos de juego 1v1 2v2 y 3v3
 - Chat rápido
 - Estadísticas y Ranking de jugadores

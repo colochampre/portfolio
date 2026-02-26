@@ -1,9 +1,10 @@
 extends layout
 
 block main
-    main.main-wrapper.panel
+    div.overlay#overlay
+    main.main-wrapper.panel.justify-center
         h1.error-title.flicker1= title
         p.error-message.flicker2= message
-        a.back-btn(href="/") 
-            i(class="bi bi-arrow-left")
+        a.btn.btn-primary.back-btn(href="/") 
+            i(class="bi bi-house")
             span Volver

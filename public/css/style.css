@@ -4,13 +4,14 @@
 /* ==========================
     TEMA OSCURO (Default)
 ========================== */
+
 [data-theme="dark"] {
     --main-color: #00ff99;
     --main-color-rgb: rgb(0, 255, 153);
     --main-color-shadow: rgba(var(--main-color-rgb), 0.5);
     --main-shadow: 0 0 10px var(--main-color);
     --bg-primary: #111;
-    --bg-secondary: #555;
+    --bg-secondary: #333;
     --text-primary: #ddd;
     --text-secondary: #aaa;
     --degrade-color-1: #00E589;
@@ -20,6 +21,7 @@
 /* ==========================
     TEMA CLARO
 ========================== */
+
 [data-theme="light"] {
     --bg-primary: #ddd;
     --bg-secondary: #aaa;
@@ -30,6 +32,7 @@
 /* ==========================
     GENERAL STYLES 
 ========================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -53,16 +56,20 @@
 
 html {
     cursor: default;
+    overflow-x: hidden;
     scroll-behavior: smooth;
 }
 
 body {
+    max-width: 100vw;
+    min-height: 100vh;
+    padding: 0.5rem;
     background: linear-gradient(135deg, var(--bg-primary) 0%, #003D23 100%);
     color: var(--text-color);
     font-family: 'Press Start 2P', cursive;
-    min-height: 100vh;
-    width: 100vw;
-    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
 }
 
 h1,
@@ -78,18 +85,20 @@ h6 {
 }
 
 .panel {
-    padding: 1rem;
-    border-radius: 1rem;
+    padding: 0.75rem;
+    flex: 1;
+    min-height: 0;
+    border-radius: 0.5rem;
     background-color: var(--bg-primary);
     box-shadow: var(--main-shadow);
     color: var(--main-color);
 }
 
 .main-wrapper {
-    height: 100%;
+    margin: 0 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
 }
 
@@ -97,17 +106,29 @@ h6 {
     color: var(--text-primary);
 }
 
+.back-btn i {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
 /* ==========================
     ERROR 404
 ========================== */
+
 .error-title {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    text-align: center;
 }
 
 .error-message {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
+    font-size: 1.2rem;
+    text-align: center;
 }
 
 /* ==========================
@@ -117,16 +138,17 @@ h6 {
 .auth-card {
     width: 100%;
     max-width: 450px;
-    padding: 40px;
+    padding: 2rem;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     box-shadow: var(--main-shadow);
+    z-index: 999;
 }
 
 .auth-header {
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 2rem;
 }
 
 .auth-header i {
@@ -136,39 +158,41 @@ h6 {
 }
 
 .auth-header h1 {
-    margin: 1rem 0.75rem 0;
+    margin: 1rem 0.75rem 0.5rem;
     color: var(--main-color);
-    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
     font-weight: bold;
     text-shadow: 0 0 20px var(--main-color-rgb);
 }
 
 .auth-header p {
     color: var(--text-secondary);
+    font-size: 0.8rem;
     margin-bottom: 0;
 }
 
 .auth-form {
-    margin-bottom: 24px;
+    margin-bottom: 2rem;
 }
 
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 1rem;
 }
 
 .form-group label {
     color: var(--text-primary);
-    margin-bottom: 8px;
     display: block;
     font-weight: 500;
+    margin-bottom: 0.25rem;
 }
 
 .form-control {
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 1rem;
     background: rgba(var(--bg-primary), 0.1);
     border-radius: 0.5rem;
     box-shadow: var(--main-color);
     color: var(--text-primary);
+    font-size: 0.8rem;
     transition: all 0.2s;
 }
 
@@ -183,30 +207,49 @@ h6 {
     color: rgba(255, 255, 255, 0.5);
 }
 
+.form-text {
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+}
+
 .btn-primary {
     padding: 12px;
-    background: linear-gradient(135deg, var(--degrade-color-1) 0%, var(--degrade-color-2) 100%);
-    border: none;
-    border-radius: 8px;
-    color: var(--bg-primary);
+    background: 1px solid var(--main-color);
+    border: 1px solid var(--main-color);
+    border-radius: 0.25rem;
+    color: var(--main-color);
     font-weight: bold;
     transition: all 0.2s;
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, var(--degrade-color-1) 0%, var(--degrade-color-2) 100%);
+    background: var(--main-color);
+    border-color: var(--main-color);
+    box-shadow: 0 0 10px var(--main-color);
     color: var(--bg-primary);
 }
 
+.btn-primary:active{
+    transform: scale(0.95);
+    background-color: var(--main-color) !important;
+    border-color: var(--main-color) !important;
+    color: var(--bg-primary) !important;
+}
+
 .auth-footer {
-    text-align: center;
     color: var(--text-secondary);
+    text-align: center;
+}
+
+.auth-footer p {
+    font-size: 0.8rem;
 }
 
 .auth-footer a {
     color: var(--main-color);
-    text-decoration: none;
+    font-size: 1rem;
     font-weight: bold;
+    text-decoration: underline;
 }
 
 .auth-footer a:hover {
@@ -214,8 +257,8 @@ h6 {
 }
 
 .alert {
-    border-radius: 8px;
-    margin-bottom: 20px;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
 }
 
 @keyframes neonFlicker1 {
@@ -265,18 +308,51 @@ h6 {
 /* ==========================
     LOBBY PANEL
 ========================== */
+
 .lobby-wrapper {
     position: relative;
 }
 
 .lobby-title {
-    text-align: center;
     margin-bottom: 2rem;
+    font-size: 1.4rem;
+    text-align: start;
+}
+
+.room-create {
+    width: 100%;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.room-create select {
+    width: 20%;
+    font-size: .75rem;
+    text-align: end;
+}
+
+.room-create select, .room-create label {
+    border: 1px solid var(--main-color);
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+}
+
+.room-create #private-room {
+    width: auto;
+    height: 100%;
+    vertical-align: bottom;
+}
+
+.private-room span {
+    margin-right: 0.5rem;
 }
 
 /* ==========================
     USER PANEL
 ========================== */
+
 .user-wrapper {
     position: relative;
     display: flex;
@@ -285,20 +361,19 @@ h6 {
 }
 
 .user-title {
+    font-size: 1.2rem;
     text-align: center;
-    font-size: 1.5rem;
 }
 
 .experience-container {
     width: 100%;
-    margin-bottom: 5px;
 }
 
 .experience-bar-background {
     width: 100%;
     height: 16px;
-    background-color: #333;
-    border: 1px solid #00ff99;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--main-color);
     border-radius: 2px;
     overflow: hidden;
 }
@@ -306,7 +381,7 @@ h6 {
 .experience-bar-fill {
     height: 100%;
     width: 0%;
-    background-color: #00ff99;
+    background-color: var(--main-color);
     transition: width 0.5s ease-in-out;
     border-radius: 2px;
 }
@@ -314,20 +389,70 @@ h6 {
 .experience-text {
     font-size: 0.8rem;
     text-align: center;
-    margin-top: 15px;
-    color: #F0F0F0;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.nav-item {
+    width: 100%;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--main-color);
+    border-radius: 0.25rem;
+    color: var(--main-color);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.nav-item:hover {
+    background-color: var(--main-color);
+    box-shadow: 0 0 10px var(--main-color);
+    color: var(--bg-primary);
+}
+
+.nav-item:active {
+    transform: scale(0.95);
+    background-color: var(--main-color) !important;
+    border-color: var(--main-color) !important;
+    color: var(--bg-primary) !important;
+}
+
+.nav-item a, .nav-item form {
+    padding: 0.5rem 1rem;
+}
+
+.nav-item i {
+    margin-right: 0.5rem;
+    font-size: 1rem;
 }
 
 /* ==========================
     CANVAS
 ========================== */
+
 .main-wrapper {
     flex: 1;
+}
+
+.main-title {
+    margin-top: .75rem;
 }
 
 /* ==========================
     HAMBURGER BUTTONS
 ========================== */
+
 .hamburger-btn {
     position: fixed;
     z-index: 1000;
@@ -337,7 +462,6 @@ h6 {
     border-radius: 0.5rem;
     padding: 0.75rem;
     cursor: pointer;
-    box-shadow: var(--main-shadow);
     transition: all 0.3s ease;
     font-size: 1.5rem;
     line-height: 1;
@@ -366,20 +490,21 @@ h6 {
 /* ==========================
     ROTATE DEVICE MESSAGE
 ========================== */
+
 .rotate-message {
-    display: none;
     position: fixed;
+    padding: 2rem;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, var(--bg-primary) 0%, #003D23 100%);
-    z-index: 9999;
     flex-direction: column;
+    display: none;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 2rem;
+    z-index: 9999;
 }
 
 .rotate-message i {
@@ -418,9 +543,9 @@ h6 {
 /* ==========================
     MEDIA QUERIES - MOBILE & TABLET (LANDSCAPE MODE)
 ========================== */
+
 @media (max-width: 1535px) and (orientation: landscape) {
     body {
-        height: 100vh;
         display: flex;
         flex-direction: row;
     }
@@ -433,16 +558,16 @@ h6 {
     /* Paneles laterales colapsables */
     .lobby-wrapper,
     .user-wrapper {
-        position: fixed;
-        top: 0.75rem;
-        height: calc(100% - 1.5rem);
-        padding-top: 5rem;
-        width: 280px;
+        min-width: 280px;
         max-width: 80vw;
+        height: calc(100% - 1rem);
+        padding-top: 5.5rem;
+        position: fixed;
+        top: 0.5rem;
+        overflow-y: hidden;
         transform: translateX(-105%);
         transition: transform 0.3s ease;
         z-index: 999;
-        overflow-y: hidden;
     }
 
     .lobby-wrapper {
@@ -463,10 +588,7 @@ h6 {
         transform: translateX(-1rem);
     }
 
-    /* Canvas ocupa todo el espacio */
     .main-wrapper {
-        width: 100%;
-        height: 100%;
         margin: 0;
     }
 
@@ -490,26 +612,31 @@ h6 {
 /* ==========================
     MEDIA QUERIES - MOBILE & TABLET (PORTRAIT MODE)
 ========================== */
+
 @media (max-width: 1535px) and (orientation: portrait) {
-
-    /* Ocultar todo el contenido del juego */
-    .hamburger-btn,
-    .overlay,
-    .lobby-wrapper,
-    .main-wrapper,
-    .user-wrapper {
-        display: none !important;
-    }
-
-    /* Mostrar mensaje de rotación */
+    /* Mostrar mensaje de rotación si existe */
     .rotate-message {
         display: flex;
+    }
+
+    .lobby-wrapper,
+    .user-wrapper {
+        display: none;
+    }
+
+    .main-wrapper {
+        margin: 0;
+        padding: 0;
+    }
+    .auth-card {
+        flex: 1;
     }
 }
 
 /* ==========================
     MEDIA QUERIES - TABLET
 ========================== */
+
 @media (min-width: 768px) and (max-width: 1535px) {
     body {
         padding: 0.75rem;
@@ -524,31 +651,29 @@ h6 {
 /* ==========================
     MEDIA QUERIES - DESKTOP
 ========================== */
+
 @media (min-width: 1536px) {
     body {
-        height: 100vh;
         padding: 1rem;
-        display: flex;
         flex-direction: row;
-        align-items: center;
         justify-content: center;
     }
 
-    .lobby-wrapper {
+    .panel {
+        padding: 1rem;
+    }
+
+    .lobby-wrapper,
+    .user-wrapper {
         min-width: 360px;
         max-width: 20%;
-        height: 100%;
     }
 
     .main-wrapper {
         width: 100%;
-        height: 100%;
-        margin: 0 1rem;
     }
 
-    .user-wrapper {
-        min-width: 360px;
-        max-width: 20%;
-        height: 100%;
+    .user-title, .lobby-title {
+        font-size: 1.5rem;
     }
 }

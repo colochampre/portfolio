@@ -13,16 +13,13 @@ block lobby-panel
     button.hamburger-btn.right#userToggle(aria-label="Toggle User Panel")
         i.bi.bi-person-circle
 
-    //- Overlay oscuro
-    div.overlay#overlay
-
     div.lobby-wrapper.panel#lobbyPanel
         h2.lobby-title Lobby
         div.room-options
             div.room-create
                 label.private-room
-                    input#private-room(type="checkbox")
                     span Priv
+                    input#private-room(type="checkbox")
                 select#select-duration
                     option(value="120" selected) 2m
                     option(value="300") 5m
@@ -44,6 +41,7 @@ block lobby-panel
             div.room-list
 
 block main
+    div.overlay#overlay
     div.main-wrapper.panel
         h1.main-title.flicker Snake Soccer
 
@@ -58,7 +56,7 @@ block user-panel
         div.nav-list
             if user && user.role === 'admin'
                 div.nav-item
-                    a.nav-link(href="/tasks")
+                    a.btn.nav-link(href="/tasks")
                         i(class="bi bi-list-task")
                         span Tareas
 

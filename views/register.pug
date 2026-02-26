@@ -1,7 +1,7 @@
 extends layout
 
 block main
-    main.main-wrapper.panel
+    main.main-wrapper.panel.justify-center
         div.auth-card
             div.auth-header
                 i.bi.bi-joystick.flicker2
@@ -28,7 +28,7 @@ block main
                         maxlength="50",
                         pattern="[a-zA-Z0-9_]+"
                     )
-                    small.form-text Solo letras, números y guiones bajos (3-50 caracteres)
+                    small.form-text Solo letras, números y guiones
 
                 div.form-group
                     label(for="password")
@@ -60,5 +60,5 @@ block main
                     |  Crear Cuenta
 
             div.auth-footer
-                p ¿Ya tienes cuenta? 
+                p ¿Ya tienes cuenta?<br>
                     a(href="/login") Inicia sesión aquí

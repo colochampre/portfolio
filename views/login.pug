@@ -17,11 +17,10 @@ block main
                 div.form-group
                     label(for="username")
                         i.bi.bi-person-fill
-                        |  Usuario
+                        span Usuario
                     input#username.form-control(
                         type="text", 
                         name="username", 
-                        placeholder="Ingresa tu usuario",
                         required,
                         autofocus
                     )
@@ -29,18 +28,17 @@ block main
                 div.form-group
                     label(for="password")
                         i.bi.bi-lock-fill
-                        |  Contraseña
+                        span Contraseña
                     input#password.form-control(
                         type="password", 
                         name="password", 
-                        placeholder="Ingresa tu contraseña",
                         required
                     )
 
-                button.btn.btn-primary.w-100(type="submit")
+                button.btn.btn-primary.btn-signin.w-100(type="submit")
                     i.bi.bi-box-arrow-in-right
-                    |  Iniciar Sesión
+                    span Iniciar Sesión
 
             div.auth-footer
                 p ¿No tienes cuenta?<br>
-                    a(href="/register") Regístrate aquí
+                    a(href="/register") Regístrate

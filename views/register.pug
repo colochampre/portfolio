@@ -17,11 +17,11 @@ block main
                 div.form-group
                     label(for="username")
                         i.bi.bi-person-fill
-                        |  Usuario
+                        span Usuario
                     input#username.form-control(
                         type="text", 
                         name="username", 
-                        placeholder="Elige un nombre de usuario",
+                        placeholder="Elige un nombre",
                         required,
                         autofocus,
                         minlength="3",
@@ -33,7 +33,7 @@ block main
                 div.form-group
                     label(for="password")
                         i.bi.bi-lock-fill
-                        |  Contraseña
+                        span Contraseña
                     input#password.form-control(
                         type="password", 
                         name="password", 
@@ -46,19 +46,19 @@ block main
                 div.form-group
                     label(for="confirmPassword")
                         i.bi.bi-lock-fill
-                        |  Confirmar Contraseña
+                        span Confirmar Contraseña
                     input#confirmPassword.form-control(
                         type="password", 
                         name="confirmPassword", 
-                        placeholder="Repite tu contraseña",
+                        placeholder="Repetir contraseña",
                         required,
                         minlength="6"
                     )
 
-                button.btn.btn-primary.w-100(type="submit")
+                button.btn.btn-primary.btn-signin.w-100(type="submit")
                     i.bi.bi-person-plus-fill
-                    |  Crear Cuenta
+                    span Crear Cuenta
 
             div.auth-footer
                 p ¿Ya tienes cuenta?<br>
-                    a(href="/login") Inicia sesión aquí
+                    a(href="/login") Inicia sesión

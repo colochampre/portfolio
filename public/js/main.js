@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Back button functionality
-    document.querySelectorAll('.back-btn').forEach(btn => {
+    document.querySelectorAll('.history-back').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             history.back();

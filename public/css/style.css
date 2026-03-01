@@ -123,130 +123,6 @@ h6 {
     font-size: 1.2rem;
 }
 
-.btn-back {
-    font-family: var(--title-font);
-}
-
-.back-btn {
-    color: var(--text-primary);
-    text-decoration: underline;
-}
-
-.justify-center {
-    justify-content: center;
-}
-
-/* ==========================
-    ERROR 404
-========================== */
-
-.error-title {
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    text-align: center;
-}
-
-.error-message {
-    margin-bottom: 4rem;
-    font-size: 1.2rem;
-    text-align: center;
-}
-
-/* ==========================
-    SIGNIN
-========================== */
-
-.auth-card {
-    width: 100%;
-    max-width: 450px;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border-radius: 0.5rem;
-    box-shadow: var(--main-shadow);
-    z-index: 999;
-}
-
-.auth-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.auth-header i {
-    color: var(--main-color);
-    font-size: 3rem;
-    text-shadow: 0 0 10px var(--main-color-rgb);
-}
-
-.auth-header h1 {
-    margin: 1rem 0.75rem 0.5rem;
-    color: var(--main-color);
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-shadow: 0 0 20px var(--main-color-rgb);
-}
-
-.auth-header p {
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    margin-bottom: 0;
-}
-
-.auth-form {
-    margin-bottom: 2rem;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.form-group label {
-    color: var(--text-primary);
-    display: block;
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-}
-
-.form-group label i {
-    margin-right: 0.5rem;
-    font-size: 1.2rem;
-}
-
-.form-group label span {
-    font-size: 0.9rem;
-}
-
-.form-group label[for="confirmPassword"] span {
-    font-size: 0.8rem;
-    white-space: nowrap;
-}
-
-.form-control {
-    padding: 0.5rem 1rem;
-    background: rgba(var(--bg-primary), 0.1);
-    border-radius: 0.5rem;
-    box-shadow: var(--main-color);
-    color: var(--text-primary);
-    font-size: 0.8rem;
-    transition: all 0.2s;
-}
-
-.form-control:focus {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--main-color);
-    box-shadow: var(--main-shadow);
-    color: var(--text-primary);
-}
-
-.form-control::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.form-text {
-    color: var(--text-secondary);
-    font-size: 0.7rem;
-}
-
 .btn-primary {
     padding: 0.5rem 1rem;
     background: 1px solid var(--main-color);
@@ -271,40 +147,17 @@ h6 {
     color: var(--bg-primary) !important;
 }
 
-.auth-footer {
-    color: var(--text-secondary);
-    text-align: center;
+.btn-back {
+    font-family: var(--title-font);
 }
 
-.auth-footer p {
-    line-height: 1.6;
-    font-size: 0.8rem;
-}
-
-.auth-footer a {
-    color: var(--main-color);
-    font-size: 1rem;
-    font-weight: bold;
+.back-btn {
+    color: var(--text-primary);
     text-decoration: underline;
 }
 
-.auth-footer a:hover {
-    text-decoration: underline;
-}
-
-.alert {
-    margin-bottom: 2rem;
-    border-radius: 0.5rem;
-    font-size: 0.66rem;
-}
-
-.btn-signin {
-    font-size: 0.8rem;
-}
-
-.btn-signin i {
-    margin-right: 0.5rem;
-    font-size: 1.2rem;
+.justify-center {
+    justify-content: center;
 }
 
 @keyframes neonFlicker1 {
@@ -349,6 +202,22 @@ h6 {
 
 .flicker2 {
     animation: neonFlicker2 3s infinite both;
+}
+
+/* ==========================
+    ERROR 404
+========================== */
+
+.error-title {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.error-message {
+    margin-bottom: 4rem;
+    font-size: 1.2rem;
+    text-align: center;
 }
 
 /* ==========================

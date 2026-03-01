@@ -35,7 +35,9 @@ block lobby-panel
                     option(value="texture-3") Txt3
 
             //- Crear sala POST con room options seleccionados
-            button.btn.btn-primary.w-100(type="button") Crear sala
+            button.btn.btn-primary.w-100(type="button")
+                i.bi.bi-plus-square
+                span Crear sala
 
             div.room-join-by-id
             div.room-list
@@ -56,14 +58,14 @@ block user-panel
         div.nav-list
             if user && user.role === 'admin'
                 div.nav-item
-                    a.btn.nav-link(href="/tasks")
+                    a.btn.btn-primary.nav-link.w-100(href="/tasks")
                         i(class="bi bi-list-task")
                         span Tareas
 
             if user
                 div.nav-item
-                    form(method="POST", action="/logout", style="margin: 0;")
-                        button.nav-link(type="submit", style="background: none; border: none; cursor: pointer; padding: 0; width: 100%;")
+                    form(method="POST", action="/logout")
+                        button.btn.btn-primary.nav-link.w-100(type="submit")
                             i(class="bi bi-box-arrow-right")
                             span Salir
     

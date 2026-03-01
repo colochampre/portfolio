@@ -1,10 +1,14 @@
 extends layout
+block styles
+    link(rel="stylesheet", href="/css/tasks.css")
 
 block main
     div.main-wrapper.panel
         div.tasks-header
             h2.main-title.flicker1= title
-            a.btn.btn-primary.add-button(href="/tasks/add") Agregar Tarea
+            a.btn.btn-primary.add-button(href="/tasks/add")
+                i(class="bi bi-plus-square")
+                span Agregar Tarea
         ul.task-list
             if tasks.length === 0
                 li
@@ -17,17 +21,17 @@ block main
                             if task.completed
                                 form.uncomplete-form(action=`/tasks/uncomplete/${task.id}` method="POST" style="display:inline")
                                     button.btn.btn-primary.uncomplete-button(type="submit")
-                                        i(class="bi bi-circle")
+                                        i(class="bi bi-square")
                                         span Desmarcar
                             else
                                 form.complete-form(action=`/tasks/complete/${task.id}` method="POST" style="display:inline")
                                     button.btn.btn-primary.complete-button(type="submit")
-                                        i(class="bi bi-check2-circle")
+                                        i(class="bi bi-check2-square")
                                         span Completar
                             form.delete-form(action=`/tasks/delete/${task.id}` method="POST" style="display:inline")
                                 button.btn.btn-primary.delete-button(type="submit")
                                     i(class="bi bi-trash")
                                     span Eliminar
-        a.back-btn(href="/") 
+        a.btn.back-btn(href="/") 
             i(class="bi bi-arrow-left")
             span Volver

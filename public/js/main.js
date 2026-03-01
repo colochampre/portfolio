@@ -53,4 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay?.classList.remove('active');
         }
     });
+
+    // Back button functionality
+    document.querySelectorAll('.back-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            history.back();
+        });
+    });
 });

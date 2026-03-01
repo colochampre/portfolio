@@ -208,22 +208,6 @@ h6 {
 }
 
 /* ==========================
-    ERROR 404
-========================== */
-
-.error-title {
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    text-align: center;
-}
-
-.error-message {
-    margin-bottom: 4rem;
-    font-size: 1.2rem;
-    text-align: center;
-}
-
-/* ==========================
     LOBBY PANEL
 ========================== */
 
@@ -408,13 +392,13 @@ h6 {
 }
 
 .hamburger-btn.left {
-    top: 1.5rem;
-    left: 1.5rem;
+    top: 1.25rem;
+    left: 1.25rem;
 }
 
 .hamburger-btn.right {
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 1.25rem;
+    right: 1.25rem;
 }
 
 /* ==========================
@@ -485,6 +469,11 @@ h6 {
         display: block;
     }
 
+    .main-title {
+        margin-top: .5rem;
+        font-size: 1.5rem;
+    }
+
     /* Paneles laterales colapsables */
     .lobby-wrapper,
     .user-wrapper {
@@ -520,6 +509,7 @@ h6 {
 
     .main-wrapper {
         margin: 0;
+        padding: .5rem;
     }
 
     /* Overlay oscuro cuando panel está abierto */

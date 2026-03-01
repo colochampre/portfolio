@@ -131,6 +131,8 @@ h6 {
     color: var(--main-color);
     font-weight: bold;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
 }
 
 .btn-primary:hover {
@@ -556,9 +558,6 @@ h6 {
     .main-wrapper {
         margin: 0;
         padding: 0;
-    }
-    .auth-card {
-        flex: 1;
     }
 }
 

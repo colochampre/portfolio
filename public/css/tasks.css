@@ -49,7 +49,7 @@
 
 .task-item {
     width: 100%;
-    padding: 0.5rem 1.2rem;
+    padding: 0.5rem 0.75rem;
     margin-bottom: 0.5rem;
     background-color: var(--bg-secondary);
     border-radius: 0.25rem;
@@ -64,9 +64,10 @@
 }
 
 .task-item a {
+    margin-right: 0.5rem;
     color: var(--text-primary);
-    white-space: nowrap;
     overflow-x: auto;
+    white-space: nowrap;
 }
 
 .task-actions {
@@ -74,8 +75,12 @@
     gap: 0.5rem;
 }
 
+.task-actions .btn {
+    border-color: transparent;
+}
+
 .task-actions .btn-primary {
-    padding: 0.3rem 0.8rem;
+    padding: 0.1rem 0.4rem;
 }
 
 .task-actions .btn-primary i {
@@ -103,20 +108,21 @@
     }
 
     .task-item a {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 
     .task-actions .btn-primary {
         font-size: 0.8rem;
-        padding: 0.1rem 0.8rem;
+        padding: 0.1rem 0.4rem;
     }
 
     .task-actions .btn-primary i {
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 
     .complete-form .btn .bi,
-    .uncomplete-form .btn .bi {
+    .uncomplete-form .btn .bi,
+    .delete-form .btn .bi {
         margin-right: 0;
     }
 }
@@ -143,11 +149,16 @@
     }
 
     .task-item a {
-        font-size: 0.9rem;
+        font-size: 1rem;
+    }
+
+    .task-actions .btn-primary i {
+        font-size: 1rem;
     }
 
     .complete-form .btn .bi,
-    .uncomplete-form .btn .bi {
+    .uncomplete-form .btn .bi,
+    .delete-form .btn .bi {
         margin-right: 0;
     }
 }
@@ -159,6 +170,10 @@
 @media (min-width: 1536px) {
     .task-list {
         max-height: 572px;
+    }
+
+    .task-item {
+        padding: 0.5rem 1.2rem;
     }
 
     .task-actions .btn-primary span {

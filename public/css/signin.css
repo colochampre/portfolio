@@ -34,7 +34,7 @@
 
 .auth-header p {
     color: var(--text-secondary);
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     margin-bottom: 0;
 }
 
@@ -44,6 +44,7 @@
 
 .form-group {
     margin-bottom: 1rem;
+    font-family: var(--title-font);
 }
 
 .form-group label {
@@ -90,7 +91,8 @@
 
 .form-text {
     color: var(--text-secondary);
-    font-size: 0.7rem;
+    font-family: var(--main-font);
+    font-size: 1rem;
 }
 
 .auth-footer {
@@ -100,11 +102,12 @@
 
 .auth-footer p {
     line-height: 1.6;
-    font-size: 0.8rem;
+    font-size: 1.2rem;
 }
 
 .auth-footer a {
     color: var(--main-color);
+    font-family: var(--title-font);
     font-size: 1rem;
     font-weight: bold;
     text-decoration: underline;
@@ -127,4 +130,15 @@
 .btn-signin i {
     margin-right: 0.5rem;
     font-size: 1.2rem;
+}
+
+/* ==========================
+    MEDIA QUERIES - MOBILE & TABLET (PORTRAIT MODE)
+========================== */
+
+@media (max-width: 1535px) and (orientation: portrait) {
+    .auth-card {
+        padding: 2rem 1rem;
+        flex: 1;
+    }
 }

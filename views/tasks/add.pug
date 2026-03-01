@@ -1,14 +1,24 @@
 extends ../layout
 
+block styles
+    link(rel="stylesheet", href="/css/tasks.css")
+
 block main
     main.main-wrapper.panel
-        div.tasks-header
-            h2.main-title= title
+        div.tasks-header-add
+            h2.main-title.text-center= title
         form.add-form(action="/tasks/add" method="POST")
-            label(for="name") Nombre de Tarea
-            input(type="text" id="name" name="name" required)
+            div.form-group
+                label(for="name")
+                    i(class="bi bi-tag")
+                    span Nombre de Tarea
+                input.form-control(
+                    type="text", 
+                    id="name", 
+                    name="name", 
+                    required)
             
-            button.add-btn(type="submit") 
+            button.btn.btn-primary.add-btn.w-100(type="submit") 
                 i(class="bi bi-plus-circle")
                 span Agregar Tarea
         a.btn.back-btn(href="/tasks")

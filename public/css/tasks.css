@@ -12,6 +12,10 @@
     align-items: center;
 }
 
+.tasks-header-add, .tasks-header-edit {
+    padding-top: 2rem;
+}
+
 .tasks-header h2 {
     font-size: 1.6rem;
     text-align: start;
@@ -26,10 +30,6 @@
 .delete-button {
     border-color: lightcoral;
     color: lightcoral;
-}
-
-.tasks-header {
-    padding: 0 1rem;
 }
 
 .task-list {
@@ -91,6 +91,10 @@
     display: none;
 }
 
+.add-form {
+    margin-bottom: 2rem;
+}
+
 /* ==========================
     MEDIA QUERIES - MOBILE & TABLET (LANDSCAPE MODE)
 ========================== */
@@ -124,6 +128,10 @@
     .delete-form .btn .bi {
         margin-right: 0;
     }
+
+    .add-form {
+        margin-top: 2rem;
+    }
 }
 
 
@@ -137,7 +145,7 @@
         padding-right: .25rem;
     }
 
-    .tasks-header {
+    .tasks-header, .tasks-header-add, .tasks-header-edit {
         margin-bottom: 2rem;
         padding: .5rem .75rem;
     }
@@ -181,5 +189,11 @@
 
     .task-actions .btn-primary span {
         display: inline;
+    }
+
+    .tasks-header-add,
+    .tasks-header-edit {
+        display: block;
+        margin-bottom: 3rem;
     }
 }

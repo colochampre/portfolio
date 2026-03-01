@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 @font-face {
-  font-family: 'VCR OSD Mono';
-  src: url('/font/VCR_OSD_MONO_1.001.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'VCR OSD Mono';
+    src: url('/font/VCR_OSD_MONO_1.001.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 :root,
@@ -143,7 +144,7 @@ h6 {
     color: var(--bg-primary);
 }
 
-.btn-primary:active{
+.btn-primary:active {
     transform: scale(0.95);
     background-color: var(--main-color) !important;
     border-color: var(--main-color) !important;
@@ -236,7 +237,8 @@ h6 {
     text-align: end;
 }
 
-.room-create select, .room-create label {
+.room-create select,
+.room-create label {
     background-color: var(--bg-primary);
     border: 1px solid var(--main-color);
     border-radius: 0.25rem;
@@ -344,13 +346,66 @@ h6 {
     height: 100%;
 }
 
-.nav-item a, .nav-link {
+.nav-item a,
+.nav-link {
     height: 100%;
     padding: 0.5rem 1rem;
 }
 
 .nav-item i {
     font-size: 1.2rem;
+}
+
+/* ==========================
+    FORMS
+========================== */
+
+.form-group {
+    margin-bottom: 1rem;
+    font-family: var(--title-font);
+}
+
+.form-group label {
+    color: var(--text-primary);
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.form-group label i {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.form-group label span {
+    font-size: 0.9rem;
+}
+
+.form-control {
+    padding: 0.5rem 1rem;
+    background: rgba(var(--bg-primary), 0.1);
+    border-radius: 0.5rem;
+    box-shadow: var(--main-color);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--main-color);
+    box-shadow: var(--main-shadow);
+    color: var(--text-primary);
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-text {
+    color: var(--text-secondary);
+    font-family: var(--main-font);
+    font-size: 1rem;
 }
 
 /* ==========================
@@ -381,7 +436,8 @@ h6 {
     line-height: 1;
     transition: all 0.3s ease;
     z-index: 1000;
-    display: none; /* Oculto para desktop */
+    display: none;
+    /* Oculto para desktop */
 }
 
 .hamburger-btn:hover {
@@ -470,6 +526,7 @@ h6 {
     }
 
     .main-title {
+        width: 100%;
         margin-top: .5rem;
         font-size: 1.5rem;
     }
@@ -534,6 +591,7 @@ h6 {
 ========================== */
 
 @media (max-width: 1535px) and (orientation: portrait) {
+
     /* Mostrar mensaje de rotación si existe */
     .rotate-message {
         display: flex;
@@ -590,7 +648,8 @@ h6 {
         width: 100%;
     }
 
-    .user-title, .lobby-title {
+    .user-title,
+    .lobby-title {
         font-size: 1.5rem;
     }
 }

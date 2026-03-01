@@ -14,9 +14,9 @@ block lobby-panel
         i.bi.bi-person-square
 
     div.lobby-wrapper.panel#lobbyPanel
-        h2.lobby-title.flicker1 Lobby
-        div.room-options
-            div.room-create
+        h2.lobby-title.text-center.flicker1 Lobby
+        div.room-actions
+            div.room-options
                 label.private-room
                     span Priv
                     input#private-room(type="checkbox")
@@ -39,8 +39,12 @@ block lobby-panel
                 i.bi.bi-plus-square
                 span Crear sala
 
-            div.room-join-by-id
-            div.room-list
+        div.room-join-by-id
+
+        div.room-list
+            h3.lobby-title.text-center Salas
+            div#rooms
+                p.text-center No hay salas disponibles
 
 block main
     div.overlay#overlay

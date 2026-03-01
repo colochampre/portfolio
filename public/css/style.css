@@ -130,6 +130,7 @@ h6 {
     border-radius: 0.25rem;
     color: var(--main-color);
     font-weight: bold;
+    justify-content: center;
     transition: all 0.2s;
     display: flex;
     align-items: center;
@@ -385,22 +386,25 @@ h6 {
 ========================== */
 
 .hamburger-btn {
+    padding: 0.25rem 0.5rem;
     position: fixed;
-    z-index: 1000;
-    background: linear-gradient(135deg, var(--degrade-color-1) 0%, var(--degrade-color-2) 100%);
-    color: var(--bg-primary);
-    border: none;
+    background-color: var(--bg-primary);
+    border: 1px solid transparent;
     border-radius: 0.25rem;
-    padding: 0.75rem;
+    color: var(--main-color);
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1.5rem;
+    font-size: 2rem;
     line-height: 1;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    display: none; /* Oculto para desktop */
 }
 
 .hamburger-btn:hover {
-    transform: scale(1.1);
+    background-color: var(--main-color);
+    color: var(--bg-primary);
     box-shadow: 0 0 10px var(--main-color);
+    transform: scale(1.1);
 }
 
 .hamburger-btn.left {
@@ -411,11 +415,6 @@ h6 {
 .hamburger-btn.right {
     top: 1.5rem;
     right: 1.5rem;
-}
-
-/* Ocultar botones hamburguesa en desktop */
-.hamburger-btn {
-    display: none;
 }
 
 /* ==========================

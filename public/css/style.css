@@ -1,13 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+@font-face {
+    font-family: 'VCR OSD Mono';
+    src: url('/font/VCR_OSD_MONO_1.001.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root,
 /* ==========================
     TEMA OSCURO (Default)
 ========================== */
 
 [data-theme="dark"] {
+    --title-font: 'Press Start 2P', cursive;
+    --main-font: 'VCR OSD Mono', monospace;
+
     --main-color: #00ff99;
-    --main-color-rgb: rgb(0, 255, 153);
+    --main-color-rgb: 0, 255, 153;
     --main-color-shadow: rgba(var(--main-color-rgb), 0.5);
     --main-shadow: 0 0 10px var(--main-color);
     --bg-primary: #111;
@@ -66,7 +76,7 @@ body {
     padding: 0.5rem;
     background: linear-gradient(135deg, var(--bg-primary) 0%, #003D23 100%);
     color: var(--text-color);
-    font-family: 'Press Start 2P', cursive;
+    font-family: var(--main-font);
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
@@ -75,6 +85,7 @@ body {
 h1,
 h2 {
     font-weight: 700;
+    font-family: var(--title-font);
 }
 
 h3,
@@ -82,6 +93,7 @@ h4,
 h5,
 h6 {
     font-weight: 600;
+    font-family: var(--title-font);
 }
 
 .panel {
@@ -95,6 +107,7 @@ h6 {
 }
 
 .main-wrapper {
+    max-width: 100%;
     margin: 0 1rem;
     display: flex;
     flex-direction: column;
@@ -102,200 +115,53 @@ h6 {
     align-items: center;
 }
 
-.back-btn {
-    margin-bottom: 3rem;
-    color: var(--text-primary);
+.btn {
+    font-family: var(--title-font);
 }
 
-.back-btn i {
+.btn .bi {
     margin-right: 0.5rem;
     font-size: 1.2rem;
-}
-
-.justify-center {
-    justify-content: center;
-}
-
-.off {
-    opacity: 0.4;
-}
-
-/* ==========================
-    ERROR 404
-========================== */
-
-.error-title {
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    text-align: center;
-}
-
-.error-message {
-    margin-bottom: 4rem;
-    font-size: 1.2rem;
-    text-align: center;
-}
-
-/* ==========================
-    SIGNIN
-========================== */
-
-.auth-card {
-    width: 100%;
-    max-width: 450px;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border-radius: 0.5rem;
-    box-shadow: var(--main-shadow);
-    z-index: 999;
-}
-
-.auth-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.auth-header i {
-    color: var(--main-color);
-    font-size: 3rem;
-    text-shadow: 0 0 10px var(--main-color-rgb);
-}
-
-.auth-header h1 {
-    margin: 1rem 0.75rem 0.5rem;
-    color: var(--main-color);
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-shadow: 0 0 20px var(--main-color-rgb);
-}
-
-.auth-header p {
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    margin-bottom: 0;
-}
-
-.auth-form {
-    margin-bottom: 2rem;
-}
-
-.form-group {
-    margin-bottom: 0.8rem;
-}
-
-.form-group label {
-    color: var(--text-primary);
-    display: block;
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-}
-
-.form-group label i {
-    margin-right: 0.5rem;
-    font-size: 1.2rem;
-}
-
-.form-group label span {
-    font-size: 0.9rem;
-}
-
-.form-group label[for="confirmPassword"] span {
-    font-size: 0.8rem;
-    white-space: nowrap;
-}
-
-.form-control {
-    padding: 0.5rem 1rem;
-    background: rgba(var(--bg-primary), 0.1);
-    border-color: var(--main-color);
-    border-radius: 0.25rem;
-    box-shadow: var(--main-color);
-    color: var(--text-primary);
-    font-size: 0.8rem;
-    transition: all 0.2s;
-}
-
-.form-control:focus {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--main-color);
-    box-shadow: var(--main-shadow);
-    color: var(--text-primary);
-}
-
-.form-control::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.form-text {
-    color: var(--text-secondary);
-    font-size: 0.7rem;
 }
 
 .btn-primary {
     padding: 0.5rem 1rem;
-    background: 1px solid var(--main-color);
+    background-color: var(--bg-primary);
     border: 1px solid var(--main-color);
     border-radius: 0.25rem;
     color: var(--main-color);
     font-weight: bold;
+    justify-content: center;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
 }
 
 .btn-primary:hover {
-    background: var(--main-color);
+    background-color: var(--main-color);
     border-color: var(--main-color);
     box-shadow: 0 0 10px var(--main-color);
     color: var(--bg-primary);
 }
 
-.btn-primary:active{
-    transform: scale(0.95);
+.btn-primary:active {
     background-color: var(--main-color) !important;
     border-color: var(--main-color) !important;
     color: var(--bg-primary) !important;
+    transform: scale(0.95);
 }
 
-.btn-primary i {
-    margin-right: 0.5rem;
-    font-size: 1.2rem;
+.btn-back {
+    font-family: var(--title-font);
 }
 
-.auth-footer {
-    color: var(--text-secondary);
-    text-align: center;
-}
-
-.auth-footer p {
-    line-height: 1.6;
-    font-size: 0.8rem;
-}
-
-.auth-footer a {
-    color: var(--main-color);
-    font-size: 1rem;
-    font-weight: bold;
+.back-btn {
+    color: var(--text-primary);
     text-decoration: underline;
 }
 
-.auth-footer a:hover {
-    text-decoration: underline;
-}
-
-.alert {
-    margin-bottom: 2rem;
-    border-radius: 0.5rem;
-    font-size: 0.66rem;
-}
-
-.btn-signin {
-    margin-top: 0.8rem;
-    font-size: 0.8rem;
-}
-
-.btn-signin i {
-    margin-right: 0.5rem;
-    font-size: 1.2rem;
+.justify-center {
+    justify-content: center;
 }
 
 @keyframes neonFlicker1 {
@@ -358,23 +224,25 @@ h6 {
 
 .room-options {
     width: 100%;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.5rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
 .room-options select {
-    width: 20%;
-    font-size: .72rem;
+    width: 22%;
+    font-size: 1.1rem;
     text-align: end;
 }
 
-.room-options select, .room-options label {
+.room-options select,
+.room-options label {
     background-color: var(--bg-primary);
     border: 1px solid var(--main-color);
     border-radius: 0.25rem;
     color: var(--text-primary);
+    cursor: pointer;
     padding: 0.5rem 0;
 }
 
@@ -397,26 +265,16 @@ h6 {
     margin-right: 0.5rem;
 }
 
-.room-join-by-id {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+.room-list h3 {
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.8rem;
+    border-bottom: 2px solid var(--main-color);
 }
 
-.room-join-by-id #roomIdJoin {
-    height: 100%;
-    padding: 1rem;
-    border-radius: .25rem 0 0 .25rem;
-    border-right: none;
-    font-size: .8rem;
-    text-align: center;
-    margin-bottom: 0;
-}
-
-.room-join-by-id #joinByIdBtn {
-    border-radius: 0 .25rem .25rem 0;
+.room-list p {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    line-height: 1.2;
 }
 
 /* ==========================
@@ -457,9 +315,9 @@ h6 {
 }
 
 .experience-text {
-    font-size: 0.8rem;
+    font-size: 1rem;
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     color: var(--text-primary);
 }
@@ -475,41 +333,81 @@ h6 {
 
 .nav-item {
     width: 100%;
-    background-color: var(--bg-primary);
-    border: 1px solid var(--main-color);
-    border-radius: 0.25rem;
-    color: var(--main-color);
     font-size: 0.8rem;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     white-space: nowrap;
-}
-
-.nav-item:hover {
-    background-color: var(--main-color);
-    box-shadow: 0 0 10px var(--main-color);
-    color: var(--bg-primary);
+    transition: transform 0.2s ease;
 }
 
 .nav-item:active {
     transform: scale(0.95);
-    background-color: var(--main-color) !important;
-    border-color: var(--main-color) !important;
-    color: var(--bg-primary) !important;
 }
 
 .nav-item form {
     height: 100%;
 }
 
-.nav-item a, .nav-link {
+.nav-item a,
+.nav-link {
     height: 100%;
     padding: 0.5rem 1rem;
 }
 
 .nav-item i {
+    font-size: 1.2rem;
+}
+
+/* ==========================
+    FORMS
+========================== */
+
+.form-group {
+    margin-bottom: 1rem;
+    font-family: var(--title-font);
+}
+
+.form-group label {
+    color: var(--text-primary);
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.form-group label i {
     margin-right: 0.5rem;
     font-size: 1.2rem;
+}
+
+.form-group label span {
+    font-size: 0.9rem;
+}
+
+.form-control {
+    padding: 0.5rem 1rem;
+    background: rgba(var(--bg-primary), 0.1);
+    border-radius: 0.5rem;
+    box-shadow: var(--main-color);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--main-color);
+    box-shadow: var(--main-shadow);
+    color: var(--text-primary);
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-text {
+    color: var(--text-secondary);
+    font-family: var(--main-font);
+    font-size: 1rem;
 }
 
 /* ==========================
@@ -529,37 +427,55 @@ h6 {
 ========================== */
 
 .hamburger-btn {
+    padding: 0.25rem 0.5rem;
     position: fixed;
-    z-index: 1000;
-    background: linear-gradient(135deg, var(--degrade-color-1) 0%, var(--degrade-color-2) 100%);
-    color: var(--bg-primary);
-    border: none;
+    background-color: var(--bg-primary);
+    border: 1px solid transparent;
     border-radius: 0.25rem;
-    padding: 0.75rem;
+    color: var(--main-color);
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1.5rem;
+    font-size: 2rem;
     line-height: 1;
+    transition: all 0.2s ease;
+    z-index: 1000;
+    display: none;
+    /* Oculto para desktop */
 }
 
 .hamburger-btn:hover {
-    transform: scale(1.1);
+    background-color: var(--main-color);
+    color: var(--bg-primary);
     box-shadow: 0 0 10px var(--main-color);
+    transform: scale(1.1);
 }
 
 .hamburger-btn.left {
-    top: 1.5rem;
-    left: 1.5rem;
+    top: 1.25rem;
+    left: 1.25rem;
 }
 
 .hamburger-btn.right {
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 1.25rem;
+    right: 1.25rem;
 }
 
-/* Ocultar botones hamburguesa en desktop */
-.hamburger-btn {
-    display: none;
+.leave-btn {
+    border: 1px solid lightcoral;
+    color: lightcoral;
+}
+
+.leave-btn:hover {
+    border-color: lightcoral;
+    background-color: lightcoral;
+    box-shadow: 0 0 10px lightcoral;
+    color: var(--bg-primary);
+}
+
+.leave-btn:active {
+    background-color: lightcoral !important;
+    border-color: lightcoral !important;
+    box-shadow: 0 0 10px lightcoral !important;
+    color: var(--bg-primary) !important;
 }
 
 /* ==========================
@@ -599,7 +515,7 @@ h6 {
 
 .rotate-message p {
     color: var(--text-primary);
-    font-size: 0.875rem;
+    font-size: 1rem;
     max-width: 300px;
 }
 
@@ -616,92 +532,6 @@ h6 {
 }
 
 /* ==========================
-    TAREAS
-========================== */
-
-.tasks-header {
-    width: 100%;
-    max-width: 833px;
-    margin-bottom: 3rem;
-    padding-top: 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.tasks-header h2 {
-    font-size: 1.6rem;
-    text-align: start;
-}
-
-.add-button {
-    font-size: 0.8rem;
-}
-
-.delete-button {
-    border-color: lightcoral;
-    color: lightcoral;
-}
-
-.tasks-header {
-    padding: 0 1rem;
-}
-
-.task-list {
-    width: 100%;
-    max-width: 833px;
-    max-height: 400px;
-    margin: 0 0 3rem;
-    padding: .25rem .5rem .25rem .25rem;
-    list-style: none;
-    overflow-y: auto;
-}
-
-.task-list b {
-    color: var(--text-primary);
-}
-
-.task-item {
-    width: 100%;
-    padding: 0.5rem 1.2rem;
-    margin-bottom: 0.5rem;
-    background-color: var(--bg-secondary);
-    border-radius: 0.25rem;
-    transition: all 0.3s ease;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.task-item:hover {
-    box-shadow: 0 0 10px var(--main-color-rgb);
-}
-
-.task-item a {
-    color: var(--text-primary);
-    white-space: nowrap;
-}
-
-.task-actions {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.task-actions .btn-primary{
-    padding: 0.3rem 0.8rem;
-}
-
-.task-actions .btn-primary i {
-    font-size: 1.2rem;
-}
-
-.task-actions .btn-primary span {
-    font-size: 0.8rem;
-    display: none;
-}
-
-
-/* ==========================
     MEDIA QUERIES - MOBILE & TABLET (LANDSCAPE MODE)
 ========================== */
 
@@ -714,6 +544,12 @@ h6 {
     /* Mostrar botones hamburguesa */
     .hamburger-btn {
         display: block;
+    }
+
+    .main-title {
+        width: 100%;
+        margin-top: .5rem;
+        font-size: 1.5rem;
     }
 
     /* Paneles laterales colapsables */
@@ -751,6 +587,7 @@ h6 {
 
     .main-wrapper {
         margin: 0;
+        padding: .5rem;
     }
 
     /* Overlay oscuro cuando panel está abierto */
@@ -768,40 +605,6 @@ h6 {
     .overlay.active {
         display: block;
     }
-
-    .tasks-header {
-        margin-bottom: 1rem;
-    }
-
-    .task-actions .btn-primary i {
-        margin-right: 0.5rem;
-    }
-
-    .task-actions .btn-primary span {
-        display: inline;
-    }
-
-    .task-list {
-        max-height: 9rem;
-        margin-bottom: 1rem;
-    }
-
-    .task-item a {
-        font-size: 0.8rem;
-    }
-    
-    .task-actions .btn-primary {
-        font-size: 0.8rem;
-        padding: 0.1rem 0.8rem;
-    }
-    
-    .task-actions .btn-primary i{
-        font-size: 1rem;
-    }
-
-    .back-btn {
-        margin-bottom: 1rem;
-    }
 }
 
 /* ==========================
@@ -809,6 +612,7 @@ h6 {
 ========================== */
 
 @media (max-width: 1535px) and (orientation: portrait) {
+
     /* Mostrar mensaje de rotación si existe */
     .rotate-message {
         display: flex;
@@ -822,27 +626,6 @@ h6 {
     .main-wrapper {
         margin: 0;
         padding: 0;
-    }
-    .auth-card {
-        flex: 1;
-    }
-
-    .tasks-header {
-        margin-bottom: 2rem;
-        padding: .5rem;
-    }
-
-    .tasks-header h2 {
-        font-size: 1rem;
-    }
-
-    .task-list {
-        max-height: 450px;
-        margin-bottom: 2rem;
-    }
-
-    .task-item a {
-        font-size: 0.9rem;
     }
 }
 
@@ -886,11 +669,13 @@ h6 {
         width: 100%;
     }
 
-    .user-title, .lobby-title {
+    .user-title,
+    .lobby-title {
         font-size: 1.5rem;
     }
 
-    .task-list {
-        max-height: 572px;
+    .room-actions,
+    .room-list h3 {
+        margin-bottom: 2rem;
     }
 }

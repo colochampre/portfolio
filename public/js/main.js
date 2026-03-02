@@ -1,6 +1,3 @@
-// ===================================
-// PANEL TOGGLE FUNCTIONALITY
-// ===================================
 document.addEventListener('DOMContentLoaded', () => {
     const lobbyToggle = document.getElementById('lobbyToggle');
     const userToggle = document.getElementById('userToggle');
@@ -52,5 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
             userPanel?.classList.remove('open');
             overlay?.classList.remove('active');
         }
+    });
+
+    // Back button functionality
+    document.querySelectorAll('.history-back').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            history.back();
+        });
     });
 });

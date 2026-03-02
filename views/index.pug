@@ -1,56 +1,56 @@
 extends layout
 
 block lobby-panel
-    //- Mensaje de rotación (solo visible en portrait mode)
-    div.rotate-message
-        i.bi.bi-phone-landscape.flicker2
-        h2.flicker1 Rota tu dispositivo
-        p Para una mejor experiencia de juego.
-
-    //- Botones hamburguesa (solo visibles en móvil/tablet landscape)
-    button.hamburger-btn.left#lobbyToggle(aria-label="Toggle Lobby")
-        i.bi.bi-list
-    button.hamburger-btn.right#userToggle(aria-label="Toggle User Panel")
-        i.bi.bi-person-circle
 
     div.lobby-wrapper.panel#lobbyPanel
-        h2.lobby-title.flicker1 Lobby
-        div.room-actions#createRoomActions
+        h2.lobby-title.text-center.flicker1 Lobby
+        form.room-actions(method="POST" action="/room")
             div.room-options
                 label.private-room
                     span Priv
-                    input#private-room(type="checkbox")
-                select#select-duration
+                    input#private-room(type="checkbox" name="private")
+                select#select-duration(name="duration")
                     option(value="120" selected) 2m
                     option(value="300") 5m
                     option(value="600") 10m
-                select#select-mode
+                select#select-mode(name="mode")
                     option(value="1vs1" selected) 1v1
                     option(value="2vs2") 2v2
                     option(value="3vs3") 3v3
-                    option(value="practice") Practice
-                select#select-ball
+                    option(value="practica") Practica
+                select#select-ball(name="ball")
                     option(value="texture-1" selected) Txt1
                     option(value="texture-2") Txt2
                     option(value="texture-3") Txt3
 
-            //- Crear sala con las room options seleccionados
-            button.btn.btn-primary.w-100(type="button")
-                i(class="bi bi-plus-square")
+            button.btn.btn-primary.w-100(type="submit")
+                i.bi.bi-plus-square
                 span Crear sala
-        
-        div.room-actions.room-join-by-id
-            input.form-group.form-control#roomIdJoin(type="text" placeholder="ID de Sala" maxlength="6")
-            button.btn.btn-primary#joinByIdBtn(type="button")
-                i(class="bi bi-box-arrow-in-right")
+
+        div.room-join-by-id
 
         div.room-list
-            
+            h3.lobby-title.text-center Salas
+            div#rooms
+                p.text-center No hay salas disponibles
 
 block main
+    //- Mensaje de rotación (solo visible en portrait mode)
+    div.rotate-message
+        i.bi.bi-phone-landscape.flicker2
+        h2.flicker1 Gira tu dispositivo
+        p Para una mejor experiencia de juego.
+
+    //- Botones hamburguesa (solo visibles en móvil/tablet landscape)
+    button.hamburger-btn.left#lobbyToggle(aria-label="Toggle Lobby")
+        i.bi.bi-card-list
+    button.hamburger-btn.right#userToggle(aria-label="Toggle User Panel")
+        i.bi.bi-person-square
+
     div.overlay#overlay
+
     div.main-wrapper.panel
-        h1.main-title.flicker Snake Soccer
+        h1.main-title.text-center.flicker Snake Soccer
 
 block user-panel
     div.user-wrapper.panel#userPanel
@@ -63,14 +63,13 @@ block user-panel
         div.nav-list
             if user && user.role === 'admin'
                 div.nav-item
-                    a.btn.nav-link(href="/tasks")
-                        i(class="bi bi-list-task")
+                    a.btn.btn-primary.nav-link.w-100(href="/tasks")
+                        i.bi.bi-list-task
                         span Tareas
-
             if user
                 div.nav-item
-                    form(method="POST", action="/logout", style="margin: 0;")
-                        button.nav-link(type="submit", style="background: none; border: none; cursor: pointer; padding: 0; width: 100%;")
-                            i(class="bi bi-box-arrow-right")
+                    form(method="POST", action="/logout")
+                        button.btn.leave-btn.nav-link.w-100(type="submit")
+                            i.bi.bi-door-closed
                             span Salir
     

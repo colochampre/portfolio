@@ -1,0 +1,71 @@
+extends layout
+
+block styles
+    link(rel="stylesheet", href="/css/room.css")
+
+block lobby-panel
+    div.lobby-wrapper.panel#lobbyPanel
+        h2.lobby-title.text-center.flicker1 Sala 
+            span #{room.id}
+        div.room-settings
+            p Modo #{room.mode}
+            p Tiempo #{room.duration/60}m
+
+        div.nav-list
+            button.btn.btn-primary.w-100#ready(type="button")
+                i.bi.bi-check-square
+                span Listo
+            button.btn.btn-primary.w-100#leave-room(type="button")
+                i.bi.bi-door-closed
+                span Salir
+        
+        div.players-list
+            h3.text-center Jugadores
+            div#players-container
+                p.text-center Esperando jugadores...
+
+block main
+    //- Mensaje de rotación (solo visible en portrait mode)
+    div.rotate-message
+        i.bi.bi-phone-landscape.flicker2
+        h2.flicker1 Gira tu dispositivo
+        p Para una mejor experiencia de juego.
+
+    //- Botones hamburguesa (solo visibles en móvil/tablet landscape)
+    button.hamburger-btn.left#lobbyToggle(aria-label="Toggle Lobby")
+        i.bi.bi-card-list
+    button.hamburger-btn.right#userToggle(aria-label="Toggle User Panel")
+        i.bi.bi-person-square
+
+    div.overlay#overlay
+
+    div.main-wrapper.panel
+        h1.main-title.text-center.flicker Snake Soccer
+
+block user-panel
+    div.user-wrapper.panel#userPanel
+        h2.user-title.text-center.flicker2 #{user.username}
+        div.game-controls
+            h3.text-center Controles
+            ul
+                li
+                    strong W / ↑: 
+                    span Arriba
+                li
+                    strong A / ←: 
+                    span Izquierda
+                li
+                    strong S / ↓: 
+                    span Abajo
+                li
+                    strong D / →: 
+                    span Derecha
+
+block scripts
+    script(src="/socket.io/socket.io.js")
+    script.
+        window.currentUser = {
+            username: '#{user.username}',
+            id: '#{user.id}'
+        };
+    script(src="/js/room.js")

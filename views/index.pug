@@ -1,6 +1,40 @@
 extends layout
 
 block lobby-panel
+
+    div.lobby-wrapper.panel#lobbyPanel
+        h2.lobby-title.text-center.flicker1 Lobby
+        form.room-actions(method="POST" action="/room")
+            div.room-options
+                label.private-room
+                    span Priv
+                    input#private-room(type="checkbox" name="private")
+                select#select-duration(name="duration")
+                    option(value="120" selected) 2m
+                    option(value="300") 5m
+                    option(value="600") 10m
+                select#select-mode(name="mode")
+                    option(value="1vs1" selected) 1v1
+                    option(value="2vs2") 2v2
+                    option(value="3vs3") 3v3
+                    option(value="practice") Practice
+                select#select-ball(name="ball")
+                    option(value="texture-1" selected) Txt1
+                    option(value="texture-2") Txt2
+                    option(value="texture-3") Txt3
+
+            button.btn.btn-primary.w-100(type="submit")
+                i.bi.bi-plus-square
+                span Crear sala
+
+        div.room-join-by-id
+
+        div.room-list
+            h3.lobby-title.text-center Salas
+            div#rooms
+                p.text-center No hay salas disponibles
+
+block main
     //- Mensaje de rotación (solo visible en portrait mode)
     div.rotate-message
         i.bi.bi-phone-landscape.flicker2
@@ -13,41 +47,8 @@ block lobby-panel
     button.hamburger-btn.right#userToggle(aria-label="Toggle User Panel")
         i.bi.bi-person-square
 
-    div.lobby-wrapper.panel#lobbyPanel
-        h2.lobby-title.text-center.flicker1 Lobby
-        div.room-actions
-            div.room-options
-                label.private-room
-                    span Priv
-                    input#private-room(type="checkbox")
-                select#select-duration
-                    option(value="120" selected) 2m
-                    option(value="300") 5m
-                    option(value="600") 10m
-                select#select-mode
-                    option(value="1vs1" selected) 1v1
-                    option(value="2vs2") 2v2
-                    option(value="3vs3") 3v3
-                    option(value="practice") Practice
-                select#select-ball
-                    option(value="texture-1" selected) Txt1
-                    option(value="texture-2") Txt2
-                    option(value="texture-3") Txt3
-
-            //- Crear sala POST con room options seleccionados
-            button.btn.btn-primary.w-100(type="button")
-                i.bi.bi-plus-square
-                span Crear sala
-
-        div.room-join-by-id
-
-        div.room-list
-            h3.lobby-title.text-center Salas
-            div#rooms
-                p.text-center No hay salas disponibles
-
-block main
     div.overlay#overlay
+
     div.main-wrapper.panel
         h1.main-title.text-center.flicker Snake Soccer
 
@@ -65,7 +66,6 @@ block user-panel
                     a.btn.btn-primary.nav-link.w-100(href="/tasks")
                         i(class="bi bi-list-task")
                         span Tareas
-
             if user
                 div.nav-item
                     form(method="POST", action="/logout")

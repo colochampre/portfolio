@@ -1,0 +1,107 @@
+.room-info-wrapper {
+    padding: 1rem;
+}
+
+.lobby-title {
+    margin-bottom: 0;
+    padding: 0;
+    font-size: 1.4rem;
+}
+
+.lobby-title span {
+    font-family: var(--main-font);
+    font-size: 1.8rem;
+}
+
+.room-settings {
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--main-color);
+    margin-bottom: 1.8rem;
+    padding: .5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.room-settings p {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+}
+
+.nav-list {
+    margin-bottom: 1.8rem;
+}
+
+.players-list {
+    margin-bottom: 1.8rem;
+}
+
+.players-list h3, .game-controls h3 {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--main-color);
+    font-size: 1.4rem;
+}
+
+#players-container {
+    min-height: 100px;
+    max-height: 200px;
+    padding: 0.5rem;
+    overflow-y: auto;
+}
+
+.player-item {
+    padding: 0.25rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+}
+
+.player-item i {
+    margin-right: 0.5rem;
+    color: var(--main-color);
+}
+
+.game-controls {
+    padding: 1rem;
+}
+
+.game-controls ul {
+    padding: 0;
+    color: var(--main-color);
+    font-family: var(--main-font);
+    font-size: 1.2rem;
+    line-height: 1.2;
+    list-style: none;
+}
+
+/* ==========================
+    MEDIA QUERIES - MOBILE & TABLET (LANDSCAPE MODE)
+========================== */
+
+@media (max-width: 1535px) and (orientation: landscape) {
+    .lobby-wrapper, .user-wrapper {
+        min-width: 280px;
+        max-width: 80vw;
+        overflow-y: auto;
+    }
+
+    .lobby-title {
+        padding: 0 1rem 0.5rem;
+    }
+}
+
+/* ==========================
+    MEDIA QUERIES - DESKTOP
+========================== */
+
+@media (min-width: 1536px) {
+    .room-settings, .players-list, .game-controls {
+        margin-bottom: 2rem;
+    }
+
+    .nav-list {
+        margin-bottom: 1.8rem;
+    }
+}

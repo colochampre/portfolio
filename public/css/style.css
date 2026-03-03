@@ -12,7 +12,8 @@
     TEMA OSCURO (Default)
 ========================== */
 
-[data-theme="dark"] {--title-font: 'Press Start 2P', cursive;
+[data-theme="dark"] {
+    --title-font: 'Press Start 2P', cursive;
     --main-font: 'VCR OSD Mono', monospace;
 
     --main-color: #00ff99;
@@ -103,15 +104,6 @@ h6 {
     background-color: var(--bg-primary);
     box-shadow: var(--main-shadow);
     color: var(--main-color);
-}
-
-.main-wrapper {
-    max-width: 100%;
-    margin: 0 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
 }
 
 .btn {
@@ -517,11 +509,14 @@ h6 {
 ========================== */
 
 .main-wrapper {
+    max-width: 100%;
+    min-height: 0;
+    margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     flex: 1;
-}
-
-.main-title {
-    margin-top: .75rem;
 }
 
 #scoreboard {
@@ -530,8 +525,33 @@ h6 {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: end;
     gap: 4rem;
+    margin-bottom: .5rem;
+}
+
+#scoreboard * {
+    height: 100%;
+    margin: 0;
+}
+
+.main-title {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.canvas-wrapper {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    max-width: min(100%, calc((100vh - 5rem) * 16 / 9));
+    margin: 0 auto;
+    border: 1px solid white;
+}
+
+#gameCanvas {
+    width: 100%;
+    height: 100%;
 }
 
 /* ==========================
@@ -658,12 +678,6 @@ h6 {
         display: block;
     }
 
-    .main-title {
-        width: 100%;
-        margin-top: .5rem;
-        font-size: 1.5rem;
-    }
-
     /* Paneles laterales colapsables */
     .lobby-wrapper,
     .user-wrapper {
@@ -779,6 +793,11 @@ h6 {
 
     .main-wrapper {
         width: 100%;
+        justify-content: start;
+    }
+
+    .main-title {
+        font-size: 2rem;
     }
 
     .user-title,
@@ -789,5 +808,12 @@ h6 {
     .room-actions,
     .room-list h3 {
         margin-bottom: 2rem;
+    }
+
+    #scoreboard {
+        margin-bottom: .5rem;
+        font-size: 1.4rem;
+        justify-content: center;
+        gap: 6rem;
     }
 }

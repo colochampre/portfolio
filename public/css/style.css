@@ -1,20 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 @font-face {
-    font-family: 'VCR OSD Mono';
-    src: url('/font/VCR_OSD_MONO_1.001.ttf') format('truetype');
+    font-family: 'Retro Gaming';
+    src: url('/font/RetroGaming.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Better VCR';
+    src: url('/font/BetterVCR.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'freshmarker';
+    src: url('/font/freshmarker.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 :root,
 /* ==========================
-    TEMA OSCURO (Default)
+    TEMA RETRO (Default)
 ========================== */
 
-[data-theme="dark"] {
-    --title-font: 'Press Start 2P', cursive;
-    --main-font: 'VCR OSD Mono', monospace;
+[data-theme="retro"] {
+    --title-font: 'Retro Gaming', monospace;
+    --main-font: 'Better VCR', monospace;
 
     --main-color: #00ff99;
     --main-color-rgb: 0, 255, 153;
@@ -29,14 +43,19 @@
 }
 
 /* ==========================
-    TEMA CLARO
+    TEMA JINXED
 ========================== */
 
-[data-theme="light"] {
-    --bg-primary: #ddd;
-    --bg-secondary: #aaa;
-    --text-primary: #111;
-    --text-secondary: #555;
+[data-theme="jinxed"] {
+    --title-font: 'freshmarker', cursive;
+    --main-font: 'freshmarker', monospace;
+
+    --main-color: #66C6B8;
+    --main-color-rgb: 102, 198, 184;
+    --text-primary: #D656A1;
+    --text-secondary: #AF4889;
+    --degrade-color-1: #5BAFA3;
+    --degrade-color-2: #4C9389;
 }
 
 /* ==========================
@@ -209,7 +228,7 @@ h6 {
 
 .lobby-title {
     margin-bottom: 2rem;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     text-align: start;
 }
 
@@ -223,7 +242,7 @@ h6 {
 
 .room-options select {
     width: 22%;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     text-align: end;
 }
 
@@ -241,6 +260,7 @@ h6 {
     width: auto;
     height: 100%;
     padding: 0.5rem;
+    font-size: 0.9rem;
     vertical-align: bottom;
 }
 
@@ -249,7 +269,7 @@ h6 {
 }
 
 .room-actions .btn-primary {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
 }
 
 .private-room span {
@@ -311,13 +331,13 @@ h6 {
 .room-id {
     color: var(--text-primary);
     font-family: var(--main-font);
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
 }
 
 .room-players {
     color: var(--text-primary);
-    font-size: 1.2rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -383,7 +403,7 @@ h6 {
 }
 
 .user-title {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     text-align: center;
 }
 
@@ -474,7 +494,7 @@ h6 {
 }
 
 .form-group label span {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
 }
 
 .form-control {
@@ -501,7 +521,7 @@ h6 {
 .form-text {
     color: var(--text-secondary);
     font-family: var(--main-font);
-    font-size: 1rem;
+    font-size: 0.8rem;
 }
 
 /* ==========================
@@ -534,7 +554,7 @@ h6 {
 }
 
 #scoreboard span {
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .main-title {
@@ -764,11 +784,6 @@ h6 {
 @media (min-width: 768px) and (max-width: 1535px) {
     body {
         padding: 0.75rem;
-    }
-
-    .lobby-wrapper,
-    .user-wrapper {
-        width: 320px;
     }
 
     .main-title {

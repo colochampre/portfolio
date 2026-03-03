@@ -2,6 +2,10 @@
     TAREAS
 ========================== */
 
+.main-wrapper {
+    justify-content: start;
+}
+
 .tasks-header {
     width: 100%;
     max-width: 833px;
@@ -115,6 +119,7 @@
     .tasks-header {
         max-height: 20vh;
         margin-bottom: 1rem;
+        padding: .5rem .5rem 0;
     }
 
     .task-list {

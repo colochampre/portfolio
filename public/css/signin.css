@@ -27,14 +27,14 @@
 .auth-header h1 {
     margin: 1rem 0.75rem 0.5rem;
     color: var(--main-color);
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     font-weight: bold;
     text-shadow: 0 0 20px var(--main-color-rgb);
 }
 
 .auth-header p {
     color: var(--text-secondary);
-    font-size: 1.1rem;
+    font-size: 0.8rem;
     margin-bottom: 0;
 }
 
@@ -54,13 +54,13 @@
 
 .auth-footer p {
     line-height: 1.6;
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .auth-footer a {
     color: var(--main-color);
     font-family: var(--title-font);
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     text-decoration: underline;
 }
@@ -76,7 +76,7 @@
 }
 
 .btn-signin {
-    font-size: 0.8rem;
+    font-size: 1.2rem;
 }
 
 .btn-signin i {

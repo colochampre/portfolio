@@ -66,10 +66,14 @@ block user-panel
             p.experience-text
                 span#statXp 0 / 0
         div.nav-list
+            div.nav-item
+                button.btn.btn-primary.nav-link.w-100#themeToggle(type="button")
+                    i.bi.bi-palette
+                    span Temas
             if user && user.role === 'admin'
                 div.nav-item
                     a.btn.btn-primary.nav-link.w-100(href="/tasks")
-                        i.bi.bi-list-task
+                        i.bi.bi-clipboard-check
                         span Tareas
             if user
                 div.nav-item

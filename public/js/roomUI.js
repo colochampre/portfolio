@@ -107,7 +107,7 @@ function renderTeamLobby(players) {
             <div class="team-col">
                 <div class="team-header t1-header">
                     <span class="team-dot t1-dot"></span>
-                    <span>Equipo 1</span>
+                    <span>Equipo A</span>
                     <span class="team-count ${team1.length >= min ? 'count-ok' : ''}">${team1.length}/${min}</span>
                 </div>
                 <div class="team-slots">
@@ -118,7 +118,7 @@ function renderTeamLobby(players) {
             <div class="team-col">
                 <div class="team-header t2-header">
                     <span class="team-dot t2-dot"></span>
-                    <span>Equipo 2</span>
+                    <span>Equipo B</span>
                     <span class="team-count ${team2.length >= min ? 'count-ok' : ''}">${team2.length}/${min}</span>
                 </div>
                 <div class="team-slots">
@@ -230,11 +230,11 @@ function updateReadyButton() {
     const label = readyBtn.querySelector('span');
     if (me.isReady) {
         readyBtn.classList.add('btn-unready');
-        if (icon) icon.className = 'bi bi-x-square';
+        if (icon) icon.className = 'bi bi-hourglass-split';
         if (label) label.textContent = 'No listo';
     } else {
         readyBtn.classList.remove('btn-unready');
-        if (icon) icon.className = 'bi bi-check-square';
+        if (icon) icon.className = 'bi bi-check2-square';
         if (label) label.textContent = 'Listo';
     }
 }

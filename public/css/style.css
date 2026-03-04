@@ -175,6 +175,7 @@ h6 {
 .back-btn {
     color: var(--text-primary);
     text-decoration: underline;
+    font-size: 1.2rem;
 }
 
 .justify-center {
@@ -562,7 +563,8 @@ h6 {
 }
 
 #scoreboard span {
-    font-size: 1rem;
+    font-family: 'Better VCR';
+    font-size: 1.1rem;
 }
 
 .main-title {

@@ -9,8 +9,8 @@
 }
 
 .lobby-title span {
-    font-family: var(--main-font);
-    font-size: 1.8rem;
+    font-family: 'Better VCR';
+    font-size: 1.5rem;
 }
 
 .room-settings {
@@ -91,6 +91,7 @@
     border-radius: 2px;
     background-color: var(--bg-primary);
     color: var(--main-color);
+    font-family: 'Better VCR';
     font-size: 10px;
     display: inline-block;
 }
@@ -142,6 +143,7 @@
 }
 
 .btn-switch:disabled {
+    display: none;
     background-color: #aaa;
     border-color: #aaa;
     color: var(--bg-primary);
@@ -190,22 +192,22 @@
 }
 
 .team-header {
-    padding: 0.3rem 0.5rem;
-    border-radius: 0.25rem;
-    border: 1px solid;
+    margin-bottom: .5rem;
+    padding: 0.25rem 0.5rem;
+    border-bottom: 2px solid;
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.85rem;
+    font-size: 1.1rem;
 }
 
 .t1-header {
-    border-color: var(--team-a);
+    border-color: 2px solid var(--team-a);
     color: var(--team-a);
 }
 
 .t2-header {
-    border-color: var(--team-b);
+    border-color: 2px solid var(--team-b);
     color: var(--team-b);
 }
 
@@ -221,7 +223,7 @@
 
 .team-count {
     margin-left: auto;
-    font-size: 0.75rem;
+    font-size: 1rem;
     opacity: 0.7;
 }
 
@@ -235,7 +237,7 @@
     font-size: 0.9rem;
     color: var(--text-secondary);
     align-self: center;
-    padding-top: 1.5rem;
+    padding-top: 2rem;
 }
 
 .team-slots {

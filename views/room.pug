@@ -12,12 +12,12 @@ block lobby-panel
             p Tiempo #{room.duration/60}m
 
         div.nav-list
-            button.btn.btn-primary.w-100#ready(type="button")
-                i.bi.bi-check-square
-                span Listo
             button.btn.btn-primary.w-100.leave-btn#leaveRoom(type="button")
                 i.bi.bi-door-closed
                 span Salir
+            button.btn.btn-primary.w-100#ready(type="button")
+                i.bi.bi-check2-square
+                span Listo
         
         div.players-list
             h3.text-center Jugadores

@@ -134,8 +134,8 @@ function renderPracticeLobby(players) {
     playersContainer.innerHTML = `
         <div class="practice-slots">
             ${players.length === 0
-                ? '<p class="slot-empty text-center">Esperando jugadores...</p>'
-                : players.map(p => playerCardHTML(p)).join('')}
+            ? '<p class="slot-empty text-center">Esperando jugadores...</p>'
+            : players.map(p => playerCardHTML(p)).join('')}
         </div>
     `;
     players.forEach(p => drawSnake(p));
@@ -152,6 +152,13 @@ function playerCardHTML(player) {
     `;
 }
 
+function getTeamColorFromCSS(team) {
+    const styles = getComputedStyle(document.documentElement);
+    if (team === 'team1') return styles.getPropertyValue('--team-a').trim();
+    if (team === 'team2') return styles.getPropertyValue('--team-b').trim();
+    return '#2ECC40';
+}
+
 function drawSnake(player) {
     const card = playersContainer.querySelector(`[data-pid="${player.id}"]`);
     if (!card) return;
@@ -159,7 +166,7 @@ function drawSnake(player) {
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
-    const color = player.color || '#2ECC40';
+    const color = getTeamColorFromCSS(player.color) || '#2ECC40';
     const segSize = 18;
     const gap = 2;
     const segments = 3;
@@ -238,7 +245,7 @@ function updateSwitchTeamButton() {
     if (!me) return;
     switchTeamBtn.disabled = me.isReady;
     const label = switchTeamBtn.querySelector('span');
-    if (label) label.textContent = me.team === 'team1' ? '→ Equipo 2' : '→ Equipo 1';
+    if (label) label.textContent = me.team === 'team1' ? 'Cambiar a equipo B' : 'Cambiar a equipo A';
 }
 
 function updateStartStatus(canStart) {
@@ -354,7 +361,7 @@ function renderGame(state) {
     }
 
     if (state.goalScoredBy) {
-        const color = state.goalScoredBy === 'team1' ? '#FF4136' : '#0074D9';
+        const color = state.goalScoredBy === 'team1' ? 'var(--team-a)' : 'var(--team-b)';
         const text = state.goalScoredBy === 'team1' ? '¡GOL EQUIPO 1!' : '¡GOL EQUIPO 2!';
         ctx.font = `bold ${Math.max(20, Math.round(W * 0.04))}px monospace`;
         ctx.fillStyle = color;
@@ -377,12 +384,13 @@ function renderGame(state) {
 }
 
 function drawSnakeOnField(player) {
-    const { body, color, headbuttActive } = player;
+    const { body, headbuttActive } = player;
+    const color = getTeamColorFromCSS(player.color) || '#2ECC40';
     for (let i = body.length - 1; i >= 0; i--) {
         const seg = body[i];
         const isHead = i === 0;
         ctx.fillStyle = headbuttActive && isHead ? '#FFD700' : (isHead ? lighten(color, 45) : color);
-        ctx.strokeStyle = 'rgba(0,0,0,0.45)';
+        ctx.strokeStyle = 'rgba(0,0,0,0.75)';
         ctx.lineWidth = 1;
         rrect(ctx, seg.x, seg.y, SEG, SEG, 3);
         ctx.fill();

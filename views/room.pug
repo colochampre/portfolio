@@ -15,15 +15,15 @@ block lobby-panel
             button.btn.btn-primary.w-100#ready(type="button")
                 i.bi.bi-check-square
                 span Listo
-            button.btn.btn-primary.w-100.btn-switch#switchTeam(type="button")
-                i.bi.bi-arrow-left-right
-                span → Equipo 2
             button.btn.btn-primary.w-100.leave-btn#leaveRoom(type="button")
                 i.bi.bi-door-closed
                 span Salir
         
         div.players-list
             h3.text-center Jugadores
+            button.btn.btn-primary.w-100.btn-switch#switchTeam(type="button")
+                i.bi.bi-arrow-left-right
+                span Cambiar a equipo 
             div#playersContainer
                 p.text-center Esperando jugadores...
 
@@ -56,17 +56,17 @@ block user-panel
         h3.text-center.flicker2 Controles
         div.game-controls
             div.control-set
-                i.bi.bi-caret-up-square#keyUp
-                div
-                    i.bi.bi-caret-left-square#keyLeft 
-                    i.bi.bi-caret-down-square#keyDown 
-                    i.bi.bi-caret-right-square#keyRight 
-            div.control-set
                 span.key.key-w#keyW W
                 div
                     span.key.key-a#keyA A
                     span.key.key-s#keyS S
                     span.key.key-d#keyD D
+            div.control-set
+                i.bi.bi-caret-up-square#keyUp
+                div
+                    i.bi.bi-caret-left-square#keyLeft 
+                    i.bi.bi-caret-down-square#keyDown 
+                    i.bi.bi-caret-right-square#keyRight 
 
 block scripts
     script(src="/socket.io/socket.io.js")

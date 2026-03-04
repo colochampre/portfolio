@@ -124,9 +124,9 @@ function assignTeam(room) {
 }
 
 function getTeamColor(team) {
-    if (team === 'team1') return '#FF4136';
-    if (team === 'team2') return '#0074D9';
-    return '#2ECC40';
+    if (team === 'team1') return 'team1';
+    if (team === 'team2') return 'team2';
+    return 'default';
 }
 
 function canStartGame(room) {

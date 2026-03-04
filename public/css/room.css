@@ -5,7 +5,7 @@
 .lobby-title {
     margin-bottom: 0;
     padding: 0;
-    font-size: 1.4rem;
+    font-size: 2rem;
 }
 
 .lobby-title span {
@@ -25,7 +25,7 @@
 
 .room-settings p {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: var(--text-primary);
 }
 
@@ -45,7 +45,6 @@
 }
 
 #playersContainer {
-    padding: 0.5rem;
     overflow-y: auto;
 }
 
@@ -118,43 +117,47 @@
 ========================== */
 
 .lobby-wrapper .nav-list {
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.4rem;
 }
 
 .btn-switch {
-    border-color: #0074D9;
-    color: #0074D9;
+    margin-bottom: 1em;
+    border-color: #ccc;
+    color: #ccc;
 }
 
 .btn-switch:hover {
-    background-color: #0074D9;
-    border-color: #0074D9;
-    box-shadow: 0 0 10px #0074D9;
+    background-color: #ccc;
+    border-color: #ccc;
+    box-shadow: 0 0 10px #ccc;
     color: var(--bg-primary);
 }
 
 .btn-switch:active {
-    background-color: #0074D9 !important;
-    border-color: #0074D9 !important;
+    background-color: #ccc !important;
+    border-color: #ccc !important;
     color: var(--bg-primary) !important;
     transform: scale(0.95);
 }
 
 .btn-switch:disabled {
-    opacity: 0.35;
+    background-color: #aaa;
+    border-color: #aaa;
+    color: var(--bg-primary);
     cursor: not-allowed;
     pointer-events: none;
+    opacity: 0.6;
 }
 
 .btn-unready {
-    border-color: #FF4136 !important;
-    color: #FF4136 !important;
+    border-color: var(--danger-color) !important;
+    color: var(--danger-color) !important;
 }
 
 .btn-unready:hover {
-    background-color: #FF4136 !important;
-    box-shadow: 0 0 10px #FF4136 !important;
+    background-color: var(--danger-color) !important;
+    box-shadow: 0 0 10px var(--danger-color) !important;
     color: var(--bg-primary) !important;
 }
 
@@ -183,7 +186,7 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.5rem;
 }
 
 .team-header {
@@ -197,13 +200,13 @@
 }
 
 .t1-header {
-    border-color: #FF4136;
-    color: #FF4136;
+    border-color: var(--team-a);
+    color: var(--team-a);
 }
 
 .t2-header {
-    border-color: #0074D9;
-    color: #0074D9;
+    border-color: var(--team-b);
+    color: var(--team-b);
 }
 
 .team-dot {
@@ -213,8 +216,8 @@
     flex-shrink: 0;
 }
 
-.t1-dot { background-color: #FF4136; }
-.t2-dot { background-color: #0074D9; }
+.t1-dot { background-color: var(--team-a); }
+.t2-dot { background-color: var(--team-b); }
 
 .team-count {
     margin-left: auto;

@@ -36,10 +36,14 @@
     --main-shadow: 0 0 10px var(--main-color);
     --bg-primary: #111;
     --bg-secondary: #333;
-    --text-primary: #ddd;
-    --text-secondary: #aaa;
+    --danger-color: #F08080;
     --degrade-color-1: #00E589;
     --degrade-color-2: #00CC7A;
+    --text-primary: #ddd;
+    --text-secondary: #aaa;
+
+    --team-a: var(--danger-color);
+    --team-b: var(--main-color);
 }
 
 /* ==========================
@@ -56,6 +60,9 @@
     --text-secondary: #AF4889;
     --degrade-color-1: #5BAFA3;
     --degrade-color-2: #4C9389;
+
+    --team-a: var(--text-primary);
+    --team-b: var(--main-color);
 }
 
 /* ==========================
@@ -615,21 +622,21 @@ h6 {
 }
 
 .leave-btn {
-    border: 1px solid lightcoral;
-    color: lightcoral;
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
 }
 
 .leave-btn:hover {
-    border-color: lightcoral;
-    background-color: lightcoral;
-    box-shadow: 0 0 10px lightcoral;
+    border-color: var(--danger-color);
+    background-color: var(--danger-color);
+    box-shadow: 0 0 10px var(--danger-color);
     color: var(--bg-primary);
 }
 
 .leave-btn:active {
-    background-color: lightcoral !important;
-    border-color: lightcoral !important;
-    box-shadow: 0 0 10px lightcoral !important;
+    background-color: var(--danger-color) !important;
+    border-color: var(--danger-color) !important;
+    box-shadow: 0 0 10px var(--danger-color) !important;
     color: var(--bg-primary) !important;
 }
 

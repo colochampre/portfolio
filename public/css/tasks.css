@@ -32,8 +32,8 @@
 }
 
 .delete-button {
-    border-color: lightcoral;
-    color: lightcoral;
+    border-color: var(--danger-color);
+    color: var(--danger-color);
 }
 
 .task-list {
@@ -66,6 +66,10 @@
     box-shadow: 0 0 10px var(--main-color-rgb);
 }
 
+.task-item.completed {
+    opacity: 0.6;
+}
+
 .task-item a {
     margin-right: 0.5rem;
     color: var(--text-primary);
@@ -93,9 +97,9 @@
 }
 
 .task-actions .delete-form .btn-primary:hover, .task-actions .delete-form .btn-primary:active {
-    background-color: lightcoral !important;
-    border-color: lightcoral !important;
-    box-shadow: 0 0 10px lightcoral !important;
+    background-color: var(--danger-color) !important;
+    border-color: var(--danger-color) !important;
+    box-shadow: 0 0 10px var(--danger-color) !important;
 }
 
 .task-actions .btn-primary i {

@@ -114,6 +114,225 @@
 }
 
 /* ==========================
+    LOBBY NAV-LIST (column layout for room buttons)
+========================== */
+
+.lobby-wrapper .nav-list {
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.btn-switch {
+    border-color: #0074D9;
+    color: #0074D9;
+}
+
+.btn-switch:hover {
+    background-color: #0074D9;
+    border-color: #0074D9;
+    box-shadow: 0 0 10px #0074D9;
+    color: var(--bg-primary);
+}
+
+.btn-switch:active {
+    background-color: #0074D9 !important;
+    border-color: #0074D9 !important;
+    color: var(--bg-primary) !important;
+    transform: scale(0.95);
+}
+
+.btn-switch:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn-unready {
+    border-color: #FF4136 !important;
+    color: #FF4136 !important;
+}
+
+.btn-unready:hover {
+    background-color: #FF4136 !important;
+    box-shadow: 0 0 10px #FF4136 !important;
+    color: var(--bg-primary) !important;
+}
+
+.all-ready {
+    animation: pulse-ready 1s ease-in-out infinite;
+}
+
+@keyframes pulse-ready {
+    0%, 100% { box-shadow: 0 0 6px var(--main-color); }
+    50% { box-shadow: 0 0 16px var(--main-color); }
+}
+
+/* ==========================
+    TEAMS LAYOUT
+========================== */
+
+.teams-container {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
+.team-col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.team-header {
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+}
+
+.t1-header {
+    border-color: #FF4136;
+    color: #FF4136;
+}
+
+.t2-header {
+    border-color: #0074D9;
+    color: #0074D9;
+}
+
+.team-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.t1-dot { background-color: #FF4136; }
+.t2-dot { background-color: #0074D9; }
+
+.team-count {
+    margin-left: auto;
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+.team-count.count-ok {
+    color: var(--main-color);
+    opacity: 1;
+}
+
+.teams-vs {
+    font-family: var(--title-font);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    align-self: center;
+    padding-top: 1.5rem;
+}
+
+.team-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.slot-empty {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    padding: 0.25rem;
+    font-style: italic;
+}
+
+/* ==========================
+    PLAYER CARDS
+========================== */
+
+.player-card {
+    padding: 0.3rem 0.4rem;
+    border: 1px solid var(--bg-secondary);
+    border-radius: 0.25rem;
+    background-color: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: border-color 0.2s;
+}
+
+.my-card {
+    border-color: var(--main-color);
+}
+
+.card-ready {
+    opacity: 0.85;
+}
+
+.snake-preview {
+    flex-shrink: 0;
+    display: block;
+    image-rendering: pixelated;
+}
+
+.player-name {
+    flex: 1;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.my-card .player-name {
+    color: var(--main-color);
+}
+
+.ready-icon {
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.ready-icon.bi-check-circle-fill {
+    color: var(--main-color);
+}
+
+.not-ready-icon {
+    color: var(--text-secondary);
+}
+
+/* ==========================
+    PRACTICE MODE
+========================== */
+
+.practice-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+/* ==========================
+    COUNTDOWN OVERLAY
+========================== */
+
+.countdown-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10vw;
+    font-family: var(--title-font);
+    color: var(--main-color);
+    text-shadow: 0 0 30px var(--main-color), 0 0 60px var(--main-color-shadow);
+    display: none;
+    z-index: 10;
+    pointer-events: none;
+    line-height: 1;
+}
+
+/* ==========================
     MEDIA QUERIES - MOBILE & TABLET (LANDSCAPE MODE)
 ========================== */
 

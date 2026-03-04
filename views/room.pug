@@ -15,6 +15,9 @@ block lobby-panel
             button.btn.btn-primary.w-100#ready(type="button")
                 i.bi.bi-check-square
                 span Listo
+            button.btn.btn-primary.w-100.btn-switch#switchTeam(type="button")
+                i.bi.bi-arrow-left-right
+                span → Equipo 2
             button.btn.btn-primary.w-100.leave-btn#leaveRoom(type="button")
                 i.bi.bi-door-closed
                 span Salir
@@ -46,6 +49,7 @@ block main
             span#timer 0:00
         div.canvas-wrapper
             canvas#gameCanvas
+            div#countdownOverlay.countdown-overlay
 
 block user-panel
     div.user-wrapper.panel#userPanel

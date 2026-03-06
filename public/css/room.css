@@ -204,6 +204,27 @@
     white-space: nowrap;
 }
 
+.team-name-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed currentColor;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 0 2px;
+    min-width: 0;
+    width: 100%;
+    outline: none;
+    cursor: text;
+    opacity: 0.9;
+}
+
+.team-name-input:focus {
+    opacity: 1;
+    border-bottom-style: solid;
+}
+
 .team-count {
     margin-left: auto;
     font-size: 1rem;
@@ -288,6 +309,18 @@
 
 .not-ready-icon {
     color: var(--text-secondary);
+}
+
+.card-spectator {
+    opacity: 0.6;
+    border-style: dashed;
+}
+
+.spectator-badge {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-style: italic;
 }
 
 /* ==========================

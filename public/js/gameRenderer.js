@@ -110,7 +110,8 @@ function renderGame(state) {
 
     if (state.goalScoredBy) {
         const color = state.goalScoredBy === 'team1' ? 'var(--team-a)' : 'var(--team-b)';
-        const text = state.goalScoredBy === 'team1' ? '¡GOL EQUIPO 1!' : '¡GOL EQUIPO 2!';
+        const teamName = state.teamNames?.[state.goalScoredBy] || (state.goalScoredBy === 'team1' ? 'Equipo 1' : 'Equipo 2');
+        const text = `¡GOL de ${teamName.toUpperCase()}!`;
         ctx.font = `bold ${Math.max(20, Math.round(W * 0.04))}px monospace`;
         ctx.fillStyle = color;
         ctx.textAlign = 'center';
@@ -121,8 +122,13 @@ function renderGame(state) {
     if (state.isGameOver && state.winner) {
         ctx.fillStyle = 'rgba(0,0,0,0.65)';
         ctx.fillRect(0, 0, W, H);
-        const text = state.winner === 'draw' ? '¡EMPATE!' :
-            state.winner === 'team1' ? '¡EQUIPO 1 GANA!' : '¡EQUIPO 2 GANA!';
+        let text;
+        if (state.winner === 'draw') {
+            text = '¡EMPATE!';
+        } else {
+            const teamName = state.teamNames?.[state.winner] || (state.winner === 'team1' ? 'Equipo 1' : 'Equipo 2');
+            text = `¡${teamName.toUpperCase()} GANA!`;
+        }
         ctx.font = `bold ${Math.max(24, Math.round(W * 0.045))}px monospace`;
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';

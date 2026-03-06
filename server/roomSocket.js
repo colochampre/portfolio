@@ -33,6 +33,7 @@ function serializeGameState(state) {
         isGameOver: state.isGameOver,
         winner: state.winner,
         mode: state.mode,
+        teamNames: state.teamNames,
         canvasWidth: state.canvasWidth,
         canvasHeight: state.canvasHeight,
         goalHeight: state.goalHeight,
@@ -44,10 +45,10 @@ function serializeGameState(state) {
 function launchGame(roomId, room, io) {
     if (room.gameState && !room.gameState.isGameOver) return;
 
-    const gameState = createInitialState(room.duration, room.mode);
+    const gameState = createInitialState(room.duration, room.mode, room.teamNames);
 
     if (room.mode === 'practica') {
-        for (const lp of room.players) {
+        for (const lp of room.players.filter(p => p.role === 'player')) {
             addPlayer(gameState, lp.id, lp.username);
         }
     } else {
@@ -133,7 +134,7 @@ function canStartGame(room) {
     if (room.players.length === 0) return false;
     const allReady = room.players.every(p => p.isReady);
     if (!allReady) return false;
-    if (room.mode === 'practica') return true;
+    if (room.mode === 'practica') return room.players.some(p => p.role === 'player');
     const min = getMinPlayersPerTeam(room.mode);
     const t1 = room.players.filter(p => p.team === 'team1').length;
     const t2 = room.players.filter(p => p.team === 'team2').length;
@@ -160,9 +161,11 @@ export function setupRoomSocket(io) {
             }
 
             let preservedTeam = undefined;
+            let preservedRole = undefined;
             const existingIndex = room.players.findIndex(p => p.username === username);
             if (existingIndex !== -1) {
                 preservedTeam = room.players[existingIndex].team;
+                preservedRole = room.players[existingIndex].role;
                 room.players.splice(existingIndex, 1);
             }
 
@@ -171,13 +174,23 @@ export function setupRoomSocket(io) {
             const team = preservedTeam !== undefined ? preservedTeam : assignTeam(room);
             const color = getTeamColor(team);
             const isReady = room.mode === 'practica';
-            const player = { id: socket.id, username, team, color, isReady };
+            let role;
+            if (room.mode === 'practica') {
+                if (preservedRole !== undefined) {
+                    role = preservedRole;
+                } else {
+                    role = room.players.some(p => p.role === 'player') ? 'spectator' : 'player';
+                }
+            } else {
+                role = 'player';
+            }
+            const player = { id: socket.id, username, team, color, isReady, role };
             room.players.push(player);
             roomController.updateRoomPlayers(roomId, room.players);
 
             const canStart = canStartGame(room);
             socket.emit('room-joined', { player, players: room.players, room, canStart });
-            socket.to(roomId).emit('lobby-updated', { players: room.players, canStart });
+            socket.to(roomId).emit('lobby-updated', { players: room.players, canStart, teamNames: room.teamNames });
 
             broadcastRoomList();
             console.log(`${player.username} se unió a la sala ${roomId} (${team || 'practica'})`);
@@ -203,7 +216,7 @@ export function setupRoomSocket(io) {
             roomController.updateRoomPlayers(roomId, room.players);
 
             const canStart = canStartGame(room);
-            io.to(roomId).emit('lobby-updated', { players: room.players, canStart });
+            io.to(roomId).emit('lobby-updated', { players: room.players, canStart, teamNames: room.teamNames });
         });
 
         socket.on('player-ready', ({ roomId }) => {
@@ -217,7 +230,7 @@ export function setupRoomSocket(io) {
             roomController.updateRoomPlayers(roomId, room.players);
 
             const canStart = canStartGame(room);
-            io.to(roomId).emit('lobby-updated', { players: room.players, canStart });
+            io.to(roomId).emit('lobby-updated', { players: room.players, canStart, teamNames: room.teamNames });
 
             if (canStart) {
                 launchGame(roomId, room, io);
@@ -237,7 +250,7 @@ export function setupRoomSocket(io) {
                     }
 
                     const canStart = canStartGame(room);
-                    socket.to(roomId).emit('lobby-updated', { players: room.players, canStart });
+                    socket.to(roomId).emit('lobby-updated', { players: room.players, canStart, teamNames: room.teamNames });
 
                     if (room.players.length === 0) {
                         const ri = roomIntervals.get(roomId);
@@ -280,7 +293,7 @@ export function setupRoomSocket(io) {
                         }
 
                         const canStart = canStartGame(room);
-                        io.to(roomId).emit('lobby-updated', { players: room.players, canStart });
+                        io.to(roomId).emit('lobby-updated', { players: room.players, canStart, teamNames: room.teamNames });
 
                         if (room.players.length === 0) {
                             const ri = roomIntervals.get(roomId);
@@ -296,6 +309,22 @@ export function setupRoomSocket(io) {
                     }
                 }
             });
+        });
+
+        socket.on('set-team-name', ({ roomId, team, name }) => {
+            const room = roomController.getRoomData(roomId);
+            if (!room || room.gameState || !['team1', 'team2'].includes(team)) return;
+
+            const teamPlayers = room.players.filter(p => p.team === team);
+            if (teamPlayers.length === 0 || teamPlayers[0].id !== socket.id) return;
+
+            const cleanName = String(name).trim().slice(0, 20);
+            if (!cleanName) return;
+
+            roomController.updateTeamName(roomId, team, cleanName);
+
+            const canStart = canStartGame(room);
+            io.to(roomId).emit('lobby-updated', { players: room.players, canStart, teamNames: room.teamNames });
         });
     });
 }

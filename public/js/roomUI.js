@@ -9,6 +9,7 @@ const switchTeamBtn = document.getElementById('switchTeam');
 let myPlayer = null;
 let roomMode = null;
 let allPlayers = [];
+let teamNames = { team1: 'Equipo A', team2: 'Equipo B' };
 
 const username = window.currentUser?.username || 'Jugador';
 socket.emit('join-room', { roomId, username });
@@ -17,6 +18,7 @@ socket.on('room-joined', (data) => {
     myPlayer = data.player;
     roomMode = data.room.mode;
     allPlayers = data.players;
+    if (data.room.teamNames) teamNames = data.room.teamNames;
     const texturePath = BALL_TEXTURE_MAP[data.room.ball] || '/img/ball-base-1.png';
     updateBallTexture(texturePath);
     setupLobbyUI();
@@ -27,6 +29,7 @@ socket.on('lobby-updated', (data) => {
     allPlayers = data.players;
     const me = data.players.find(p => p.id === myPlayer?.id);
     if (me) myPlayer = me;
+    if (data.teamNames) teamNames = data.teamNames;
     renderLobby(data.players, data.canStart);
 });
 
@@ -96,6 +99,16 @@ function getMinPerTeam(mode) {
     return 1;
 }
 
+function teamNameHTML(team, players) {
+    const leader = players.filter(p => p.team === team)[0];
+    const isLeader = leader?.id === myPlayer?.id;
+    const name = teamNames[team];
+    if (isLeader) {
+        return `<input class="team-name-input" data-team="${team}" value="${name}" maxlength="20">`;
+    }
+    return `<span>${name}</span>`;
+}
+
 function renderTeamLobby(players) {
     const team1 = players.filter(p => p.team === 'team1');
     const team2 = players.filter(p => p.team === 'team2');
@@ -105,7 +118,7 @@ function renderTeamLobby(players) {
         <div class="teams-container">
             <div class="team-col">
                 <div class="team-header t1-header">
-                    <span>Equipo A</span>
+                    ${teamNameHTML('team1', players)}
                     <span class="team-count ${team1.length >= min ? 'count-ok' : ''}">${team1.length}/${min}</span>
                 </div>
                 <div class="team-slots">
@@ -115,7 +128,7 @@ function renderTeamLobby(players) {
             <div class="teams-vs">VS</div>
             <div class="team-col">
                 <div class="team-header t2-header">
-                    <span>Equipo B</span>
+                    ${teamNameHTML('team2', players)}
                     <span class="team-count ${team2.length >= min ? 'count-ok' : ''}">${team2.length}/${min}</span>
                 </div>
                 <div class="team-slots">
@@ -124,6 +137,17 @@ function renderTeamLobby(players) {
             </div>
         </div>
     `;
+
+    playersContainer.querySelectorAll('.team-name-input').forEach(input => {
+        input.addEventListener('blur', () => {
+            const name = input.value.trim();
+            if (name) socket.emit('set-team-name', { roomId, team: input.dataset.team, name });
+        });
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') input.blur();
+        });
+    });
+
     players.forEach(p => drawSnake(p));
 }
 
@@ -140,16 +164,24 @@ function renderPracticeLobby(players) {
 
 function playerCardHTML(player) {
     const isMe = player.id === myPlayer?.id;
+    const isSpectator = player.role === 'spectator';
+    const snakeOrBadge = isSpectator
+        ? '<span class="spectator-badge">Espectador</span>'
+        : `<canvas class="snake-preview" data-color="${player.color}" width="72" height="20"></canvas>`;
+    const statusIcon = isSpectator
+        ? ''
+        : `<i class="bi ${player.isReady ? 'bi-check-circle-fill ready-icon' : 'bi-hourglass ready-icon not-ready-icon'}"></i>`;
     return `
-        <div class="player-card ${isMe ? 'my-card' : ''} ${player.isReady ? 'card-ready' : ''}" data-pid="${player.id}">
-            <canvas class="snake-preview" data-color="${player.color}" width="72" height="20"></canvas>
+        <div class="player-card ${isMe ? 'my-card' : ''} ${player.isReady && !isSpectator ? 'card-ready' : ''} ${isSpectator ? 'card-spectator' : ''}" data-pid="${player.id}">
+            ${snakeOrBadge}
             <span class="player-name">${player.username}</span>
-            <i class="bi ${player.isReady ? 'bi-check-circle-fill ready-icon' : 'bi-hourglass ready-icon not-ready-icon'}"></i>
+            ${statusIcon}
         </div>
     `;
 }
 
 function drawSnake(player) {
+    if (player.role === 'spectator') return;
     const card = playersContainer.querySelector(`[data-pid="${player.id}"]`);
     if (!card) return;
     const canvas = card.querySelector('.snake-preview');
@@ -194,6 +226,11 @@ function updateReadyButton() {
     if (!readyBtn || !myPlayer) return;
     const me = allPlayers.find(p => p.id === myPlayer.id);
     if (!me) return;
+    if (me.role === 'spectator') {
+        readyBtn.style.display = 'none';
+        return;
+    }
+    readyBtn.style.display = '';
     const icon = readyBtn.querySelector('i');
     const label = readyBtn.querySelector('span');
     if (me.isReady) {

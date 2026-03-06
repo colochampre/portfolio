@@ -42,6 +42,7 @@ const roomController = {
                 ball: ball || 'texture-1',
                 createdAt: Date.now(),
                 players: [],
+                teamNames: { team1: 'Equipo A', team2: 'Equipo B' },
                 gameState: null
             };
             rooms.set(roomId, roomData);
@@ -98,6 +99,14 @@ const roomController = {
         const room = rooms.get(roomId);
         if (room) {
             room.players = players;
+            rooms.set(roomId, room);
+        }
+    },
+
+    updateTeamName: (roomId, team, name) => {
+        const room = rooms.get(roomId);
+        if (room && room.teamNames) {
+            room.teamNames[team] = name;
             rooms.set(roomId, room);
         }
     },

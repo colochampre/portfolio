@@ -15,12 +15,13 @@ const HEADBUTT_COOLDOWN = 30; // 1 second (30 frames)
 
 import { getPlayerStats, getXpToNextLevel } from './database.js';
 
-function createInitialState(duration = 300, mode = '1vs1') {
+function createInitialState(duration = 300, mode = '1vs1', teamNames = { team1: 'Equipo 1', team2: 'Equipo 2' }) {
     const state = {
         players: {},
         ball: {},
         score: { team1: 0, team2: 0 },
         teams: { team1: [], team2: [] },
+        teamNames: teamNames,
         mode: mode,
         timeLeft: duration,
         isGameOver: true,

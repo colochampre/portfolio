@@ -42,6 +42,8 @@ block main
 
     div.overlay#overlay
 
+    div#joystickZone.joystick-zone
+    
     div.main-wrapper.panel
         div#scoreboard
             span#score 0 - 0
@@ -82,6 +84,7 @@ block user-panel
 
 block scripts
     script(src="/socket.io/socket.io.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.10.1/nipplejs.min.js")
     script.
         window.currentUser = {
             username: '#{user.username}',

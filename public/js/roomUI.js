@@ -47,6 +47,7 @@ socket.on('game-starting', (data) => {
     if (lobbyPanel) lobbyPanel.classList.remove('open');
     const overlay = document.getElementById('overlay');
     if (overlay) overlay.classList.remove('active');
+    initJoystick();
 });
 
 const timerEl = document.getElementById('timer');
@@ -78,6 +79,7 @@ socket.on('kickoff-countdown', ({ count }) => {
 
 socket.on('game-over', (data) => {
     isGameActive = false;
+    destroyJoystick();
     if (timerEl) timerEl.classList.remove('timer-danger');
 
     const overlay = document.getElementById('gameOverlay');
@@ -133,6 +135,7 @@ socket.on('game-over', (data) => {
 
 socket.on('lobby-restored', (data) => {
     isGameActive = false;
+    destroyJoystick();
     allPlayers = data.players;
     const me = data.players.find(p => p.id === myPlayer?.id);
     if (me) myPlayer = me;
@@ -367,6 +370,42 @@ if (leaveRoomBtn) {
         socket.emit('leave-room', roomId);
         window.location.href = '/';
     });
+}
+
+// === NIPPLEJS JOYSTICK (touch) ===
+const joystickZone = document.getElementById('joystickZone');
+let joystickManager = null;
+
+function initJoystick() {
+    if (typeof nipplejs === 'undefined' || !joystickZone) return;
+    if (joystickManager) return;
+
+    joystickZone.classList.add('active');
+
+    joystickManager = nipplejs.create({
+        zone: joystickZone,
+        mode: 'dynamic',
+        color: 'rgba(255,255,255,0.55)',
+        size: 110,
+        multitouch: false,
+        restOpacity: 0.5,
+        fadeTime: 250,
+    });
+
+    const DIRS = ['up', 'down', 'left', 'right'];
+    DIRS.forEach(dir => {
+        joystickManager.on(`dir:${dir}`, () => {
+            if (isGameActive) socket.emit('player-move', { roomId, direction: dir });
+        });
+    });
+}
+
+function destroyJoystick() {
+    if (joystickManager) {
+        joystickManager.destroy();
+        joystickManager = null;
+    }
+    if (joystickZone) joystickZone.classList.remove('active');
 }
 
 // === KEYBOARD INPUT ===

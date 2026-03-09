@@ -225,8 +225,9 @@ export function setupRoomSocket(io) {
             broadcastRoomList();
             console.log(`${player.username} se unió a la sala ${roomId} (${team || 'practica'})`);
 
-            if (room.mode === 'practica' && room.gameState && !room.gameState.isGameOver) {
-                addPlayer(room.gameState, player.id, player.username, null, player.color);
+            if (room.gameState && !room.gameState.isGameOver) {
+                const forcedTeam = room.mode !== 'practica' ? player.team : null;
+                addPlayer(room.gameState, player.id, player.username, forcedTeam, player.color);
                 spawnPlayer(room.gameState, player.id);
                 socket.emit('game-starting', {
                     canvasWidth: room.gameState.canvasWidth,

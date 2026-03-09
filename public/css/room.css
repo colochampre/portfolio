@@ -358,7 +358,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.78);
+    background: rgba(0, 0, 0, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -366,15 +366,21 @@
 }
 
 .game-over-content {
+    width: 100%;
+    height: 100%;
+    padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    gap: 1rem;
     text-align: center;
-    padding: 2rem;
+    gap: .75rem;
 }
 
 .game-over-title {
+    width: 100%;
+    margin-bottom: .25rem;
+    background: rgba(0, 0, 0, 0.9);
     font-family: var(--title-font);
     font-size: clamp(1.4rem, 5vw, 2rem);
     color: var(--main-color);
@@ -385,7 +391,7 @@
 
 .game-over-score {
     font-family: 'Better VCR';
-    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    font-size: clamp(1rem, 3vw, 1.2rem);
     color: var(--text-primary);
     margin: 0;
 }
@@ -393,6 +399,7 @@
 .game-over-stats {
     width: 100%;
     max-height: 220px;
+    padding-right: .5rem;
     overflow-y: auto;
     margin: 0.25rem 0;
 }
@@ -436,7 +443,6 @@
 
 .game-over-actions {
     width: 100%;
-    margin-top: 0.5rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -444,6 +450,7 @@
 }
 
 .game-over-actions .btn {
+    ;
     min-width: 150px;
 }
 
@@ -515,6 +522,11 @@
 ========================== */
 
 @media (min-width: 1536px) {
+
+    .game-over-content, .game-over-title {
+        width: auto;
+    }
+
     .room-settings, .players-list, .game-controls {
         margin-bottom: 2rem;
     }

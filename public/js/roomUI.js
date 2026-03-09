@@ -94,7 +94,7 @@ socket.on('game-over', (data) => {
             titleEl.textContent = '¡EMPATE!';
         } else {
             const name = tNames[data.winner] || (data.winner === 'team1' ? 'Equipo A' : 'Equipo B');
-            titleEl.textContent = `¡${name.toUpperCase()} GANA!`;
+            titleEl.textContent = `¡GANA ${name.toUpperCase()}!`;
         }
     }
     if (scoreEl) {
@@ -113,7 +113,7 @@ socket.on('game-over', (data) => {
                         <th>Jugador</th>
                         <th title="Goles"><i class="bi bi-dribbble"></i></th>
                         <th title="Asistencias"><i class="bi bi-stars"></i></th>
-                        <th title="Toques"><i class="bi bi-hand-index-thumb"></i></th>
+                        <th title="Toques"><i class="bi bi-crosshair"></i></th>
                     </tr>
                 </thead>
                 <tbody>

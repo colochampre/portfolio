@@ -89,13 +89,15 @@ function addPlayer(gameState, playerId, username, forcedTeam = null, forcedColor
     const color = forcedColor || (assignedTeam === 'team1' ? '#FF4136' : '#0074D9');
     gameState.players[playerId] = createPlayer(playerId, color, assignedTeam, username);
 
-    // Initialize stats for the player for the current match
-    gameState.playerMatchStats[playerId] = {
-        username: username,
-        goals: 0,
-        assists: 0,
-        touches: 0
-    };
+    // Initialize stats; carry over accumulated stats if reconnecting (same username)
+    const prevEntry = Object.entries(gameState.playerMatchStats).find(([, s]) => s.username === username);
+    if (prevEntry) {
+        const [prevId, prevStats] = prevEntry;
+        gameState.playerMatchStats[playerId] = { ...prevStats };
+        delete gameState.playerMatchStats[prevId];
+    } else {
+        gameState.playerMatchStats[playerId] = { username, goals: 0, assists: 0, touches: 0 };
+    }
 
     return assignedTeam;
 }

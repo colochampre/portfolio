@@ -168,6 +168,12 @@ h6 {
     transform: scale(0.95);
 }
 
+.btn-primary:disabled {
+    background-color: var(--bg-secondary);
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .btn-back {
     font-family: var(--title-font);
 }

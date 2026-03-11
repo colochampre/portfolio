@@ -48,6 +48,7 @@ socket.on('game-starting', (data) => {
     const overlay = document.getElementById('overlay');
     if (overlay) overlay.classList.remove('active');
     initJoystick();
+    updateReadyButton();
 });
 
 const timerEl = document.getElementById('timer');
@@ -260,14 +261,15 @@ function renderPracticeLobby(players) {
 function playerCardHTML(player) {
     const isMe = player.id === myPlayer?.id;
     const isSpectator = player.role === 'spectator';
+    const effectiveReady = player.isReady || isGameActive;
     const snakeOrBadge = isSpectator
         ? '<span class="spectator-badge">Espectador</span>'
         : `<canvas class="snake-preview" data-color="${player.color}" width="72" height="20"></canvas>`;
     const statusIcon = isSpectator
         ? ''
-        : `<i class="bi ${player.isReady ? 'bi-check-circle-fill ready-icon' : 'bi-hourglass ready-icon not-ready-icon'}"></i>`;
+        : `<i class="bi ${effectiveReady ? 'bi-check-circle-fill ready-icon' : 'bi-hourglass ready-icon not-ready-icon'}"></i>`;
     return `
-        <div class="player-card ${isMe ? 'my-card' : ''} ${player.isReady && !isSpectator ? 'card-ready' : ''} ${isSpectator ? 'card-spectator' : ''}" data-pid="${player.id}">
+        <div class="player-card ${isMe ? 'my-card' : ''} ${effectiveReady && !isSpectator ? 'card-ready' : ''} ${isSpectator ? 'card-spectator' : ''}" data-pid="${player.id}">
             ${snakeOrBadge}
             <span class="player-name">${player.username}</span>
             ${statusIcon}
@@ -326,8 +328,10 @@ function updateReadyButton() {
         return;
     }
     readyBtn.style.display = '';
+    readyBtn.disabled = isGameActive;
     const icon = readyBtn.querySelector('i');
     const label = readyBtn.querySelector('span');
+
     if (me.isReady) {
         readyBtn.classList.add('btn-unready');
         if (icon) icon.className = 'bi bi-hourglass-split';

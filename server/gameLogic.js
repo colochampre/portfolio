@@ -5,7 +5,7 @@ const BALL_SIZE = 15;
 const BALL_FRICTION = 0.98; // Lower = more friction
 const BALL_HIT_SPEED = 400; // Speed of the ball after being hit
 const BOUNCE_ENERGY_LOSS = 0.8;
-const HIT_COOLDOWN_FRAMES = 4;
+const HIT_COOLDOWN_FRAMES = 3;
 
 // Headbutt Mechanic Constants
 const HEADBUTT_SPEED_BOOST = 500;
@@ -212,6 +212,7 @@ function updateBallPosition(gameState, onGoal) {
 
     ball.vx *= BALL_FRICTION;
     ball.vy *= BALL_FRICTION;
+    ball.spin = (ball.spin || 0) * 0.92; // Decay spin over time
     ball.x += ball.vx * dt;
     ball.y += ball.vy * dt;
 
@@ -234,6 +235,7 @@ function updateBallPosition(gameState, onGoal) {
         } else {
             ball.x = fieldX_start + ball.size;
             ball.vx *= -BOUNCE_ENERGY_LOSS;
+            ball.spin += ball.vy * 0.008; // Spin from vertical velocity on side bounce
         }
     }
     // Right wall
@@ -246,6 +248,7 @@ function updateBallPosition(gameState, onGoal) {
         } else {
             ball.x = fieldX_end - ball.size;
             ball.vx *= -BOUNCE_ENERGY_LOSS;
+            ball.spin -= ball.vy * 0.008; // Spin from vertical velocity on side bounce
         }
     }
 
@@ -253,11 +256,13 @@ function updateBallPosition(gameState, onGoal) {
     if (ball.y - ball.size < fieldY_start) {
         ball.y = fieldY_start + ball.size;
         ball.vy *= -BOUNCE_ENERGY_LOSS;
+        ball.spin += ball.vx * 0.008; // Spin from horizontal velocity on top/bottom bounce
     }
     // Bottom wall
     else if (ball.y + ball.size > fieldY_end) {
         ball.y = fieldY_end - ball.size;
         ball.vy *= -BOUNCE_ENERGY_LOSS;
+        ball.spin -= ball.vx * 0.008; // Spin from horizontal velocity on top/bottom bounce
     }
 }
 
@@ -292,6 +297,12 @@ function checkCollisions(gameState) {
                     const nx = normalX / norm;
                     const ny = normalY / norm;
 
+                    // Tangent vector (perpendicular to normal)
+                    const tx = -ny;
+                    const ty = nx;
+                    const tangentVel = ball.vx * tx + ball.vy * ty;
+                    ball.spin += tangentVel * 0.012; // Spin from glancing hit
+
                     const dot = ball.vx * nx + ball.vy * ny;
                     ball.vx = (ball.vx - 2 * dot * nx) * BOUNCE_ENERGY_LOSS;
                     ball.vy = (ball.vy - 2 * dot * ny) * BOUNCE_ENERGY_LOSS;
@@ -303,6 +314,14 @@ function checkCollisions(gameState) {
                     // Headbutt logic only for the head
                     const angle = Math.atan2(ball.y - segmentCenterY, ball.x - segmentCenterX);
                     const hitSpeed = player.headbuttActive > 0 ? HEADBUTT_BALL_HIT_SPEED : BALL_HIT_SPEED;
+
+                    // Spin from off-center hit (based on angle difference from movement direction)
+                    const moveAngle = Math.atan2(
+                        player.direction === 'down' ? 1 : player.direction === 'up' ? -1 : 0,
+                        player.direction === 'right' ? 1 : player.direction === 'left' ? -1 : 0
+                    );
+                    const angleDiff = angle - moveAngle;
+                    ball.spin += Math.sin(angleDiff) * hitSpeed * 0.003;
 
                     // Combine current velocity with the hit velocity
                     const hitVx = Math.cos(angle) * hitSpeed;
@@ -403,6 +422,7 @@ function resetBall(gameState) {
         size: BALL_SIZE,
         vx: 0,
         vy: 0,
+        spin: 0,
     };
 
     Object.values(gameState.players).forEach(player => {

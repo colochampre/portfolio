@@ -156,8 +156,15 @@ function renderGame(state) {
 
         const scorerLabel = `\u00a1GOL de ${state.goalScorerUsername}`;
 
-        if (hasScorer)drawGoalRow(goalBallIcon, scorerLabel, teamColor, true);
-        if (hasAssist) drawGoalRow(goalAssistIcon, state.goalAssisterUsername, '#ddd', false);
+        if (hasScorer) {
+            drawGoalRow(goalBallIcon, scorerLabel, teamColor, true);
+        } else {
+            drawGoalRow(goalBallIcon, '¡GOL!', teamColor, true);
+        }
+        
+        if (hasAssist) {
+            drawGoalRow(goalAssistIcon, state.goalAssisterUsername, '#ddd', false);
+        }
         ctx.restore();
     }
 
@@ -180,9 +187,20 @@ function renderGame(state) {
 }
 
 // --- Ball ---
+let ballSpinAngle = 0;
+
 function drawBall(ball) {
     if (!ball || !ball.x) return;
+
+    // Accumulate spin angle and decay towards 0
+    ballSpinAngle += (ball.spin || 0);
+    ballSpinAngle *= 0.82; // Decay spin effect over time
+
     ctx.save();
+    ctx.translate(ball.x, ball.y);
+    ctx.rotate(ballSpinAngle);
+    ctx.translate(-ball.x, -ball.y);
+
     if (ballPattern && ballTexture.width > 0 && ballTexture.height > 0) {
         const matrix = new DOMMatrix().translate(ball.x * 1.6, ball.y * 1.6);
         ballPattern.setTransform(matrix);

@@ -26,7 +26,7 @@ function serializeGameState(state) {
     }
     return {
         players,
-        ball: state.ball ? { x: state.ball.x, y: state.ball.y, size: state.ball.size } : null,
+        ball: state.ball ? { x: state.ball.x, y: state.ball.y, size: state.ball.size, spin: state.ball.spin || 0 } : null,
         score: state.score,
         timeLeft: state.timeLeft,
         kickOff: state.kickOff,

@@ -206,13 +206,13 @@ function moveSnake(gameState, player) {
 
 function updateBallPosition(gameState, onGoal) {
     if (gameState.kickOff || gameState.isPausedForGoal) return;
-
+    
     const { ball } = gameState;
     const dt = 1 / 30;
 
     ball.vx *= BALL_FRICTION;
     ball.vy *= BALL_FRICTION;
-    ball.spin = (ball.spin || 0) * 0.92; // Decay spin over time
+    ball.spin = (ball.spin || 0) * 0.96; // Decay spin over time - lower = faster decay
     ball.x += ball.vx * dt;
     ball.y += ball.vy * dt;
 
@@ -234,8 +234,8 @@ function updateBallPosition(gameState, onGoal) {
             }
         } else {
             ball.x = fieldX_start + ball.size;
-            ball.vx *= -BOUNCE_ENERGY_LOSS;
-            ball.spin += ball.vy * 0.008; // Spin from vertical velocity on side bounce
+            ball.vx *= -BOUNCE_ENERGY_LOSS; // Apply reverse velocity with energy loss
+            Math.abs(ball.vy) > 100 ? ball.spin += ball.vy * 0.004 : ball.spin; // Lower multiplier = less spin
         }
     }
     // Right wall
@@ -248,21 +248,20 @@ function updateBallPosition(gameState, onGoal) {
         } else {
             ball.x = fieldX_end - ball.size;
             ball.vx *= -BOUNCE_ENERGY_LOSS;
-            ball.spin -= ball.vy * 0.008; // Spin from vertical velocity on side bounce
+            Math.abs(ball.vy) > 100 ? ball.spin -= ball.vy * 0.004 : ball.spin;
         }
     }
-
     // Top wall
     if (ball.y - ball.size < fieldY_start) {
         ball.y = fieldY_start + ball.size;
         ball.vy *= -BOUNCE_ENERGY_LOSS;
-        ball.spin += ball.vx * 0.008; // Spin from horizontal velocity on top/bottom bounce
+        Math.abs(ball.vx) > 100 ? ball.spin -= ball.vx * 0.004 : ball.spin;
     }
     // Bottom wall
     else if (ball.y + ball.size > fieldY_end) {
         ball.y = fieldY_end - ball.size;
         ball.vy *= -BOUNCE_ENERGY_LOSS;
-        ball.spin -= ball.vx * 0.008; // Spin from horizontal velocity on top/bottom bounce
+        Math.abs(ball.vx) > 100 ? ball.spin += ball.vx * 0.004 : ball.spin;
     }
 }
 

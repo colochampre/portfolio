@@ -243,12 +243,86 @@ function updateBallPosition(gameState, onGoal) {
 
     const goalYStart = (gameState.canvasHeight - gameState.goalHeight) / 2;
     const goalYEnd = goalYStart + gameState.goalHeight;
-    const ballInGoalZoneY = ball.y > goalYStart && ball.y < goalYEnd;
 
     const fieldX_start = (gameState.canvasWidth - gameState.fieldWidth) / 2;
     const fieldX_end = fieldX_start + gameState.fieldWidth;
     const fieldY_start = (gameState.canvasHeight - gameState.fieldHeight) / 2;
     const fieldY_end = fieldY_start + gameState.fieldHeight;
+
+    // Helper: Reflect velocity off a surface with given normal (nx, ny must be normalized)
+    function reflectBall(nx, ny) {
+        const dot = ball.vx * nx + ball.vy * ny;
+        ball.vx = (ball.vx - 2 * dot * nx) * BOUNCE_ENERGY_LOSS;
+        ball.vy = (ball.vy - 2 * dot * ny) * BOUNCE_ENERGY_LOSS;
+        // Spin from tangential velocity
+        const tangentVel = ball.vx * (-ny) + ball.vy * nx;
+        if (Math.abs(tangentVel) > 200) {
+            ball.spin += tangentVel * 0.003;
+        }
+    }
+
+    // Helper: Check collision between ball (circle) and a point, return distance if colliding
+    function checkPointCollision(px, py) {
+        const dx = ball.x - px;
+        const dy = ball.y - py;
+        const dist = Math.hypot(dx, dy);
+        if (dist < ball.size) {
+            return { dist, nx: dx / dist, ny: dy / dist };
+        }
+        return null;
+    }
+
+    // Define the 4 corner points where goal post borders meet the field
+    const corners = [
+        { x: fieldX_start, y: goalYStart }, // Left top corner
+        { x: fieldX_start, y: goalYEnd },   // Left bottom corner
+        { x: fieldX_end, y: goalYStart },   // Right top corner
+        { x: fieldX_end, y: goalYEnd },     // Right bottom corner
+    ];
+
+    // Check corner collisions first (highest priority for realistic bounces)
+    for (const corner of corners) {
+        const collision = checkPointCollision(corner.x, corner.y);
+        if (collision) {
+            // Push ball out of corner
+            ball.x = corner.x + collision.nx * ball.size;
+            ball.y = corner.y + collision.ny * ball.size;
+            reflectBall(collision.nx, collision.ny);
+            return; // Only one collision per frame
+        }
+    }
+
+    // Goal area horizontal borders (top and bottom of goal opening)
+    // Left side - top border: from x=0 to x=fieldX_start at y=goalYStart
+    if (ball.x < fieldX_start && ball.x > 0) {
+        // Top border
+        if (ball.y + ball.size > goalYStart && ball.y < goalYStart && ball.vy > 0) {
+            ball.y = goalYStart - ball.size;
+            reflectBall(0, -1);
+        }
+        // Bottom border
+        else if (ball.y - ball.size < goalYEnd && ball.y > goalYEnd && ball.vy < 0) {
+            ball.y = goalYEnd + ball.size;
+            reflectBall(0, 1);
+        }
+    }
+
+    // Right side - top and bottom borders: from x=fieldX_end to x=canvasWidth
+    if (ball.x > fieldX_end && ball.x < gameState.canvasWidth) {
+        // Top border
+        if (ball.y + ball.size > goalYStart && ball.y < goalYStart && ball.vy > 0) {
+            ball.y = goalYStart - ball.size;
+            reflectBall(0, -1);
+        }
+        // Bottom border
+        else if (ball.y - ball.size < goalYEnd && ball.y > goalYEnd && ball.vy < 0) {
+            ball.y = goalYEnd + ball.size;
+            reflectBall(0, 1);
+        }
+    }
+
+    // Check if ball is in goal zone Y (between goal posts)
+    const ballInGoalZoneY = ball.y > goalYStart && ball.y < goalYEnd;
 
     // Left wall
     if (ball.x - ball.size < fieldX_start) {
@@ -259,15 +333,11 @@ function updateBallPosition(gameState, onGoal) {
             }
         } else {
             ball.x = fieldX_start + ball.size;
-            ball.vx *= -BOUNCE_ENERGY_LOSS; // Apply reverse velocity with energy loss
-            // Only generate spin if velocity is significant
-            if (Math.abs(ball.vy) > 200) {
-                ball.spin += ball.vy * 0.004;
-            }
+            reflectBall(1, 0);
         }
     }
     // Right wall
-    else if (ball.x + ball.size > fieldX_end) {
+    if (ball.x + ball.size > fieldX_end) {
         if (ballInGoalZoneY) {
             if (ball.x + ball.size > gameState.canvasWidth) { // Goal line
                 onGoal('team1');
@@ -275,27 +345,18 @@ function updateBallPosition(gameState, onGoal) {
             }
         } else {
             ball.x = fieldX_end - ball.size;
-            ball.vx *= -BOUNCE_ENERGY_LOSS;
-            if (Math.abs(ball.vy) > 200) {
-                ball.spin -= ball.vy * 0.004;
-            }
+            reflectBall(-1, 0);
         }
     }
     // Top wall
     if (ball.y - ball.size < fieldY_start) {
         ball.y = fieldY_start + ball.size;
-        ball.vy *= -BOUNCE_ENERGY_LOSS;
-        if (Math.abs(ball.vx) > 200) {
-            ball.spin -= ball.vx * 0.004;
-        }
+        reflectBall(0, 1);
     }
     // Bottom wall
-    else if (ball.y + ball.size > fieldY_end) {
+    if (ball.y + ball.size > fieldY_end) {
         ball.y = fieldY_end - ball.size;
-        ball.vy *= -BOUNCE_ENERGY_LOSS;
-        if (Math.abs(ball.vx) > 200) {
-            ball.spin += ball.vx * 0.004;
-        }
+        reflectBall(0, -1);
     }
 }
 

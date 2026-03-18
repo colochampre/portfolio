@@ -189,6 +189,44 @@ function renderGame(state) {
     ctx.strokeRect(0, goalY, fx, goalHeight);
     ctx.strokeRect(W - fx, goalY, fx, goalHeight);
 
+    // DEBUG: Draw goal post corner borders in red for testing
+    // These are the horizontal segments at top and bottom of goal openings
+    ctx.strokeStyle = '#FF0000';
+    ctx.lineWidth = 3;
+    // Left side - top corner border
+    ctx.beginPath();
+    ctx.moveTo(0, goalY);
+    ctx.lineTo(fx, goalY);
+    ctx.stroke();
+    // Left side - bottom corner border
+    ctx.beginPath();
+    ctx.moveTo(0, goalY + goalHeight);
+    ctx.lineTo(fx, goalY + goalHeight);
+    ctx.stroke();
+    // Right side - top corner border
+    ctx.beginPath();
+    ctx.moveTo(W - fx, goalY);
+    ctx.lineTo(W, goalY);
+    ctx.stroke();
+    // Right side - bottom corner border
+    ctx.beginPath();
+    ctx.moveTo(W - fx, goalY + goalHeight);
+    ctx.lineTo(W, goalY + goalHeight);
+    ctx.stroke();
+    // DEBUG: Draw corner points (where ball can bounce off corners)
+    ctx.fillStyle = '#FF0000';
+    const corners = [
+        { x: fx, y: goalY },                    // Left top corner
+        { x: fx, y: goalY + goalHeight },       // Left bottom corner
+        { x: W - fx, y: goalY },                // Right top corner
+        { x: W - fx, y: goalY + goalHeight },   // Right bottom corner
+    ];
+    for (const corner of corners) {
+        ctx.beginPath();
+        ctx.arc(corner.x, corner.y, 5, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
     if (state.kickOff && !state.isPausedForGoal) {
         ctx.font = `bold ${Math.max(14, Math.round(W * 0.018))}px monospace`;
         ctx.fillStyle = 'rgba(255,255,255,0.5)';

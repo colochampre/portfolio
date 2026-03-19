@@ -256,21 +256,21 @@ function renderGame(state) {
 
     if (state.goalScoredBy) {
         const teamColor = getTeamColorFromCSS(state.goalScoredBy);
-        const nameSize = Math.max(16, Math.round(W * 0.026));
+        const nameSize = Math.max(32);
         const iconSize = Math.round(nameSize);
-        const lineH = Math.round(nameSize * 1.2);
+        const lineH = Math.round(nameSize * 1.6);
         const hasScorer = !!state.goalScorerUsername;
         const hasAssist = !!state.goalAssisterUsername;
         const rows = (hasScorer ? 1 : 0) + (hasAssist ? 1 : 0) || 1;
         const panelH = Math.round(rows * lineH + 12);
-        const panelY = Math.max(8, Math.round(H * 0.03));
+        const panelY = Math.max(46, Math.round(H * 0.04));
 
         ctx.save();
 
         let rowY = panelY + 12;
 
-        function drawGoalRow(icon, label, color, bold) {
-            ctx.font = `${bold ? 'bold ' : ''}${nameSize}px monospace`;
+        function drawGoalRow(icon, label, color, size, bold) {
+            ctx.font = `${bold ? 'bold ' : ''}${32*size}px monospace`;
             const textW = ctx.measureText(label).width;
             const totalW = iconSize + 8 + textW;
             const startX = Math.round((W - totalW) / 2);
@@ -293,16 +293,13 @@ function renderGame(state) {
             rowY += lineH;
         }
 
-        const scorerLabel = `\u00a1GOL de ${state.goalScorerUsername}`;
-
+        drawGoalRow(goalBallIcon, '¡GOL!', teamColor, 1.5, true);
         if (hasScorer) {
-            drawGoalRow(goalBallIcon, scorerLabel, teamColor, true);
-        } else {
-            drawGoalRow(goalBallIcon, '¡GOL!', teamColor, true);
+            drawGoalRow(goalBallIcon, state.goalScorerUsername, '#ddd', 1, true);
         }
 
         if (hasAssist) {
-            drawGoalRow(goalAssistIcon, state.goalAssisterUsername, '#ddd', false);
+            drawGoalRow(goalAssistIcon, state.goalAssisterUsername, '#bbb', 0.75, false);
         }
         ctx.restore();
     }

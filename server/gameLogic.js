@@ -110,7 +110,7 @@ function removePlayer(gameState, playerId) {
     delete gameState.players[playerId];
 }
 
-function startGame(gameState, onUpdate, onEnd, onGoalScored, intervals) {
+function startGame(gameState, onUpdate, onEnd, onGoalScored, intervals, onCountdown) {
     console.log(`Starting game with duration: ${gameState.timeLeft}s`);
 
     gameState.score = { team1: 0, team2: 0 };
@@ -133,6 +133,28 @@ function startGame(gameState, onUpdate, onEnd, onGoalScored, intervals) {
         }
 
         gameState.timeLeft--;
+        
+        // Emit countdown sound once at the right moment
+        // Dramatic (tied or 1 goal diff): starts at 11s
+        // Normal (2+ goal diff): starts at 10s with ms offset
+        if (onCountdown && gameState.timeLeft === 11) {
+            const scoreDiff = Math.abs(gameState.score.team1 - gameState.score.team2);
+            const isDramatic = scoreDiff <= 1;
+            
+            if (isDramatic) {
+                // Dramatic: trigger immediately at 11s
+                onCountdown({ isDramatic: true });
+            } else {
+                // Normal: trigger after delay (11s - 9.6s = 1400ms delay)
+                const delayMs = 2100; // Adjust this value for fine-tuning
+                setTimeout(() => {
+                    if (!gameState.isGameOver) {
+                        onCountdown({ isDramatic: false });
+                    }
+                }, delayMs);
+            }
+        }
+        
         if (gameState.timeLeft < 0) {
             const finalState = endGame(gameState, 'time');
             onEnd(finalState);

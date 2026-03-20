@@ -59,7 +59,7 @@ socket.on('game-update', (state) => {
     if (!ctx) return;
     if (canvas.width !== state.canvasWidth) canvas.width = state.canvasWidth;
     if (canvas.height !== state.canvasHeight) canvas.height = state.canvasHeight;
-    
+
     // Use interpolation system instead of direct render
     if (window.gameRenderer) {
         window.gameRenderer.updateGameState(state);
@@ -68,7 +68,7 @@ socket.on('game-update', (state) => {
         renderGame(state);
         updateScoreboard(state);
     }
-    
+
     if (timerEl) {
         if (state.timeLeft <= 10 && !state.isGameOver) {
             timerEl.classList.add('timer-danger');
@@ -97,6 +97,8 @@ socket.on('sound-events', (events) => {
             window.SoundManager.playHitPost(event.isHardHit);
         } else if (event.type === 'netHit') {
             window.SoundManager.playNetHit();
+        } else if (event.type === 'countdown') {
+            window.SoundManager.playCountdown(event.isDramatic);
         }
     }
 });

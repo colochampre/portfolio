@@ -31,12 +31,19 @@ const SoundManager = {
             hit: [
                 '/sound/goal-net-hit-1.mp3',
                 '/sound/goal-net-hit-2.mp3',
-                '/sound/goal-net-hit-3.mp3',
+                '/sound/goal-net-hit-3.mp3'
             ]
         },
+        countdown: {
+            normal: [
+                '/sound/countdown-normal.mp3',
+            ],
+            dramatic: [
+                '/sound/countdown-dramatic.mp3',
+            ]
+        }
         // Future sound categories can be added here:
         // goal: { ... },
-        // countdown: { ... },
     },
 
     // Audio pool for concurrent playback
@@ -46,7 +53,8 @@ const SoundManager = {
     // Volume settings
     masterVolume: 0.7,
     categoryVolumes: {
-        ballKick: 1.0
+        ballKick: 1.0,
+        countdown: 1.0
     },
 
     // Enabled state
@@ -121,6 +129,10 @@ const SoundManager = {
 
     playNetHit() {
         this.play('net', 'hit');
+    },
+
+    playCountdown(isDramatic = false) {
+        this.play('countdown', isDramatic ? 'dramatic' : 'normal');
     },
 
     setEnabled(enabled) {

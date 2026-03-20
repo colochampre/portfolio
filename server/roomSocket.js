@@ -108,6 +108,13 @@ function launchGame(roomId, room, io) {
         tick();
     };
 
+    const onCountdown = ({ isDramatic }) => {
+        io.to(roomId).emit('sound-events', [{
+            type: 'countdown',
+            isDramatic
+        }]);
+    };
+
     // Emit game-starting and send initial positions preview
     io.to(roomId).emit('game-starting', {
         canvasWidth: gameState.canvasWidth,
@@ -121,7 +128,7 @@ function launchGame(roomId, room, io) {
     const preGameTick = () => {
         io.to(roomId).emit('kickoff-countdown', { count });
         if (count === 0) {
-            startGame(gameState, onUpdate, onEnd, onGoalScored, intervals);
+            startGame(gameState, onUpdate, onEnd, onGoalScored, intervals, onCountdown);
             return;
         }
         count--;

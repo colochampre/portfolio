@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -22,17 +23,38 @@ const server = createServer(app);
 const io = new WebSocketServer(server);
 const port = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            "img-src": ["'self'", "data:", "https:"],
-            "script-src": ["'self'", "'unsafe-inline'", "https:"],
-            "connect-src": ["'self'", "ws:", "wss:", "https://cdn.jsdelivr.net"],
-            "default-src": ["'self'"]
-        }
-    }
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
+app.use(cors({
+    origin: isDevelopment ? true : process.env.ALLOWED_ORIGINS?.split(',') || false,
+    credentials: true
 }));
+
+if (isDevelopment) {
+    app.use(helmet({
+        contentSecurityPolicy: false,
+        hsts: false,
+        crossOriginResourcePolicy: { policy: "cross-origin" }
+    }));
+} else {
+    app.use(helmet({
+        contentSecurityPolicy: {
+            directives: {
+                "img-src": ["'self'", "data:", "https:"],
+                "script-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+                "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.jsdelivr.net"],
+                "font-src": ["'self'", "https://fonts.gstatic.com", "https://cdn.jsdelivr.net", "data:"],
+                "connect-src": ["'self'", "wss:", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+                "default-src": ["'self'"]
+            }
+        },
+        hsts: {
+            maxAge: 31536000,
+            includeSubDomains: true,
+            preload: true
+        }
+    }));
+}
 app.use(morgan("dev"));
 app.use(cookieParser());
 
@@ -46,6 +68,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(authRouter);
 app.use(roomRouter);
 
+app.get("/test", (req, res) => {
+    res.json({ 
+        status: "OK", 
+        message: "Servidor funcionando correctamente",
+        ip: req.ip,
+        headers: req.headers
+    });
+});
+
 app.get("/", auth.requireAuth, (req, res) => {
     res.render("index", { title: "Snake Soccer", user: req.user });
 });
@@ -56,6 +87,7 @@ app.use(error.c404);
 setupRoomSocket(io);
 roomController.setIO(io);
 
-server.listen(port, () => {
+server.listen(port, '0.0.0.0', () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
+    console.log(`Acceso desde red local: http://<tu-ip-local>:${port}`);
 });

@@ -60,6 +60,10 @@ const SoundManager = {
     // Enabled state
     enabled: true,
 
+    // Active countdown audio tracking for pause/resume
+    activeCountdown: null,
+    countdownPausedAt: 0,
+
     init() {
         // Preload all sounds into audio pools
         for (const category in this.sounds) {
@@ -132,7 +136,58 @@ const SoundManager = {
     },
 
     playCountdown(isDramatic = false) {
-        this.play('countdown', isDramatic ? 'dramatic' : 'normal');
+        if (!this.enabled) return;
+
+        const type = isDramatic ? 'dramatic' : 'normal';
+        const categoryPool = this.audioPool['countdown'];
+        if (!categoryPool || !categoryPool[type]) return;
+
+        // Pick a random sound variant
+        const variants = categoryPool[type];
+        const variantIndex = Math.floor(Math.random() * variants.length);
+        const pool = variants[variantIndex];
+
+        // Find an available audio element from the pool
+        let audio = pool.find(a => a.paused || a.ended);
+        if (!audio) {
+            audio = pool[0];
+        }
+
+        // Calculate final volume
+        const categoryVolume = this.categoryVolumes['countdown'] || 1.0;
+        audio.volume = this.masterVolume * categoryVolume;
+        audio.currentTime = 0;
+        
+        // Track this as the active countdown audio
+        this.activeCountdown = audio;
+        this.countdownPausedAt = 0;
+        
+        audio.play().catch(() => {
+            // Autoplay blocked, ignore silently
+        });
+    },
+
+    pauseCountdown() {
+        if (this.activeCountdown && !this.activeCountdown.paused) {
+            this.countdownPausedAt = this.activeCountdown.currentTime;
+            this.activeCountdown.pause();
+        }
+    },
+
+    resumeCountdown() {
+        if (this.activeCountdown && this.activeCountdown.paused && this.countdownPausedAt > 0) {
+            this.activeCountdown.currentTime = this.countdownPausedAt;
+            this.activeCountdown.play().catch(() => {});
+        }
+    },
+
+    stopCountdown() {
+        if (this.activeCountdown) {
+            this.activeCountdown.pause();
+            this.activeCountdown.currentTime = 0;
+            this.activeCountdown = null;
+            this.countdownPausedAt = 0;
+        }
     },
 
     setEnabled(enabled) {

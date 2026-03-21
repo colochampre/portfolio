@@ -32,6 +32,7 @@ function createInitialState(duration = 300, mode = '1vs1', teamNames = { team1: 
         isPausedForGoal: false,
         kickOff: true,
         goalScoredBy: null,
+        countdownActive: false,
         lastTouchedBy: { team1: [null, null], team2: [null, null] },
         playerMatchStats: {},
         // Dynamic properties based on mode
@@ -110,7 +111,7 @@ function removePlayer(gameState, playerId) {
     delete gameState.players[playerId];
 }
 
-function startGame(gameState, onUpdate, onEnd, onGoalScored, intervals, onCountdown) {
+function startGame(gameState, onUpdate, onEnd, onGoalScored, intervals, onCountdown, onCountdownPause) {
     console.log(`Starting game with duration: ${gameState.timeLeft}s`);
 
     gameState.score = { team1: 0, team2: 0 };
@@ -126,7 +127,7 @@ function startGame(gameState, onUpdate, onEnd, onGoalScored, intervals, onCountd
     if (intervals.game) clearInterval(intervals.game);
     if (intervals.timer) clearInterval(intervals.timer);
 
-    intervals.game = setInterval(() => gameLoop(gameState, onUpdate, onEnd, onGoalScored), 1000 / 30);
+    intervals.game = setInterval(() => gameLoop(gameState, onUpdate, onEnd, onGoalScored, onCountdownPause), 1000 / 30);
     intervals.timer = setInterval(() => {
         if (gameState.isGameOver || gameState.isPausedForGoal || gameState.kickOff) {
             return;
@@ -143,12 +144,14 @@ function startGame(gameState, onUpdate, onEnd, onGoalScored, intervals, onCountd
             
             if (isDramatic) {
                 // Dramatic: trigger immediately at 11s
+                gameState.countdownActive = true;
                 onCountdown({ isDramatic: true });
             } else {
                 // Normal: trigger after delay (11s - 9.6s = 1400ms delay)
                 const delayMs = 2100; // Adjust this value for fine-tuning
                 setTimeout(() => {
                     if (!gameState.isGameOver) {
+                        gameState.countdownActive = true;
                         onCountdown({ isDramatic: false });
                     }
                 }, delayMs);
@@ -180,7 +183,7 @@ function endGame(gameState, reason) {
     return gameState;
 }
 
-function gameLoop(gameState, onUpdate, onEnd, onGoalScored) {
+function gameLoop(gameState, onUpdate, onEnd, onGoalScored, onCountdownPause) {
     if (gameState.isGameOver) return;
 
     for (const player of Object.values(gameState.players)) {
@@ -194,7 +197,7 @@ function gameLoop(gameState, onUpdate, onEnd, onGoalScored) {
     }
     const ballSoundEvents = updateBallPosition(gameState, (scorer) => {
         if (!gameState.isPausedForGoal) {
-            handleGoal(gameState, scorer, onUpdate, onGoalScored);
+            handleGoal(gameState, scorer, onUpdate, onGoalScored, onCountdownPause);
         }
     });
     const collisionSoundEvents = checkCollisions(gameState);
@@ -514,7 +517,7 @@ function handleBallTouch(gameState, player) {
     }
 }
 
-function handleGoal(gameState, scoringTeam, onUpdate, onGoalScored) {
+function handleGoal(gameState, scoringTeam, onUpdate, onGoalScored, onCountdownPause) {
     // --- Stats Tracking ---
     // A goal is awarded to the last player on the scoring team to touch the ball.
     // An assist is awarded to the player who touched it before the scorer.
@@ -545,6 +548,11 @@ function handleGoal(gameState, scoringTeam, onUpdate, onGoalScored) {
 
     onUpdate(gameState); // Send goal message and updated score
 
+    // Pause countdown sound if active during goal
+    if (gameState.countdownActive && onCountdownPause) {
+        onCountdownPause({ action: 'pause' });
+    }
+
     // After a pause, reset positions and start the kickoff countdown
     setTimeout(() => {
         const savedScoringTeam = gameState.goalScoredBy; // preserve for countdown display
@@ -553,7 +561,7 @@ function handleGoal(gameState, scoringTeam, onUpdate, onGoalScored) {
         onUpdate(gameState);
 
         if (onGoalScored) {
-            onGoalScored();
+            onGoalScored(onCountdownPause);
         }
     }, 2000);
 }

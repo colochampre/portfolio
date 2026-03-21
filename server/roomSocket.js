@@ -94,12 +94,16 @@ function launchGame(roomId, room, io) {
         }
     };
 
-    const onGoalScored = () => {
+    const onGoalScored = (onCountdownPause) => {
         let c = 3;
         const tick = () => {
             io.to(roomId).emit('kickoff-countdown', { count: c });
             if (c === 0) {
                 resumeAfterKickoff(gameState);
+                // Resume countdown sound after kickoff if it was paused
+                if (gameState.countdownActive && onCountdownPause) {
+                    onCountdownPause({ action: 'resume' });
+                }
                 return;
             }
             c--;
@@ -112,6 +116,13 @@ function launchGame(roomId, room, io) {
         io.to(roomId).emit('sound-events', [{
             type: 'countdown',
             isDramatic
+        }]);
+    };
+
+    const onCountdownPause = ({ action }) => {
+        io.to(roomId).emit('sound-events', [{
+            type: 'countdownControl',
+            action
         }]);
     };
 
@@ -128,7 +139,7 @@ function launchGame(roomId, room, io) {
     const preGameTick = () => {
         io.to(roomId).emit('kickoff-countdown', { count });
         if (count === 0) {
-            startGame(gameState, onUpdate, onEnd, onGoalScored, intervals, onCountdown);
+            startGame(gameState, onUpdate, onEnd, onGoalScored, intervals, onCountdown, onCountdownPause);
             return;
         }
         count--;

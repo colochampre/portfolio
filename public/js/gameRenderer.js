@@ -341,7 +341,7 @@ function drawBall(ball) {
         // Normalize angle to -PI to PI range so it decays to nearest 0
         ballSpinAngle = Math.atan2(Math.sin(ballSpinAngle), Math.cos(ballSpinAngle));
         ballSpinAngle *= 0.975;
-    } else if (Math.abs(ball.spin || 0) < 0.05) {
+    } else if (Math.abs(ball.spin || 0) < 0.1) {
         ballSpinAngle = Math.atan2(Math.sin(ballSpinAngle), Math.cos(ballSpinAngle));
         ballSpinAngle *= 0.965;
     }

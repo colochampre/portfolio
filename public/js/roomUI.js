@@ -102,6 +102,10 @@ socket.on('sound-events', (events) => {
                 window.SoundManager.playCountdown(event.isDramatic); break;
             case 'whistle':
                 window.SoundManager.playWhistle(); break;
+            case 'beep':
+                window.SoundManager.playBeep(); break;
+            case 'crowdCheering':
+                window.SoundManager.playCrowdCheering(); break;
             case 'countdownControl':
                 if (event.action === 'pause') {
                     window.SoundManager.pauseCountdown();

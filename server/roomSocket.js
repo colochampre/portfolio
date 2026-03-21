@@ -98,6 +98,10 @@ function launchGame(roomId, room, io) {
         let c = 3;
         const tick = () => {
             io.to(roomId).emit('kickoff-countdown', { count: c });
+            // Play beep on 3, 2, 1 (not on GO)
+            if (c > 0) {
+                io.to(roomId).emit('sound-events', [{ type: 'beep' }]);
+            }
             if (c === 0) {
                 // Play whistle sound on GO
                 io.to(roomId).emit('sound-events', [{ type: 'whistle' }]);
@@ -140,6 +144,10 @@ function launchGame(roomId, room, io) {
     let count = 3;
     const preGameTick = () => {
         io.to(roomId).emit('kickoff-countdown', { count });
+        // Play beep on 3, 2, 1 (not on GO)
+        if (count > 0) {
+            io.to(roomId).emit('sound-events', [{ type: 'beep' }]);
+        }
         if (count === 0) {
             // Play whistle sound on GO
             io.to(roomId).emit('sound-events', [{ type: 'whistle' }]);

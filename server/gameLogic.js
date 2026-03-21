@@ -394,6 +394,7 @@ function updateBallPosition(gameState, onGoal) {
             }
         } else {
             ball.x = fieldX_start + ball.size;
+            soundEvents.push({ type: 'ballKick' });
             reflectBall(1, 0);
         }
     }
@@ -409,17 +410,20 @@ function updateBallPosition(gameState, onGoal) {
             }
         } else {
             ball.x = fieldX_end - ball.size;
+            soundEvents.push({ type: 'ballKick' });
             reflectBall(-1, 0);
         }
     }
     // Top wall
     if (ball.y - ball.size < fieldY_start) {
         ball.y = fieldY_start + ball.size;
+        soundEvents.push({ type: 'ballKick' });
         reflectBall(0, 1);
     }
     // Bottom wall
     if (ball.y + ball.size > fieldY_end) {
         ball.y = fieldY_end - ball.size;
+        soundEvents.push({ type: 'ballKick' });
         reflectBall(0, -1);
     }
     
@@ -452,10 +456,7 @@ function checkCollisions(gameState) {
                 const isBoostKick = isHead && player.isMoving && player.headbuttActive > 0;
                 
                 // Add sound event for ball kick
-                soundEvents.push({
-                    type: 'ballKick',
-                    isBoost: isBoostKick
-                });
+                soundEvents.push({ type: 'ballKick', isBoost: isBoostKick });
 
                 if (!player.isMoving || !isHead) {
                     // Simplified bounce logic for stationary snake or body segments
@@ -561,7 +562,8 @@ function handleGoal(gameState, scoringTeam, onUpdate, onGoalScored, onCountdownP
         ? gameState.players[assisterPlayerId].username : null;
     gameState.isPausedForGoal = true;
 
-    onUpdate(gameState); // Send goal message and updated score
+    // Send goal update with crowd cheering sound
+    onUpdate(gameState, [{ type: 'crowdCheering' }]);
 
     // Pause countdown sound if active during goal
     if (gameState.countdownActive && onCountdownPause) {

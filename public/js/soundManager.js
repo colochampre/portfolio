@@ -42,13 +42,26 @@ const SoundManager = {
                 '/sound/countdown-dramatic.mp3',
             ]
         },
+        beep: {
+            short: [
+                '/sound/beep-1.mp3',
+            ]
+        },
         whistle: {
             normal: [
                 '/sound/whistle-1.mp3',
                 '/sound/whistle-2.mp3',
                 '/sound/whistle-3.mp3',
             ]
-        }
+        },
+        crowdCheering: {
+            cheer: [
+                '/sound/crowd-cheering-1.mp3',
+                '/sound/crowd-cheering-2.mp3',
+                '/sound/crowd-cheering-3.mp3',
+                '/sound/crowd-cheering-4.mp3',
+            ]
+        },
         // Future sound categories can be added here:
         // goal: { ... },
     },
@@ -144,6 +157,14 @@ const SoundManager = {
 
     playWhistle() {
         this.play('whistle', 'normal');
+    },
+
+    playBeep() {
+        this.play('beep', 'short');
+    },
+
+    playCrowdCheering() {
+        this.play('crowdCheering', 'cheer');
     },
 
     playCountdown(isDramatic = false) {

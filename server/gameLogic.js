@@ -1,6 +1,6 @@
-// Game Constants
-const SNAKE_SIZE = 20;
-const SNAKE_SPEED = 300; // Pixels per second
+import { getPlayerStats, getXpToNextLevel } from './database.js';
+
+// Ball Constants
 const BALL_SIZE = 15;
 const BALL_FRICTION = 0.98; // Lower = more friction
 const BALL_HIT_SPEED = 400; // Speed of the ball after being hit
@@ -9,13 +9,13 @@ const NET_ENERGY_ABSORPTION = 0.2; // Energy retained when hitting the goal net
 const HIT_COOLDOWN_FRAMES = 3;
 const MAGNUS_EFFECT_STRENGTH = 3.00; // Strength of spin effect on trajectory
 
-// Headbutt Mechanic Constants
+// Snake Constants
+const SNAKE_SIZE = 20;
+const SNAKE_SPEED = 300; // Pixels per second
 const HEADBUTT_SPEED_BOOST = 500;
 const HEADBUTT_BALL_HIT_SPEED = 800;
 const HEADBUTT_DURATION_FRAMES = 10; // ~0.33 seconds
 const HEADBUTT_COOLDOWN = 30; // 1 second (30 frames)
-
-import { getPlayerStats, getXpToNextLevel } from './database.js';
 
 function createInitialState(duration = 300, mode = '1vs1', teamNames = { team1: 'Equipo 1', team2: 'Equipo 2' }) {
     const state = {
@@ -249,15 +249,15 @@ function updateBallPosition(gameState, onGoal) {
     const currentSpeed = Math.hypot(ball.vx, ball.vy);
     
     // Dissipate spin more aggressively at low speeds to prevent perpetual motion
-    if (currentSpeed < 200) {
-        ball.spin = (ball.spin || 0) * 0.85; // Faster decay at low speeds
+    if (currentSpeed > 100) {
+        ball.spin = (ball.spin || 0) * 0.955; // Faster decay at low speeds
     } else {
-        ball.spin = (ball.spin || 0) * 0.96; // Normal decay
+        ball.spin = (ball.spin || 0) * 0.975; // Normal decay
     }
     
     // Magnus effect: spin creates perpendicular force to velocity
     if (ball.spin && Math.abs(ball.spin) > 0.1) {
-        if (currentSpeed > 100 && Math.abs(ball.spin) < 4) { // Only apply if ball is moving
+        if (currentSpeed > 300 && Math.abs(ball.spin) > 0.5) { // Only apply if ball is moving
             // Perpendicular vector to velocity (rotated 90 degrees)
             const perpX = -ball.vy;
             const perpY = ball.vx;

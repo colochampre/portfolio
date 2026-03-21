@@ -328,9 +328,21 @@ let ballSpinAngle = 0;
 function drawBall(ball) {
     if (!ball || !ball.x) return;
 
-    // Accumulate spin angle and decay towards 0
-    ballSpinAngle += (ball.spin || 0);
-    ballSpinAngle *= 0.82; // Decay spin effect over time
+    // Calculate ball speed for decay condition
+    const ballSpeed = Math.hypot(ball.vx || 0, ball.vy || 0);
+    
+    // Accumulate spin angle
+    ballSpinAngle += (ball.spin / 2 || 0);
+    
+    // Only decay towards 0 when spin is low
+    if (ballSpeed > 50 && Math.abs(ball.spin || 0) < 0.1) {
+        // Normalize angle to -PI to PI range so it decays to nearest 0
+        ballSpinAngle = Math.atan2(Math.sin(ballSpinAngle), Math.cos(ballSpinAngle));
+        ballSpinAngle *= 0.975;
+    } else if (Math.abs(ball.spin || 0) < 0.01) {
+        ballSpinAngle = Math.atan2(Math.sin(ballSpinAngle), Math.cos(ballSpinAngle));
+        ballSpinAngle *= 0.995;
+    }
 
     ctx.save();
     ctx.translate(ball.x, ball.y);

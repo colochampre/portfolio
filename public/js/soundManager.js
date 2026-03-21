@@ -54,7 +54,7 @@ const SoundManager = {
                 '/sound/whistle-3.mp3',
             ]
         },
-        crowdCheering: {
+        crowd: {
             cheer: [
                 '/sound/crowd-cheering-1.mp3',
                 '/sound/crowd-cheering-2.mp3',
@@ -163,8 +163,8 @@ const SoundManager = {
         this.play('beep', 'short');
     },
 
-    playCrowdCheering() {
-        this.play('crowdCheering', 'cheer');
+    playCrowd() {
+        this.play('crowd', 'cheer');
     },
 
     playCountdown(isDramatic = false) {

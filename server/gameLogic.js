@@ -563,7 +563,7 @@ function handleGoal(gameState, scoringTeam, onUpdate, onGoalScored, onCountdownP
     gameState.isPausedForGoal = true;
 
     // Send goal update with crowd cheering sound
-    onUpdate(gameState, [{ type: 'crowdCheering' }]);
+    onUpdate(gameState, [{ type: 'crowd' }]);
 
     // Pause countdown sound if active during goal
     if (gameState.countdownActive && onCountdownPause) {

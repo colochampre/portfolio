@@ -99,6 +99,8 @@ socket.on('sound-events', (events) => {
             window.SoundManager.playNetHit();
         } else if (event.type === 'countdown') {
             window.SoundManager.playCountdown(event.isDramatic);
+        } else if (event.type === 'whistle') {
+            window.SoundManager.playWhistle();
         } else if (event.type === 'countdownControl') {
             if (event.action === 'pause') {
                 window.SoundManager.pauseCountdown();
@@ -114,8 +116,6 @@ socket.on('game-over', (data) => {
     destroyJoystick();
     // Stop interpolated render loop
     if (window.gameRenderer) window.gameRenderer.stopRenderLoop();
-    // Stop countdown sound if playing
-    if (window.SoundManager) window.SoundManager.stopCountdown();
     if (timerEl) timerEl.classList.remove('timer-danger');
 
     const overlay = document.getElementById('gameOverlay');

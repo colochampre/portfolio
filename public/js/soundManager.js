@@ -41,6 +41,13 @@ const SoundManager = {
             dramatic: [
                 '/sound/countdown-dramatic.mp3',
             ]
+        },
+        whistle: {
+            normal: [
+                '/sound/whistle-1.mp3',
+                '/sound/whistle-2.mp3',
+                '/sound/whistle-3.mp3',
+            ]
         }
         // Future sound categories can be added here:
         // goal: { ... },
@@ -133,6 +140,10 @@ const SoundManager = {
 
     playNetHit() {
         this.play('net', 'hit');
+    },
+
+    playWhistle() {
+        this.play('whistle', 'normal');
     },
 
     playCountdown(isDramatic = false) {

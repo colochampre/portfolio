@@ -99,6 +99,8 @@ function launchGame(roomId, room, io) {
         const tick = () => {
             io.to(roomId).emit('kickoff-countdown', { count: c });
             if (c === 0) {
+                // Play whistle sound on GO
+                io.to(roomId).emit('sound-events', [{ type: 'whistle' }]);
                 resumeAfterKickoff(gameState);
                 // Resume countdown sound after kickoff if it was paused
                 if (gameState.countdownActive && onCountdownPause) {
@@ -139,6 +141,8 @@ function launchGame(roomId, room, io) {
     const preGameTick = () => {
         io.to(roomId).emit('kickoff-countdown', { count });
         if (count === 0) {
+            // Play whistle sound on GO
+            io.to(roomId).emit('sound-events', [{ type: 'whistle' }]);
             startGame(gameState, onUpdate, onEnd, onGoalScored, intervals, onCountdown, onCountdownPause);
             return;
         }

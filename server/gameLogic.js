@@ -221,11 +221,58 @@ function moveSnake(gameState, player) {
         default: moved = false; break;
     }
 
+    // Calculate goal area boundaries
+    const goalYStart = (gameState.canvasHeight - gameState.goalHeight) / 2;
+    const goalYEnd = goalYStart + gameState.goalHeight;
+    const fieldX_start = (gameState.canvasWidth - gameState.fieldWidth) / 2;
+    const fieldX_end = fieldX_start + gameState.fieldWidth;
+
     // Wall collision
     if (head.x < 0) head.x = 0;
     if (head.x > gameState.canvasWidth - SNAKE_SIZE) head.x = gameState.canvasWidth - SNAKE_SIZE;
     if (head.y < 0) head.y = 0;
     if (head.y > gameState.canvasHeight - SNAKE_SIZE) head.y = gameState.canvasHeight - SNAKE_SIZE;
+
+    // Goal area horizontal borders collision (prevent snakes from crossing)
+    // Left goal area (x from 0 to fieldX_start)
+    if (head.x < fieldX_start) {
+        // Top border - prevent crossing from below (inside goal going up)
+        if (head.y < goalYStart && oldHead.y >= goalYStart) {
+            head.y = goalYStart;
+        }
+        // Top border - prevent crossing from above (works correctly, don't change)
+        else if (head.y < goalYStart && head.y + SNAKE_SIZE > goalYStart) {
+            head.y = goalYStart - SNAKE_SIZE;
+        }
+        // Bottom border - prevent crossing from above (inside goal going down)
+        else if (head.y + SNAKE_SIZE > goalYEnd && head.y < goalYEnd && oldHead.y + SNAKE_SIZE <= goalYEnd) {
+            head.y = goalYEnd - SNAKE_SIZE;
+        }
+        // Bottom border - prevent crossing from below
+        else if (head.y < goalYEnd && head.y + SNAKE_SIZE > goalYEnd) {
+            head.y = goalYEnd;
+        }
+    }
+
+    // Right goal area (x from fieldX_end to canvasWidth)
+    if (head.x + SNAKE_SIZE > fieldX_end) {
+        // Top border - prevent crossing from below (inside goal going up)
+        if (head.y < goalYStart && oldHead.y >= goalYStart) {
+            head.y = goalYStart;
+        }
+        // Top border - prevent crossing from above (works correctly, don't change)
+        else if (head.y < goalYStart && head.y + SNAKE_SIZE > goalYStart) {
+            head.y = goalYStart - SNAKE_SIZE;
+        }
+        // Bottom border - prevent crossing from above (inside goal going down)
+        else if (head.y + SNAKE_SIZE > goalYEnd && head.y < goalYEnd && oldHead.y + SNAKE_SIZE <= goalYEnd) {
+            head.y = goalYEnd - SNAKE_SIZE;
+        }
+        // Bottom border - prevent crossing from below
+        else if (head.y < goalYEnd && head.y + SNAKE_SIZE > goalYEnd) {
+            head.y = goalYEnd;
+        }
+    }
 
     player.isMoving = head.x !== oldHead.x || head.y !== oldHead.y;
 

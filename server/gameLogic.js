@@ -264,7 +264,7 @@ function updateBallPosition(gameState, onGoal) {
     if (currentSpeed > 50) {
         ball.spin = (ball.spin || 0) * 0.955; // Faster decay
     } else {
-        ball.spin = (ball.spin || 0) * 0.985; // Normal decay
+        ball.spin = (ball.spin || 0) * 0.955; // Normal decay
     }
     
     // Clamp spin to maximum value
@@ -301,6 +301,7 @@ function updateBallPosition(gameState, onGoal) {
         const dot = ball.vx * nx + ball.vy * ny;
         ball.vx = (ball.vx - 2 * dot * nx) * energyLoss;
         ball.vy = (ball.vy - 2 * dot * ny) * energyLoss;
+        ball.spin *= energyLoss;
         // Spin from tangential velocity
         const tangentVel = ball.vx * (-ny) + ball.vy * nx;
         if (Math.abs(tangentVel) > 200) {
@@ -349,32 +350,56 @@ function updateBallPosition(gameState, onGoal) {
     // Goal area horizontal borders (top and bottom of goal opening)
     // Left side - top border: from x=0 to x=fieldX_start at y=goalYStart
     if (ball.x < fieldX_start && ball.x > 0) {
-        // Top border
+        // Top border - from outside (above) going down
         if (ball.y + ball.size > goalYStart && ball.y < goalYStart && ball.vy > 0) {
             ball.y = goalYStart - ball.size;
             reflectBall(0, -1, NET_ENERGY_ABSORPTION);
             soundEvents.push({type: 'netHit'})
         }
-        // Bottom border
+        // Top border - from inside (below) going up
+        else if (ball.y - ball.size < goalYStart && ball.y > goalYStart && ball.vy < 0) {
+            ball.y = goalYStart + ball.size;
+            reflectBall(0, 1, NET_ENERGY_ABSORPTION);
+            soundEvents.push({type: 'netHit'})
+        }
+        // Bottom border - from outside (below) going up
         else if (ball.y - ball.size < goalYEnd && ball.y > goalYEnd && ball.vy < 0) {
             ball.y = goalYEnd + ball.size;
             reflectBall(0, 1, NET_ENERGY_ABSORPTION);
+            soundEvents.push({type: 'netHit'})
+        }
+        // Bottom border - from inside (above) going down
+        else if (ball.y + ball.size > goalYEnd && ball.y < goalYEnd && ball.vy > 0) {
+            ball.y = goalYEnd - ball.size;
+            reflectBall(0, -1, NET_ENERGY_ABSORPTION);
             soundEvents.push({type: 'netHit'})
         }
     }
 
     // Right side - top and bottom borders: from x=fieldX_end to x=canvasWidth
     if (ball.x > fieldX_end && ball.x < gameState.canvasWidth) {
-        // Top border
+        // Top border - from outside (above) going down
         if (ball.y + ball.size > goalYStart && ball.y < goalYStart && ball.vy > 0) {
             ball.y = goalYStart - ball.size;
             reflectBall(0, -1, NET_ENERGY_ABSORPTION);
             soundEvents.push({type: 'netHit'})
         }
-        // Bottom border
+        // Top border - from inside (below) going up
+        else if (ball.y - ball.size < goalYStart && ball.y > goalYStart && ball.vy < 0) {
+            ball.y = goalYStart + ball.size;
+            reflectBall(0, 1, NET_ENERGY_ABSORPTION);
+            soundEvents.push({type: 'netHit'})
+        }
+        // Bottom border - from outside (below) going up
         else if (ball.y - ball.size < goalYEnd && ball.y > goalYEnd && ball.vy < 0) {
             ball.y = goalYEnd + ball.size;
             reflectBall(0, 1, NET_ENERGY_ABSORPTION);
+            soundEvents.push({type: 'netHit'})
+        }
+        // Bottom border - from inside (above) going down
+        else if (ball.y + ball.size > goalYEnd && ball.y < goalYEnd && ball.vy > 0) {
+            ball.y = goalYEnd - ball.size;
+            reflectBall(0, -1, NET_ENERGY_ABSORPTION);
             soundEvents.push({type: 'netHit'})
         }
     }

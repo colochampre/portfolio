@@ -55,7 +55,7 @@ function createInitialState(duration = 300, mode = '1vs1', teamNames = { team1: 
             break;
     }
 
-    const MARGIN = 30;
+    const MARGIN = 40;
     state.fieldWidth = state.canvasWidth - MARGIN * 2;
     state.fieldHeight = state.canvasHeight - MARGIN * 2;
 
@@ -307,19 +307,20 @@ function updateBallPosition(gameState, onGoal) {
         ball.vy *= 0.85;
     }
     
-    // Dissipate spin more aggressively at low speeds to prevent perpetual motion
-    if (currentSpeed > 50) {
-        ball.spin = (ball.spin || 0) * 0.955; // Faster decay
-    } else {
-        ball.spin = (ball.spin || 0) * 0.955; // Normal decay
-    }
+    // Progressive spin friction: increases as spin decreases (similar to ball friction)
+    // At high spin: use base friction, at low spin: friction increases
+    const currentSpin = Math.abs(ball.spin || 0);
+    const spinFactor = Math.min(currentSpin / MAX_SPIN, 1); // 0 at no spin, 1 at max spin
+    const dynamicSpinFriction = 0.98 - (1 - spinFactor) * 0.055; // More friction at low spin (0.925 at rest, 0.98 at max)
+    
+    ball.spin = (ball.spin || 0) * dynamicSpinFriction;
     
     // Clamp spin to maximum value
     ball.spin = Math.max(-MAX_SPIN, Math.min(MAX_SPIN, ball.spin));
     
     // Magnus effect: spin creates perpendicular force to velocity
     if (ball.spin && Math.abs(ball.spin) > 0.1) {
-        if (currentSpeed > 300 && Math.abs(ball.spin) > 0.5) { // Only apply if ball is moving
+        if (currentSpeed > 300 && Math.abs(ball.spin) > 0.25) { // Only apply if ball is moving
             // Perpendicular vector to velocity (rotated 90 degrees)
             const perpX = -ball.vy;
             const perpY = ball.vx;

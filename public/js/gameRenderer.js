@@ -334,16 +334,12 @@ function drawBall(ball) {
     
     // Accumulate spin angle
     ballSpinAngle += (ball.spin / 2 || 0);
-    console.log(Math.abs(ball.spin));
     
     // Only decay towards 0 when spin is low
-    if (ballSpeed > 50 && Math.abs(ball.spin || 0) < 0.2) {
+    if (ballSpeed > 50 && Math.abs(ball.spin || 0) < 0.15) {
         // Normalize angle to -PI to PI range so it decays to nearest 0
         ballSpinAngle = Math.atan2(Math.sin(ballSpinAngle), Math.cos(ballSpinAngle));
         ballSpinAngle *= 0.955;
-    } else if (Math.abs(ball.spin || 0) < 0.1) {
-        //ballSpinAngle = Math.atan2(Math.sin(ballSpinAngle), Math.cos(ballSpinAngle));
-        //ballSpinAngle *= 0.965;
     }
 
     ctx.save();

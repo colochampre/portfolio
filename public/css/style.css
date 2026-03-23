@@ -613,18 +613,11 @@ h6 {
 }
 
 .ranking-header .back-btn {
-    padding: 0.5rem;
-    border: 1px solid var(--text-secondary);
-    border-radius: 0.25rem;
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: all 0.2s;
+    position: absolute;
+    left: 1rem;
 }
 
 .ranking-header .back-btn:hover {
-    border-color: var(--main-color);
-    color: var(--main-color);
-    box-shadow: 0 0 10px var(--main-color);
 }
 
 .ranking-header h2 {

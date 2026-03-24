@@ -110,8 +110,66 @@ const playerStatsModel = {
         }
     },
 
-    getRanking: async (limit = 50, offset = 0) => {
+    getRanking: async (limit = 50, offset = 0, sortBy = 'wilson', sortDir = 'default') => {
         try {
+            const z = 1.96; // 95% confidence interval
+            
+            // Define default directions for each sort type
+            const defaultDirs = {
+                wilson: 'desc',
+                username: 'asc',
+                level: 'desc',
+                matches: 'desc',
+                record: 'desc',
+                winrate: 'desc',
+                goals: 'desc',
+                assists: 'desc'
+            };
+            
+            // Use provided direction or default
+            const dir = sortDir === 'default' ? defaultDirs[sortBy] || 'desc' : sortDir;
+            const isAsc = dir === 'asc';
+            const primaryDir = isAsc ? 'ASC' : 'DESC';
+            const secondaryDir = isAsc ? 'DESC' : 'ASC'; // Opposite for secondary sorts
+            
+            // Build ORDER BY clause based on sortBy parameter
+            let orderClause;
+            switch (sortBy) {
+                case 'username':
+                    orderClause = `u.username ${primaryDir}`;
+                    break;
+                case 'level':
+                    orderClause = `ps.level ${primaryDir}, ps.xp ${primaryDir}`;
+                    break;
+                case 'matches':
+                    orderClause = `ps.matches ${primaryDir}`;
+                    break;
+                case 'record':
+                    orderClause = isAsc 
+                        ? 'ps.wins ASC, ps.losses DESC' 
+                        : 'ps.wins DESC, ps.losses ASC';
+                    break;
+                case 'winrate':
+                    orderClause = `winrate ${primaryDir}, ps.matches ${primaryDir}`;
+                    break;
+                case 'goals':
+                    orderClause = `ps.goals ${primaryDir}`;
+                    break;
+                case 'assists':
+                    orderClause = `ps.assists ${primaryDir}`;
+                    break;
+                case 'wilson':
+                default:
+                    // Wilson Score Lower Bound formula
+                    orderClause = `(
+                        (CAST(ps.wins AS DECIMAL) / ps.matches + (${z}*${z}) / (2 * ps.matches)) - 
+                        ${z} * SQRT(
+                            ( (CAST(ps.wins AS DECIMAL) / ps.matches) * (1 - (CAST(ps.wins AS DECIMAL) / ps.matches)) + (${z}*${z}) / (4 * ps.matches) ) / ps.matches
+                        )
+                    ) / (1 + (${z}*${z}) / ps.matches) ${primaryDir}`;
+                    break;
+            }
+            
             const [rows] = await pool.query(
                 `SELECT 
                     ps.*,
@@ -120,7 +178,7 @@ const playerStatsModel = {
                 FROM player_stats ps
                 JOIN users u ON ps.user_id = u.id
                 WHERE ps.matches > 0
-                ORDER BY ps.level DESC, ps.xp DESC
+                ORDER BY ${orderClause}
                 LIMIT ? OFFSET ?`,
                 [limit, offset]
             );

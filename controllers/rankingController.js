@@ -3,7 +3,15 @@ import playerStatsModel, { getXpToNextLevel, getCurrentLevelXp } from "../models
 const rankingController = {
     getRankingPage: async (req, res) => {
         try {
-            const rankings = await playerStatsModel.getRanking(50, 0);
+            const sortBy = req.query.sort || 'wilson';
+            const validSorts = ['wilson', 'username', 'level', 'matches', 'record', 'winrate', 'goals', 'assists'];
+            const sort = validSorts.includes(sortBy) ? sortBy : 'wilson';
+            
+            const dirParam = req.query.dir || 'default';
+            const validDirs = ['asc', 'desc', 'default'];
+            const dir = validDirs.includes(dirParam) ? dirParam : 'default';
+            
+            const rankings = await playerStatsModel.getRanking(50, 0, sort, dir);
             const userStats = await playerStatsModel.getOrCreate(req.user.id);
             const userRank = userStats.matches > 0 ? await playerStatsModel.getPlayerRank(req.user.id) : null;
             
@@ -13,6 +21,8 @@ const rankingController = {
             res.render("ranking", { 
                 title: "Rankings - Snake Soccer", 
                 user: req.user,
+                currentSort: sort,
+                currentDir: dir,
                 userStats: {
                     ...userStats,
                     xpToNextLevel: xpToNext,
@@ -38,8 +48,15 @@ const rankingController = {
             const page = parseInt(req.query.page) || 1;
             const limit = Math.min(parseInt(req.query.limit) || 50, 100);
             const offset = (page - 1) * limit;
+            const sortBy = req.query.sort || 'wilson';
+            const validSorts = ['wilson', 'username', 'level', 'matches', 'record', 'winrate', 'goals', 'assists'];
+            const sort = validSorts.includes(sortBy) ? sortBy : 'wilson';
             
-            const rankings = await playerStatsModel.getRanking(limit, offset);
+            const dirParam = req.query.dir || 'default';
+            const validDirs = ['asc', 'desc', 'default'];
+            const dir = validDirs.includes(dirParam) ? dirParam : 'default';
+            
+            const rankings = await playerStatsModel.getRanking(limit, offset, sort, dir);
             const total = await playerStatsModel.getTotalPlayersWithMatches();
             
             res.json({
@@ -66,7 +83,6 @@ const rankingController = {
         try {
             console.log('getUserStats called for user:', req.user.id, req.user.username);
             const stats = await playerStatsModel.getOrCreate(req.user.id);
-            console.log('Stats from DB:', stats);
             const rank = stats.matches > 0 ? await playerStatsModel.getPlayerRank(req.user.id) : null;
             
             const xpToNext = getXpToNextLevel(stats.level);

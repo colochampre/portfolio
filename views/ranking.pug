@@ -64,29 +64,72 @@ block main
         
         div.ranking-table-container
             table.ranking-table
-                thead
+                thead(data-current-sort=currentSort data-current-dir=currentDir)
                     tr
-                        th #
-                        th Jugador
-                        th Nivel
-                        th Partidas
-                        th V/D/E
-                        th Winrate
-                        th Goles
-                        th Asist.
+                        th.sortable(data-sort="wilson" data-default-dir="desc" class=(currentSort === 'wilson' ? 'active' : ''))
+                            span #
+                            if currentSort === 'wilson' && currentDir === 'asc'
+                                i.bi.bi-caret-up-fill.sort-icon
+                            else
+                                i.bi.bi-caret-down-fill.sort-icon
+                        th.sortable(data-sort="username" data-default-dir="asc" class=(currentSort === 'username' ? 'active' : ''))
+                            span Jugador
+                            if currentSort === 'username' && currentDir === 'desc'
+                                i.bi.bi-caret-down-fill.sort-icon
+                            else
+                                i.bi.bi-caret-up-fill.sort-icon
+                        th.sortable(data-sort="level" data-default-dir="desc" class=(currentSort === 'level' ? 'active' : ''))
+                            span Nivel
+                            if currentSort === 'level' && currentDir === 'asc'
+                                i.bi.bi-caret-up-fill.sort-icon
+                            else
+                                i.bi.bi-caret-down-fill.sort-icon
+                        th.sortable(data-sort="matches" data-default-dir="desc" class=(currentSort === 'matches' ? 'active' : ''))
+                            span Partidas
+                            if currentSort === 'matches' && currentDir === 'asc'
+                                i.bi.bi-caret-up-fill.sort-icon
+                            else
+                                i.bi.bi-caret-down-fill.sort-icon
+                        th.sortable(data-sort="record" data-default-dir="desc" class=(currentSort === 'record' ? 'active' : ''))
+                            span V/D/E
+                            if currentSort === 'record' && currentDir === 'asc'
+                                i.bi.bi-caret-up-fill.sort-icon
+                            else
+                                i.bi.bi-caret-down-fill.sort-icon
+                        th.sortable(data-sort="winrate" data-default-dir="desc" class=(currentSort === 'winrate' ? 'active' : ''))
+                            span Winrate
+                            if currentSort === 'winrate' && currentDir === 'asc'
+                                i.bi.bi-caret-up-fill.sort-icon
+                            else
+                                i.bi.bi-caret-down-fill.sort-icon
+                        th.sortable(data-sort="goals" data-default-dir="desc" class=(currentSort === 'goals' ? 'active' : ''))
+                            span Goles
+                            if currentSort === 'goals' && currentDir === 'asc'
+                                i.bi.bi-caret-up-fill.sort-icon
+                            else
+                                i.bi.bi-caret-down-fill.sort-icon
+                        th.sortable(data-sort="assists" data-default-dir="desc" class=(currentSort === 'assists' ? 'active' : ''))
+                            span Asist.
+                            if currentSort === 'assists' && currentDir === 'asc'
+                                i.bi.bi-caret-up-fill.sort-icon
+                            else
+                                i.bi.bi-caret-down-fill.sort-icon
                 tbody
                     if rankings && rankings.length > 0
                         each player, index in rankings
                             tr(class=(player.username === user.username ? 'current-user' : ''))
                                 td.rank
-                                    if player.rank === 1
-                                        i.bi.bi-trophy.gold
-                                    else if player.rank === 2
-                                        i.bi.bi-trophy.silver
-                                    else if player.rank === 3
-                                        i.bi.bi-trophy.bronze
+                                    if currentSort === 'wilson' && (currentDir === 'default' || currentDir === 'desc')
+                                        if player.rank === 1
+                                            i.bi.bi-trophy.gold
+                                        else if player.rank === 2
+                                            i.bi.bi-trophy.silver
+                                        else if player.rank === 3
+                                            i.bi.bi-trophy.bronze
+                                        else
+                                            span.rank-number= player.rank
                                     else
-                                        span.rank-number= player.rank
+                                        span.rank-number= ' '
                                 td.username= player.username
                                 td.level= player.level
                                 td.matches= player.matches
@@ -148,3 +191,4 @@ block user-panel
 block scripts
     script(src="/socket.io/socket.io.js")
     script(src="/js/lobbyUI.js")
+    script(src="/js/rankingSort.js")

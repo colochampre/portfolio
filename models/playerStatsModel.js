@@ -14,25 +14,20 @@ export const getCurrentLevelXp = (xp) => {
 const playerStatsModel = {
     getOrCreate: async (userId) => {
         try {
-            const [rows] = await pool.query(
-                "SELECT * FROM player_stats WHERE user_id = ?",
+            const result = await pool.query(
+                "SELECT * FROM player_stats WHERE user_id = $1",
                 [userId]
             );
             
-            if (rows[0]) {
-                return rows[0];
+            if (result.rows[0]) {
+                return result.rows[0];
             }
             
-            await pool.query(
-                "INSERT INTO player_stats (user_id) VALUES (?)",
+            const insertResult = await pool.query(
+                "INSERT INTO player_stats (user_id) VALUES ($1) RETURNING *",
                 [userId]
             );
-            
-            const [newRows] = await pool.query(
-                "SELECT * FROM player_stats WHERE user_id = ?",
-                [userId]
-            );
-            return newRows[0];
+            return insertResult.rows[0];
         } catch (error) {
             throw error;
         }
@@ -40,11 +35,11 @@ const playerStatsModel = {
 
     getByUserId: async (userId) => {
         try {
-            const [rows] = await pool.query(
-                "SELECT * FROM player_stats WHERE user_id = ?",
+            const result = await pool.query(
+                "SELECT * FROM player_stats WHERE user_id = $1",
                 [userId]
             );
-            return rows[0] || null;
+            return result.rows[0] || null;
         } catch (error) {
             throw error;
         }
@@ -52,14 +47,14 @@ const playerStatsModel = {
 
     getByUsername: async (username) => {
         try {
-            const [rows] = await pool.query(
+            const result = await pool.query(
                 `SELECT ps.*, u.username 
                  FROM player_stats ps 
                  JOIN users u ON ps.user_id = u.id 
-                 WHERE u.username = ?`,
+                 WHERE u.username = $1`,
                 [username]
             );
-            return rows[0] || null;
+            return result.rows[0] || null;
         } catch (error) {
             throw error;
         }
@@ -83,15 +78,15 @@ const playerStatsModel = {
             
             await pool.query(
                 `UPDATE player_stats SET 
-                    goals = goals + ?,
-                    assists = assists + ?,
+                    goals = goals + $1,
+                    assists = assists + $2,
                     matches = matches + 1,
-                    wins = wins + ?,
-                    losses = losses + ?,
-                    draws = draws + ?,
-                    xp = ?,
-                    level = ?
-                WHERE user_id = ?`,
+                    wins = wins + $3,
+                    losses = losses + $4,
+                    draws = draws + $5,
+                    xp = $6,
+                    level = $7
+                WHERE user_id = $8`,
                 [
                     goals,
                     assists,
@@ -160,29 +155,29 @@ const playerStatsModel = {
                     break;
                 case 'wilson':
                 default:
-                    // Wilson Score Lower Bound formula
+                    // Wilson Score Lower Bound formula (PostgreSQL syntax)
                     orderClause = `(
-                        (CAST(ps.wins AS DECIMAL) / ps.matches + (${z}*${z}) / (2 * ps.matches)) - 
+                        (ps.wins::DECIMAL / ps.matches + (${z}*${z}) / (2 * ps.matches)) - 
                         ${z} * SQRT(
-                            ( (CAST(ps.wins AS DECIMAL) / ps.matches) * (1 - (CAST(ps.wins AS DECIMAL) / ps.matches)) + (${z}*${z}) / (4 * ps.matches) ) / ps.matches
+                            ( (ps.wins::DECIMAL / ps.matches) * (1 - (ps.wins::DECIMAL / ps.matches)) + (${z}*${z}) / (4 * ps.matches) ) / ps.matches
                         )
                     ) / (1 + (${z}*${z}) / ps.matches) ${primaryDir}`;
                     break;
             }
             
-            const [rows] = await pool.query(
+            const result = await pool.query(
                 `SELECT 
                     ps.*,
                     u.username,
-                    CASE WHEN ps.matches > 0 THEN ROUND((ps.wins / ps.matches) * 100, 1) ELSE 0 END as winrate
+                    CASE WHEN ps.matches > 0 THEN ROUND((ps.wins::DECIMAL / ps.matches) * 100, 1) ELSE 0 END as winrate
                 FROM player_stats ps
                 JOIN users u ON ps.user_id = u.id
                 WHERE ps.matches > 0
                 ORDER BY ${orderClause}
-                LIMIT ? OFFSET ?`,
+                LIMIT $1 OFFSET $2`,
                 [limit, offset]
             );
-            return rows;
+            return result.rows;
         } catch (error) {
             throw error;
         }
@@ -190,10 +185,10 @@ const playerStatsModel = {
 
     getTotalPlayersWithMatches: async () => {
         try {
-            const [rows] = await pool.query(
+            const result = await pool.query(
                 "SELECT COUNT(*) as total FROM player_stats WHERE matches > 0"
             );
-            return rows[0].total;
+            return parseInt(result.rows[0].total);
         } catch (error) {
             throw error;
         }
@@ -201,15 +196,15 @@ const playerStatsModel = {
 
     getPlayerRank: async (userId) => {
         try {
-            const [rows] = await pool.query(
-                `SELECT COUNT(*) + 1 AS \`rank\`
+            const result = await pool.query(
+                `SELECT COUNT(*) + 1 AS rank
                 FROM player_stats ps1
-                JOIN player_stats ps2 ON ps2.user_id = ?
+                JOIN player_stats ps2 ON ps2.user_id = $1
                 WHERE ps1.matches > 0 
                 AND (ps1.level > ps2.level OR (ps1.level = ps2.level AND ps1.xp > ps2.xp))`,
                 [userId]
             );
-            return rows[0].rank;
+            return parseInt(result.rows[0].rank);
         } catch (error) {
             throw error;
         }

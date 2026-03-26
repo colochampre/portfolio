@@ -7,11 +7,11 @@ const userModel = {
     create: async (username, password, role = 'user') => {
         try {
             const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-            const [result] = await pool.query(
-                "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
+            const result = await pool.query(
+                "INSERT INTO users (username, password, role) VALUES ($1, $2, $3) RETURNING id, username, role",
                 [username, hashedPassword, role]
             );
-            return { id: result.insertId, username, role };
+            return result.rows[0];
         } catch (error) {
             throw error;
         }
@@ -19,11 +19,11 @@ const userModel = {
 
     findByUsername: async (username) => {
         try {
-            const [rows] = await pool.query(
-                "SELECT * FROM users WHERE username = ?",
+            const result = await pool.query(
+                "SELECT * FROM users WHERE username = $1",
                 [username]
             );
-            return rows[0] || null;
+            return result.rows[0] || null;
         } catch (error) {
             throw error;
         }
@@ -31,11 +31,11 @@ const userModel = {
 
     findById: async (id) => {
         try {
-            const [rows] = await pool.query(
-                "SELECT id, username, role, created_at FROM users WHERE id = ?",
+            const result = await pool.query(
+                "SELECT id, username, role, created_at FROM users WHERE id = $1",
                 [id]
             );
-            return rows[0] || null;
+            return result.rows[0] || null;
         } catch (error) {
             throw error;
         }
@@ -51,11 +51,11 @@ const userModel = {
 
     usernameExists: async (username) => {
         try {
-            const [rows] = await pool.query(
-                "SELECT COUNT(*) as count FROM users WHERE username = ?",
+            const result = await pool.query(
+                "SELECT COUNT(*) as count FROM users WHERE username = $1",
                 [username]
             );
-            return rows[0].count > 0;
+            return parseInt(result.rows[0].count) > 0;
         } catch (error) {
             throw error;
         }
@@ -64,7 +64,7 @@ const userModel = {
     updateRole: async (userId, role) => {
         try {
             await pool.query(
-                "UPDATE users SET role = ? WHERE id = ?",
+                "UPDATE users SET role = $1 WHERE id = $2",
                 [role, userId]
             );
             return true;

@@ -113,8 +113,6 @@ export function removePlayer(gameState, playerId) {
 
 export function startGame(gameState, callbacks) {
     const { onUpdate, onEnd, onGoalScored, onCountdown, onCountdownPause } = callbacks;
-    
-    console.log(`[P2P Host] Starting game with duration: ${gameState.timeLeft}s`);
 
     gameState.score = { team1: 0, team2: 0 };
     gameState.isGameOver = false;

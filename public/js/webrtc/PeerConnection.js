@@ -42,8 +42,6 @@ export class PeerConnection {
         };
 
         this.pc.onconnectionstatechange = () => {
-            console.log(`[P2P] Connection state: ${this.pc.connectionState}`);
-            
             if (this.pc.connectionState === 'connected') {
                 this.isConnected = true;
                 this._startPingLoop();
@@ -57,9 +55,7 @@ export class PeerConnection {
             }
         };
 
-        this.pc.oniceconnectionstatechange = () => {
-            console.log(`[P2P] ICE state: ${this.pc.iceConnectionState}`);
-        };
+        this.pc.oniceconnectionstatechange = () => {};
 
         if (this.isInitiator) {
             // Host creates the data channel
@@ -79,13 +75,10 @@ export class PeerConnection {
 
     _setupDataChannel() {
         this.dataChannel.onopen = () => {
-            console.log(`[P2P] DataChannel open with ${this.peerId}`);
             this.onDataChannelOpen?.();
         };
 
-        this.dataChannel.onclose = () => {
-            console.log(`[P2P] DataChannel closed with ${this.peerId}`);
-        };
+        this.dataChannel.onclose = () => {};
 
         this.dataChannel.onerror = (error) => {
             console.error(`[P2P] DataChannel error:`, error);
@@ -137,7 +130,6 @@ export class PeerConnection {
                 targetId: this.peerId,
                 offer: this.pc.localDescription
             });
-            console.log(`[P2P] Offer sent to ${this.peerId}`);
         } catch (e) {
             console.error('[P2P] Failed to create offer:', e);
         }
@@ -152,7 +144,6 @@ export class PeerConnection {
                 targetId: this.peerId,
                 answer: this.pc.localDescription
             });
-            console.log(`[P2P] Answer sent to ${this.peerId}`);
         } catch (e) {
             console.error('[P2P] Failed to handle offer:', e);
         }
@@ -161,7 +152,6 @@ export class PeerConnection {
     async handleAnswer(answer) {
         try {
             await this.pc.setRemoteDescription(new RTCSessionDescription(answer));
-            console.log(`[P2P] Answer received from ${this.peerId}`);
         } catch (e) {
             console.error('[P2P] Failed to handle answer:', e);
         }

@@ -56,13 +56,11 @@ export class ClientGame {
         this.hostPeer.onMessage = (data) => this._handleHostMessage(data);
 
         this.hostPeer.onConnected = () => {
-            console.log('[Client] Connected to host via P2P');
             this.isConnected = true;
             this.onConnectionStateChange?.('connected');
         };
 
         this.hostPeer.onDisconnected = () => {
-            console.log('[Client] Disconnected from host');
             this.isConnected = false;
             this.onConnectionStateChange?.('disconnected');
         };
@@ -76,7 +74,6 @@ export class ClientGame {
     }
 
     _handleHostMessage(data) {
-        console.log(`[Client] Received message type: ${data.type}`);
         switch (data.type) {
             case 'game-update':
                 this.gameState = data.state;

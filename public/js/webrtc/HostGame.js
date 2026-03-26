@@ -39,7 +39,6 @@ export class HostGame {
     _setupSignaling() {
         // When a new peer wants to connect
         this.socket.on('rtc-request-connection', async ({ peerId, username }) => {
-            console.log(`[Host] Connection request from ${username} (${peerId})`);
             await this._createPeerConnection(peerId, username);
             
             // If game is running, add the new player to the game state
@@ -51,7 +50,6 @@ export class HostGame {
                 const color = playerInfo?.color || '#ffffff';
                 addPlayer(this.gameState, peerId, username, forcedTeam, color);
                 spawnPlayer(this.gameState, peerId);
-                console.log(`[Host] Added late-joining player ${username} to game`);
             }
         });
 
@@ -80,12 +78,9 @@ export class HostGame {
         
         peer.onMessage = (data) => this._handlePeerMessage(peerId, data);
         
-        peer.onConnected = () => {
-            console.log(`[Host] Peer ${peerId} connected via P2P`);
-        };
+        peer.onConnected = () => {};
 
         peer.onDataChannelOpen = () => {
-            console.log(`[Host] DataChannel ready for ${peerId}, sending game-starting`);
             // Send game-starting to initialize client canvas and render loop
             if (this.gameState) {
                 peer.send({
@@ -105,7 +100,6 @@ export class HostGame {
         };
 
         peer.onDisconnected = () => {
-            console.log(`[Host] Peer ${peerId} disconnected`);
             this._removePeer(peerId);
         };
 
@@ -131,7 +125,6 @@ export class HostGame {
     removePlayer(playerId) {
         if (this.gameState && this.gameState.players[playerId]) {
             removePlayer(this.gameState, playerId);
-            console.log(`[Host] Removed player ${playerId} from game`);
         }
     }
 
@@ -315,10 +308,8 @@ export class HostGame {
 
     // Handle local player input (host's own input)
     handleLocalInput(direction) {
-        console.log(`[Host] handleLocalInput: direction=${direction}, myPlayerId=${this.myPlayerId}, gameState exists=${!!this.gameState}, isGameOver=${this.gameState?.isGameOver}`);
         if (this.gameState && !this.gameState.isGameOver) {
             handleDirectionChange(this.gameState, this.myPlayerId, direction);
-            console.log(`[Host] Direction changed for player ${this.myPlayerId}`);
         }
     }
 

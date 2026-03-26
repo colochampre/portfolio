@@ -311,7 +311,7 @@ function updateBallPosition(gameState, onGoal) {
     // At high spin: use base friction, at low spin: friction increases
     const currentSpin = Math.abs(ball.spin || 0);
     const spinFactor = Math.min(currentSpin / MAX_SPIN, 1); // 0 at no spin, 1 at max spin
-    const dynamicSpinFriction = 0.98 - (1 - spinFactor) * 0.055; // More friction at low spin (0.925 at rest, 0.98 at max)
+    const dynamicSpinFriction = 0.98 - (1 - spinFactor) * 0.025; // More friction at low spin (0.95 at rest, 0.98 at max)
     
     ball.spin = (ball.spin || 0) * dynamicSpinFriction;
     

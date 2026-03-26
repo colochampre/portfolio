@@ -32,11 +32,9 @@ export class P2PManager {
         if (players.length > 0 && players[0].id === myPlayerId) {
             this.isHost = true;
             this.hostId = myPlayerId;
-            console.log('[P2P] I am the host');
         } else if (players.length > 0) {
             this.isHost = false;
             this.hostId = players[0].id;
-            console.log(`[P2P] I am a client, host is ${this.hostId}`);
         }
     }
 
@@ -54,7 +52,6 @@ export class P2PManager {
             if (newHostId !== this.hostId) {
                 this.hostId = newHostId;
                 this.isHost = (newHostId === this.socket.id);
-                console.log(`[P2P] Host changed to ${this.hostId}, I am ${this.isHost ? 'host' : 'client'}`);
             }
         }
     }
@@ -69,7 +66,6 @@ export class P2PManager {
     }
 
     _startAsHost() {
-        console.log('[P2P] Starting as host');
         
         this.game = new HostGame(
             this.socket,
@@ -103,8 +99,6 @@ export class P2PManager {
     }
 
     _startAsClient() {
-        console.log(`[P2P] Starting as client, connecting to host ${this.hostId}`);
-        
         this.game = new ClientGame(
             this.socket,
             this.roomId,
@@ -112,9 +106,7 @@ export class P2PManager {
         );
 
         // Wire up callbacks BEFORE connecting
-        console.log('[P2PManager] Setting up client callbacks, onGameUpdate exists:', !!this.onGameUpdate);
         this.game.onGameUpdate = (state) => {
-            console.log('[P2PManager] game.onGameUpdate called, forwarding to this.onGameUpdate:', !!this.onGameUpdate);
             this.onGameUpdate?.(state);
         };
         this.game.onSoundEvents = (events) => this.onSoundEvents?.(events);
@@ -132,11 +124,7 @@ export class P2PManager {
 
     // Handle local player input
     handleInput(direction) {
-        console.log(`[P2PManager] handleInput: direction=${direction}, isHost=${this.isHost}, game exists=${!!this.game}`);
-        if (!this.game) {
-            console.log('[P2PManager] No game instance!');
-            return;
-        }
+        if (!this.game) return;
 
         if (this.isHost) {
             this.game.handleLocalInput(direction);

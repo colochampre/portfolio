@@ -41,11 +41,9 @@ socket.on('room-joined', async (data) => {
             });
             p2pManager.initialize(data.players, socket.id);
             setupP2PCallbacks();
-            console.log('[P2P] Manager initialized');
 
             // If there's an active P2P game, join it immediately
             if (data.p2pGameActive && data.hostId && data.hostId !== socket.id) {
-                console.log('[P2P] Joining active game immediately');
                 p2pManager.lobbyPlayers = data.players;
                 p2pManager.hostId = data.hostId;
                 
@@ -84,7 +82,6 @@ socket.on('lobby-updated', (data) => {
 
 // P2P game start - triggered when all players are ready in P2P mode
 socket.on('p2p-start-game', (data) => {
-    console.log('[P2P] Received p2p-start-game event', data);
     if (!p2pManager) {
         console.error('[P2P] No P2P manager available');
         return;
@@ -105,7 +102,6 @@ socket.on('p2p-start-game', (data) => {
 
 // P2P join active game - when a player joins a room with an active P2P game
 socket.on('p2p-join-active-game', async (data) => {
-    console.log('[P2P] Joining active game', data);
     if (!p2pManager) {
         console.error('[P2P] No P2P manager available');
         return;
@@ -132,7 +128,6 @@ socket.on('p2p-join-active-game', async (data) => {
 
 // P2P player left - just remove their snake, game continues
 socket.on('p2p-player-left', ({ playerId }) => {
-    console.log(`[P2P] Player ${playerId} left`);
     if (p2pManager && p2pManager.isHost && p2pManager.game) {
         // Host removes the player from game state
         p2pManager.game.removePlayer(playerId);
@@ -141,7 +136,6 @@ socket.on('p2p-player-left', ({ playerId }) => {
 
 // P2P room closed - host disconnected, room is deleted, redirect to error page
 socket.on('p2p-room-closed', ({ reason }) => {
-    console.log(`[P2P] Room closed: ${reason}`);
     
     // Clean up P2P
     if (p2pManager) {
@@ -677,11 +671,7 @@ function setupP2PCallbacks() {
     pingEl = document.getElementById('ping');
 
     p2pManager.onGameUpdate = (state) => {
-        console.log('[P2P UI] onGameUpdate called, ctx exists:', !!ctx, 'canvas:', !!canvas);
-        if (!ctx) {
-            console.log('[P2P UI] No ctx, skipping render');
-            return;
-        }
+        if (!ctx) return;
         if (canvas.width !== state.canvasWidth) canvas.width = state.canvasWidth;
         if (canvas.height !== state.canvasHeight) canvas.height = state.canvasHeight;
 

@@ -163,17 +163,19 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay?.classList.remove('active');
         }
 
-        if (keyState.hasOwnProperty(e.key.toLowerCase()) && !keyState[e.key.toLowerCase()]) {
-            keyElements[e.key.toLowerCase()]?.classList.add('text-white', 'border-white');
-            keyState[e.key.toLowerCase()] = true;
+        const key = e.key?.toLowerCase();
+        if (key && keyState.hasOwnProperty(key) && !keyState[key]) {
+            keyElements[key]?.classList.add('text-white', 'border-white');
+            keyState[key] = true;
         }
     });
 
     // Evento cuando se suelta la tecla
     document.addEventListener('keyup', (e) => {
-        if (keyState.hasOwnProperty(e.key.toLowerCase())) {
-            keyElements[e.key.toLowerCase()]?.classList.remove('text-white', 'border-white');
-            keyState[e.key.toLowerCase()] = false;
+        const key = e.key?.toLowerCase();
+        if (key && keyState.hasOwnProperty(key)) {
+            keyElements[key]?.classList.remove('text-white', 'border-white');
+            keyState[key] = false;
         }
     });
 
